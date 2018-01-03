@@ -1,0 +1,113 @@
+/*
+-------------------------
+    Cardousel 
+-------------------------
+*/
+.ws-cardousel {
+	// display: flex;
+	// flex-direction: row;
+	// justify-content: center;
+	// align-items: center;
+	outline: 1px solid yellow;
+	height: 80vh;
+	width: initial;
+	overflow-y: hidden;
+	margin-top: 5vh;
+	padding: 2rem 0;
+	padding-bottom: 0;
+	
+	.cardousel-track {
+		outline: 1px solid red;
+		// display: flex;
+		// flex-direction: row;
+		// align-items: stretch;
+		overflow-x: scroll; /*___IMPORTANT___*/
+		overflow-y: hidden;
+		padding: 0 1rem;
+		height: 80vh;
+		min-width: 100%;
+		width: 100%;
+
+		// Scrollbar adjustments
+		padding-bottom: 1rem;
+		::-webkit-scrollbar {
+			width: 0px;  /* remove scrollbar space */
+			background: transparent;  /* optional: just make scrollbar invisible */
+		}
+	}
+	.cardousel-slide {
+		outline: 1px solid green;
+
+	}
+
+	.slider {
+		height: 100%;
+		.slider-list {
+			// height: 100%;
+		}
+	}
+}
+.cardousel {
+	height: 80vh;
+	// Target the div that contains the react-responsive-carousel
+	& > div,
+	.carousel,
+	.slider-wrapper,
+	.slider {
+		height: inherit;
+	}
+	.carousel {
+		.slider {
+			.slide {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				// width: 80%;
+				min-width: 50% !important;
+				// max-width: 600px;
+				background-color: transparent;
+
+				// @media all and (max-width: 700px){
+				// 	min-width: 40%;
+				// }
+				// &:first-child {
+				// 	margin-left: 5vw;
+				// }
+				// &:last-child {
+				// 	margin-right: 5vw;
+				// }
+				.ws-card-temp {
+					font-size: 1.5rem;
+					@include border-radius(10px);
+					text-align: center;
+					display: block;		
+					// margin: 1rem;
+
+					/* Poker cards are 3.5" by 2.5" ( 7:5 ) */
+					$unit: 10vw;
+					height: 7 * $unit;
+					width:  5 * $unit;
+					$min-unit: 50px;
+					$max-unit: 100px;
+					min-height: 7*$min-unit;
+					min-width:  5*$min-unit;
+					max-height: 7*$max-unit;
+					max-width:  5*$max-unit;
+
+							
+				}
+			}
+		}
+
+		.control-dots {
+			.dot {
+				background-color: $gray;
+				box-shadow: none;
+				&.selected {
+					background-color: $dark-gray;
+					box-shadow: none;
+				}
+			}
+		}
+	}
+}

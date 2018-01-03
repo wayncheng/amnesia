@@ -1,0 +1,64 @@
+.ws-header {
+	// display: block;
+	width: 100%;
+	background-color: #242424;
+	color: #fff;
+	// background-color: transparent;
+	// color: $primary;
+	font-size: 2rem;
+	padding: 2rem;
+	padding-top: 5rem; // extra padding on top for nav
+	text-align: center;
+	position: relative;
+	min-height: 400px;
+	z-index: 7000;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	.header-content {
+		width: 100%;
+		// max-width: 400px;
+		z-index: 7100;
+		position: relative;
+	}
+	.headline {
+		font-size: 2.5em;
+		display: inline-block;
+	}
+	.subheadline {
+		font-size: 1.5em;
+		display: inline-block;
+	}
+	.subheadline-copy {
+		font-size: 0.8em;
+	}
+
+	.ws-backdrop {
+		position: absolute;
+		z-index: 7001; // 1 more than parent header
+	}
+
+	.action-bar {
+		z-index: 7900;
+	}
+
+	&.compact {
+		font-size: 1rem;
+		padding-top: 2rem;
+		min-height: 500px;
+	}
+
+	&.baseline {
+		font-size: 1.5rem;
+		padding-top: 2rem;
+		height: 85vh;
+		min-height: 500px;
+		max-height: 100vh;
+		.headline {
+			font-weight: 700;
+		}
+	}
+}

@@ -1,0 +1,51 @@
+
+//============================================
+// Position / Size
+.position-reset {
+	position: relative; 
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.no-padding {
+	padding: 0;
+}
+
+.bump-top {
+	margin-top: 1rem;
+}
+
+.expand-and-center {
+	min-height: 100vh;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Blank Center */
+.flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.transform-center {
+	position: relative;
+	display: inline-block;
+	height: 100vh;
+	width: 100%;
+	overflow: hidden;
+	margin: -2px 0;
+
+
+	& > :first-child {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}

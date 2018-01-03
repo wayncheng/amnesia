@@ -1,0 +1,85 @@
+/*-------------------------
+  Layout 
+---------------------------*/
+
+.root-fill-page {
+	width: 100%;
+	min-height: 100vh;
+	height: 100vh;
+	margin: 0;
+}
+
+
+/*===== Bumpers =====*/
+$bumper-y: 2rem;
+$bumper-x: 1.5rem;
+
+	.nav-bumper {
+		padding-top: $nav-height;
+	}
+
+	.y-bumpers {
+		padding-top:    $bumper-y + $nav-height;
+		padding-bottom: $bumper-y;
+	}
+
+	.x-bumpers {
+		padding-left:  $bumper-x;
+		padding-right: $bumper-x;
+	}
+
+	.bumpers {
+		@extend .x-bumpers;
+		@extend .y-bumpers;
+	}
+
+	.no-bumpers-x {
+		padding-left: unset;
+		padding-right: unset;
+	}
+
+	.no-bumpers-y {
+		padding-top: unset;
+		padding-bottom: unset;
+	}
+	
+/*===== Padding =====*/
+
+	// $edges: 'top', 'right', 'bottom', 'left';
+	@each $i in 'top', 'right', 'bottom', 'left' {
+		.no-padding-#{$i} {
+			padding-#{$i}: 0;
+		}
+	};
+
+	.no-padding-x {
+		@extend .no-padding-left;
+		@extend .no-padding-right;
+	}
+	.no-padding-y {
+		@extend .no-padding-top;
+		@extend .no-padding-bottom;
+	}
+
+
+
+/*===== Heights, Widths =====*/
+	.limit-width {
+		width: 100%;
+		max-width: $max-content-width;
+		min-width: $min-content-width;
+		margin: 0 auto;
+	}
+
+
+/*===== Bottom Bar =====*/
+	.bottom-bar {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////

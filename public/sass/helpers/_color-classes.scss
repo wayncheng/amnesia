@@ -1,0 +1,97 @@
+// @import 'config/_config';
+
+
+$theme-primary: $blue;
+$theme-secondary: $teal;
+$theme-success: $green;
+$theme-danger: $red;
+$theme-info: $purple;
+$theme-warning: $orange;
+$theme-disabled: $gray;
+$theme-black: #000000;
+$theme-dark: #343434;
+$theme-light: $offwhite;
+$theme-white: #ffffff;
+$theme-transparent: transparent;
+
+$schemeConfig: 
+	'primary'       $theme-primary, 
+	'secondary'     $theme-secondary, 
+	'success'       $theme-success,
+	'danger'        $theme-danger,
+	'info'          $theme-info,
+	'warning'       $theme-warning,
+	'disabled'      $theme-disabled,
+	'black'         $theme-black,
+	'dark'          $theme-dark,
+	'light'         $theme-light,
+	'white'         $theme-white,
+	'transparent'   $theme-transparent,
+	'red'           $red,
+	'orange'        $orange,
+	'yellow'        $yellow,
+	'green'         $green,
+	'blue'          $blue,
+	'purple'        $purple,
+	'dark-bluegrey' $dark-blue-grey,
+;
+
+@each $i in $schemeConfig {
+	$key: nth($i,1);
+	$color: nth($i,2);
+
+	$is-dark:  ( lightness($color) < 5  );
+	$is-light: ( lightness($color) > 80 );
+
+	$text-color: if( $is-light, $primary, #fff);
+	$hover-color: if( $is-dark, lighten($color,5), darken($color,2) );
+
+	.ws-#{$key} {
+		background-color: $color;
+		color: $text-color;
+		transition: background-color 400ms;
+		.ws-btn, .btn {
+			&:hover, &:active, &:focus {
+				background-color: $hover-color;
+				color: $text-color;
+			}
+		}
+
+		&.isOutlined {
+			background-color: transparent;
+			color: $color;
+			border-color: $color;
+			.ws-btn, .btn, a {
+				&:hover, &:active, &:focus {
+					// color: $hover-color;
+					// border-color: $hover-color;
+					background-color: $color;
+					color: $text-color;
+				}
+			}
+		}
+	}
+
+	.bg-#{$key} {
+		background-color: $color;
+		.ws-btn, .btn, a {
+			&:hover, &:active, &:focus { 
+				background-color: $hover-color !important;
+			}
+		}
+	}
+	.fg-#{$key} {
+		color: $color;
+		.ws-btn, .btn, a {
+			&:hover, &:active, &:focus { 
+				color: $hover-color !important;
+			}
+		}
+	}
+	
+}
+
+.isOutlined {
+	border-style: solid;
+	border-width: 2px;
+}

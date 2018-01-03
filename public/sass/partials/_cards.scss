@@ -1,0 +1,153 @@
+// .ws-cards {
+.ws-card {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: stretch;
+	margin: 0;
+	padding: 0;
+	overflow: hidden; // hides corners of action bar
+	@include border-radius(8px);
+	font-size: 1rem;
+	@media (max-width: 500px){ font-size: .9rem }
+	@media (max-width: 400px){ font-size: .8rem }
+	
+	&:hover {
+		// background-color: unset;
+	}
+
+	.content {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+
+		font-size: 1.4em;
+		padding-top: 3rem;
+		padding-bottom: 2rem;
+		font-weight: 300;
+		text-align: left;
+		color: #fff;
+		letter-spacing: 0.5px;
+		margin-bottom: .5em;
+
+		.card-title {
+			line-height: 1;
+			font-size: 1.5em;
+			margin-bottom: .4em;
+			font-weight: 600;
+		}
+	}
+
+	.actions {
+		// flex-basis: 58px;
+		font-size: 1em;
+		line-height: 1;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		background-color: rgba(0,0,0,0.24);
+		color: #fff;
+		padding: 1rem 2rem;
+		a {
+			display: inline-block;
+			line-height: 1;
+			img {
+				display: inline-block;
+				height: 1.2em;
+				line-height: inherit;
+			}
+		}
+
+	}
+	.content,
+	.actions {
+		$pad: 2.4rem;
+		padding-left: $pad;
+		padding-right: $pad;
+	}
+
+	.action-btns {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+
+		.ws-btn {
+			font-size: 1rem;
+			font-weight: 300;
+			text-transform: uppercase;
+			letter-spacing: .5px;
+			background-color: rgba(0,0,0,0.2);
+			color: $light-primary;
+			padding: .5em .8em;
+		}
+	}
+
+}
+// }
+.card-action, 
+.action-bar,
+.ws-card .actions {
+	a {
+		text-transform: uppercase;
+		font-weight: 400;
+		letter-spacing: 0.1em;
+		margin-right: 0 !important;
+		color: #fff !important;
+	}
+}
+
+.card-wrap {
+	text-align: left;
+	font-size: 1rem;
+	padding: 3rem 0;
+
+}
+
+.mc-card-wrap {
+	text-align: left;
+	font-size: 1rem;
+	padding: 3rem 0;
+	.card {
+		font-size: 1rem;
+		@media (max-width: 500px){ font-size: .9rem }
+		@media (max-width: 400px){ font-size: .8rem }
+		.card-content {
+			flex: 1;
+			font-size: 1.5em;
+			text-align: left;
+			padding: 3rem 2.4rem 2.4rem;
+			font-weight: 300;
+			color: #fff;
+			letter-spacing: 0.5px;
+			.card-title {
+				font-size: 1.5em;
+				margin-bottom: 1.5rem;
+				font-weight: 500;
+			}
+		}
+		.card-action {
+			flex-basis: 58px;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			background-color: rgba(0,0,0,0.24);
+			color: #fff;
+			padding: 1rem 2rem;
+			a {
+				display: inline-block;
+				line-height: 1;
+				img {
+					display: inline-block;
+					height: 1.2em;
+					line-height: inherit;
+				}
+			}
+		}
+	}
+}

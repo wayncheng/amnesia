@@ -1,0 +1,44 @@
+
+
+//============================================
+// Max/Min 
+
+@mixin break-fill($break: 0px, $fill: 100% ){
+	min-width: $break;
+	@media all and (max-width: $break){ 
+		min-width: 100% !important; 
+		width:     100% !important; 
+	}
+}
+
+$prev-name: '0';
+$prev: 0px;
+@each $name,$val in $breakpoints {
+	// $break: $val;
+	$break: nth($val,1);
+	// $max: nth($range,2);
+	
+	@if $name != '0' {
+		$mid-break:  ($break+$prev)/2;
+		.max-#{$prev-name}-#{$name}, .max-#{$name}-#{$prev-name} { 
+			max-width: $mid-break;
+		}
+		.min-#{$prev-name}-#{$name}, .min-#{$name}-#{$prev-name} { 
+			// min-width: $mid-break;
+			@include break-fill($mid-break);
+		}
+	}
+
+	.max-#{$name} {
+		max-width: $break; 
+	}
+	.min-#{$name} {
+		// min-width: $break; 
+		@include break-fill($break);
+	}
+	
+
+	$prev-name: $name;
+	$prev: $break;
+}
+

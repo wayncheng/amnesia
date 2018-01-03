@@ -1,0 +1,84 @@
+
+//============================================
+// Globals
+$h1: 2.8rem;
+$h2: 2.0rem;
+$h3: 1.8rem;
+$h4: 1.6rem;
+$h5: 1.2rem;
+$h6: .9rem;
+$p:  1.2rem;
+
+
+$textTags: (
+	'h1': ( $h1, $heavy),
+	'h2': ( $h2, $bold),
+	'h3': ( $h3, $bold),
+	'h4': ( $h4, $semibold),
+	'h5': ( $h5, $semibold),
+	'h6': ( $h6, $semibold),
+	'p':  ( $p,  $regular),
+);
+
+
+@each $tag, $props in $textTags {
+	$size: nth($props,1);
+	$weight: nth($props,2);
+
+	#{$tag} {
+		font-size: $size;
+		font-weight: $weight;
+	}
+
+	// Example Output: 
+	// h1 {
+	// 	font-size: 3rem;
+	// 	font-weight: 700;
+	// }
+}
+h1,h2,h3,h4,h5,h6,p {
+	line-height: 1.1;
+	margin: .5rem 0;
+}
+
+/* Additional Type Adjustments */
+
+
+p {
+	line-height: 1.5;
+	margin: 1em 0;
+}
+
+
+a {
+	@extend p;
+	color: $link;
+	text-decoration: none;
+	margin: 0;
+}
+
+
+
+
+//============================================
+// Class Typography 
+	.eyebrow {
+		font-size: $font-M;
+		font-weight: 700;
+	}
+	.headline {
+		font-size: $font-L;
+		font-weight: 300;
+	}
+	.subheadline-copy {
+		font-size: $font-M;
+		font-weight: 400;
+	}
+	.fineprint {
+		font-size: .75rem;
+		font-weight: 500;
+		letter-spacing: -0.2px;
+		word-spacing: 1px;
+	}
+
+

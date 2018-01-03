@@ -1,0 +1,16 @@
+//============================================
+// Visibility 
+
+	// Hide ONLY visually. Still reachable by screen readers.
+	.visually-hidden, .for-aria {
+		position: absolute; // Remove the item from normal flow
+		white-space: nowrap; // Workaround for falsely pronounced, smushed text
+		width: 1px; // Set it to the smallest possible size (some screen readers ignore elements with zero height and width)
+		height: 1px;
+		overflow: hidden; // Hide overflowing content after resizing
+		border: 0; // Reset any property that may change the elements size
+		padding: 0;
+		clip: rect(0 0 0 0); // Clipping defines what part of an element should be displayed. Deprecated clip property for older browsers
+		clip-path: inset(50%); // clip-path for newer browsers. inset(50%) defines an inset rectangle that makes the content disappear. 
+		margin: -1px; // It seems like at the moment nobody is quite sure why margin: -1px is there. On top of that it seems to cause issues (see: https://github.com/h5bp/html5-boilerplate/issues/1985).
+	}

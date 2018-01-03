@@ -1,0 +1,161 @@
+$portrait: "and (orientation: portrait)";
+$landscape: "and (orientation: landscape)";
+
+// General Media Queries ///////////////////////////////////////
+$small-screen: 320px;
+$medium-screen: 700px;
+$large-screen: 1300px;
+
+/* ---------- Small ---------- */
+
+	@mixin media-small { 
+		@media only screen and (min-width: $small-screen) and (max-width: $medium-screen - 1) { 
+			@content
+		}
+	};
+
+	@mixin media-small-retina  {
+		@media 
+			only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: $small-screen),
+			only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: $small-screen),
+			only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: $small-screen),
+			only screen and (        min-device-pixel-ratio: 2)      and (min-width: $small-screen),
+			only screen and (                min-resolution: 192dpi) and (min-width: $small-screen),
+			only screen and (                min-resolution: 2dppx)  and (min-width: $small-screen) 
+		{ 
+			@content 
+		}
+		
+	};
+
+/* ---------- Medium ---------- */
+
+	@mixin media-medium { 
+		@media only screen and (min-width: $medium-screen) and (max-width: $large-screen - 1)  { 
+			@content
+		}
+	};
+
+	@mixin media-medium-retina  {
+		@media 
+			only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: $medium-screen),
+			only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: $medium-screen),
+			only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: $medium-screen),
+			only screen and (        min-device-pixel-ratio: 2)      and (min-width: $medium-screen),
+			only screen and (                min-resolution: 192dpi) and (min-width: $medium-screen),
+			only screen and (                min-resolution: 2dppx)  and (min-width: $medium-screen) 
+		{ 
+			@content 
+		}
+	};
+
+/* ---------- Large ---------- */
+
+	@mixin media-large { 
+		@media only screen and (min-width: $large-screen) { 
+			@content
+		}
+	};
+
+	@mixin media-large-retina  {
+		@media 
+			only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: $large-screen),
+			only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: $large-screen),
+			only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: $large-screen),
+			only screen and (        min-device-pixel-ratio: 2)      and (min-width: $large-screen),
+			only screen and (                min-resolution: 192dpi) and (min-width: $large-screen),
+			only screen and (                min-resolution: 2dppx)  and (min-width: $large-screen) 
+		{ 
+			@content 
+		}
+	};
+
+	
+////////////////////////////////////////////////////////////////
+
+// Apple Devices ///////////////////////////////////////////////
+	/* ----------- iPhone 4 ----------- */
+		$iphone-4-min:       320px;
+		$iphone-4-max:       480px;
+		$iphone-4-pxr:       2;
+
+		@mixin iphone-4 {
+			@media (min-width: #{$iphone-4-min} ) and (max-width: #{$iphone-4-max} ) and (-webkit-min-device-pixel-ratio: #{$iphone-4-pxr} ) {
+				@content;
+			}
+		}
+
+	/* ----------- iPhone 5 ----------- */
+		$iphone-5-min:       320px;
+		$iphone-5-max:       568px;
+		$iphone-5-pxr:       2;
+		
+		@mixin iphone-5 {
+			@media (min-width: #{$iphone-5-min} ) and (max-width: #{$iphone-5-max} ) and (-webkit-min-device-pixel-ratio: #{$iphone-5-pxr} ) {
+				@content;
+			}
+		}
+
+	/* ----------- iPhone 6,7,8 ------- */
+		$iphone-min:         375px;
+		$iphone-max:         667px;
+		$iphone-pxr:         2;
+
+		@mixin iphone {
+			@media (min-width: #{$iphone-min} ) and (max-width: #{$iphone-max} ) and (-webkit-min-device-pixel-ratio: #{$iphone-pxr} ) {
+				@content;
+			}
+		}
+
+	/* ----------- iPhone + ----------- */
+		$iphone-plus-min:    414px;
+		$iphone-plus-max:    736px;
+		$iphone-plus-pxr:    3;
+
+		@mixin iphone-plus {
+			@media (min-width: #{$iphone-plus-min} ) and (max-width: #{$iphone-plus-max} ) and (-webkit-min-device-pixel-ratio: #{$iphone-plus-pxr} ) {
+				@content;
+			}
+		}
+
+	/* ----------- iPhone X ----------- */
+		$iphone-x-min:       375px;
+		$iphone-x-max:       812px;
+		$iphone-x-pxr:       3;
+
+		@mixin iphone-x {
+			@media (min-width: #{$iphone-x-min} ) and (max-width: #{$iphone-x-max} ) and (-webkit-min-device-pixel-ratio: #{$iphone-x-pxr} ) {
+				@content;
+			}
+		}
+		
+	/* ----------- Map ---------------- */
+		$apple: (
+			'iphone':      ( 375px, 667px, 2 ),
+			'iphone-plus': ( 414px, 736px, 3 ),
+			'iphone-x':    ( 375px, 812px, 3 ),
+		);
+
+		// @each $name, $limits in $apple {
+		// 	$min: nth($limits,1);
+		// 	$max: nth($limits,2);
+		// 	$pxr: nth($limits,3);
+
+		// 	@mixin #{$name} {
+		// 		@media 
+		// 		(min-width: #{$min} ) 
+		// 		and (max-width: #{$max} ) 
+		// 		and (-webkit-min-device-pixel-ratio: #{$pxr} ) {
+		// 			@content;
+		// 		}
+		// 	}
+		// }
+
+////////////////////////////////////////////////////////////////
+
+
+// Temporary Testing
+// html {
+// 	@include media-large { background-color: red;  }
+// 	@include media-small { background-color: blue; }
+// }

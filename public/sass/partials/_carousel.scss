@@ -1,0 +1,62 @@
+
+  
+
+.carousel.carousel-slider {
+	height: inherit;
+	 
+	.carousel-item {
+		padding: 2rem;
+
+		.carousel-content {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			height: inherit;
+		} 
+	}
+
+	.indicators {
+		.indicator-item {
+			background-color: rgba(0,0,0,0.24);
+			$indicator-size: 0.75rem;
+			height: $indicator-size;
+			width: $indicator-size;
+			&.active {
+				background-color: rgba(0,0,0,0.81);
+			} 
+		}
+	}
+}
+      
+.carousel-control-wrap {
+	font-size: 3rem;
+	$controlDimension: 48px;
+	bottom: 2rem;
+	top: 50%;
+	width: 100%;
+	height: $controlDimension;
+	transform: translate(0, -50%); 
+	position: absolute;
+	display: flex;
+	justify-content: space-between;
+
+	.carousel-control {
+		font-size: $controlDimension;	
+		background-color: transparent;
+		box-shadow: none;
+		color: #000;
+		opacity: 0.5; 
+		padding: 0;
+		line-height: $controlDimension;
+		height: $controlDimension;
+		width: $controlDimension;
+		// border-radius: 10%;
+		&:hover, &:active {
+			// color: (0,0,0,0.87);
+			opacity: 0.87; 
+		}
+		i {
+			font-size: inherit;
+		}
+	}  
+}

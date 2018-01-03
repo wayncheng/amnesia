@@ -1,0 +1,204 @@
+
+
+// Default Nav
+.globalnav {
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+	font-size: 1rem;
+	// background-color: #242424;
+	background-color: transparent;
+	line-height: $nav-height; 
+	// height: 4rem; /* optional */
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 8000;
+	box-shadow: none;
+
+	// .gn-backdrop {
+	// 	height: 100%;
+	// 	width: 100%;
+	// 	position: absolute;
+	// 	top: 0;
+	// 	left: 0;
+	// 	background-color: #242424;
+	// }
+
+	.wrap, .gn-wrap {
+		flex: 1;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		max-width: 1000px;
+		padding: 0 24px;
+		// height: inherit;
+		// line-height: inherit;
+
+		.title, .gn-title {
+			height: initial;
+			line-height: initial;
+			padding: .5rem 1rem;
+			font-weight: 500;
+			letter-spacing: .1em;
+			word-spacing: 2px;
+			text-transform: uppercase;
+				text-transform: lowercase;
+				letter-spacing: 0;
+		}
+		ul.gn-list {
+			list-style-type: none;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			margin: 0;
+			li {
+				padding: 0 .5rem;
+				color: inherit;
+				a {
+					font-size: 1rem;
+					font-weight: 300;
+					@include border-radius();
+					color: inherit;
+					display: inline-block;
+					height: initial;
+					line-height: initial;
+					padding: .5rem 1rem;
+				}
+			}
+		}
+	}
+	.gn-burger {
+		height: inherit;
+		line-height: inherit;
+		margin: 0;
+		padding: 0 1rem;
+		cursor: pointer;
+		i {
+			height: inherit;
+			line-height: inherit;
+			font-size: 1.1em;
+		}
+		img {
+			height: 1em;
+			display: inline-block;
+		}
+	}
+	
+}
+
+
+// React Burger ================================
+	.gn-bm-wrap {
+		position: relative;
+		font-size: 1.2em;
+		// height: 1em;
+		// padding: .5rem;
+		// height: 100%;
+		width: 1em;
+		height: 64px;
+		padding: 0;
+		// padding: 0 2rem;
+		background-color: transparent;
+		> div {
+			display: inline-block;
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+	/* Position and sizing of burger button */
+	.bm-burger-button { 
+		button {
+			@extend .gn-burger;
+		}
+		display: inline-block;
+		font-size: inherit;
+		
+		.bm-icon {
+			font-size: inherit;
+			height: 1em;
+			line-height: 1em;
+			width: initial;
+		}
+
+		/* Color/shape of burger icon bars */
+		.bm-burger-bars {
+			background: #373a47;
+			width: inherit;
+		}
+	}
+
+	.bm-menu-wrap {
+		top: 0px;
+		background-color: inherit;
+		nav {
+			background-color: inherit;
+			color: inherit;
+			box-shadow: none;
+			
+		}
+		.bm-cross-button { /* Position and sizing of clickable cross button */
+			height: 24px;
+			width: 24px;
+		}
+		
+		.bm-cross { /* Color/shape of close button cross */
+			background: #bdc3c7;
+		}
+		
+		.bm-menu { /* General sidebar styles */
+			background: #373a47;
+			padding: 2.5em 1.5em 0;
+			font-size: 1.15em;
+		}
+	}
+		
+	/* Morph shape necessary with bubble or elastic */
+	.bm-morph-shape {
+		fill: #373a47;
+	}
+
+	/* Wrapper for item list */
+	.bm-item-list {
+		color: #fff;
+		// padding: 0.8em;
+		a {
+			color: #fff !important;
+		}
+	}
+
+	/* Styling of overlay */
+	.bm-overlay {
+		background: rgba(0, 0, 0, 0.3);
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		top: 0;
+		right: 0;
+	}
+
+	#burger-nav {
+		text-align: left;
+		li {
+			display: block;
+			a {
+				font-size: 1.7rem;
+			}
+		}
+	}
+///////////////////////////////////////////
+// MENU SWAP (Important!)
+	.gn-bm-wrap { display: none; } // hide by default
+	
+	$swap-point: 500px;
+	@media (max-width: $swap-point){
+		.gn-bm-wrap {
+			display: inline-block;
+		}
+		#default-nav {
+			display: none !important;
+		}
+	}

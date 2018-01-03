@@ -1,0 +1,78 @@
+
+/*===== Font Weights =====*/
+	$thin: 200;
+	$light: 300;
+	$regular: 400;
+	$semibold: 500;
+	$bold: 600;
+	$heavy: 800;
+
+/*===== Font Stack =====*/
+	$sans-serif: 'Roboto', 'Helvetica Neue', 'Helvetica', 'sans-serif';
+	$monospace: monospace;
+	$serif: 'Georgia', serif;
+
+
+/*===== Font Sizes =====*/
+	$fontsize-base: 1rem;
+	$font-XS:  $fontsize-base * 0.75  ;
+	$font-S:   $fontsize-base * 0.875 ;
+	$font-M:   $fontsize-base * 1    ;
+	$font-L:   $fontsize-base * 2    ;
+	$font-XL:  $fontsize-base * 3    ;
+
+/*===== Heights. Widths =====*/
+
+	$max-content-width: 1000px;
+	$min-content-width: 300px;
+
+/*===== Breakpoints =====*/
+
+	/* 
+		a <300
+		b 300-450
+		c 450-600
+		d 600-800
+		e 800-1200
+		f 1200-1920
+		g 1920-3840 
+	*/
+	$a: 300px;
+	$b: 500px;
+	$c: 700px;
+	$d: 800px;
+	$e: 1200px;
+	$f: 1920px;
+	$g: 3840px;
+	$max: $f;
+	$min: $a;
+
+	// $breakpoints: (
+	// 	'a': ( 300  ),
+	// 	'b': ( 500  ),
+	// 	'c': ( 700  ),
+	// 	'd': ( 800  ),
+	// 	'e': ( 1200 ),
+	// 	'f': ( 1920 ),
+	// 	'g': ( 3840 )
+	// );
+
+	$breakpoints: (
+		'xs': ( 300  ),
+		's':  ( 500  ),
+		'm':  ( 700  ),
+		'l':  ( 1200 ),
+		'xl': ( 1920 ),
+	);
+	$breakpoints: (
+		'0':  0px    ,
+		'xs': 300px  ,
+		's':  500px  ,
+		'm':  700px  ,
+		'l':  1200px ,
+		'xl': 1920px ,
+	);
+
+
+/*===== Navbar =====*/
+	$nav-height: 4rem;

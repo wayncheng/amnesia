@@ -1,0 +1,74 @@
+@import '_mixins';
+// @import 'modules/_mixins'; // ALT PATH
+
+// background-image: linear-gradient( -15deg, #2fd4e8 30%, #0068bb 130% );
+// linear-gradient(-15deg, #36d1f5 30%, #2189e2 130%)
+$gradients: (
+	'sky2':  					( #36d1f5, #2189e2,  -15deg,   30%,  130% ),
+	'sky':  					( #2fd4e8, #0068bb,  -15deg,   30%,  130% ),
+	'blue': 					( #21D4FD, #B721FF,   19deg,    0%,  100% ),
+	'orange':					( #FFE53B, #FF2525,  147deg,    0%,  100% ),
+	'yellow-pink':		( #FEE140, #FA709A,  160deg,    0%,  100% ),
+	'green-blue':			( #08AEEA, #2AF598,    0deg,    0%,  100% ),
+	'pink':						( #ff9a9e, #fad0c4,    0deg,    0%,  100% ),
+	'peach':          ( #fcb69f, #fad0c4,    0deg,    0%,  100% ),
+	'pink2':          ( #fecfef, #ff9a9e,    0deg,    0%,  100% ),
+	'winter':         ( #c2e9fb, #a1c4fd,    0deg,    0%,  100% ),
+	'grey-blue':      ( #c2e9fb, #a1c4fd,    0deg,    0%,  100% ),
+	'white-cloud':    ( #ebedee, #fdfbfb,  180deg,  -20%,  100% ),
+	'white-blue':     ( #c3cfe2, #f5f7fa,    0deg,    0%,  100% ),
+	'plum':           ( #764ba2, #667eea,    0deg,    0%,  100% ),
+	'white-pink':     ( #e2d1c3, #fdfcfb,    0deg,    0%,  100% ),
+	'bright-blue':    ( #66a6ff, #89f7fe,    0deg,    0%,  100% ),
+	'pink-peach':     ( #f5efef, #feada6,    0deg,    0%,  100% ),
+	'whale':          ( #6991c7, #a3bded,    0deg,    0%,  100% ),
+	'aqua':           ( #80d0c7, #13547a,    0deg,    0%,  100% ),
+	'mirror':         ( #93a5cf, #e4efe9,    0deg,    0%,  100% ),
+	'dark':           ( #434343, #000000,    0deg,    0%,  100% ),
+	'lake':           ( #93a5cf, #e4efe9,    0deg,    0%,  100% ),
+	'passion':        ( #ff758c, #ff7eb3,    0deg,    0%,  100% ),
+	'mountain':       ( #868f96, #596164,    0deg,    0%,  100% ),
+	'desert':         ( #c79081, #dfa579,    0deg,    0%,  100% ),
+	'eternal':        ( #09203f, #537895,    0deg,    0%,  100% ),
+	'water':          ( #96deda, #50c9c3,    0deg,    0%,  100% ),
+	'stance':         ( #29323c, #485563,    0deg,    0%,  100% ),
+	'nega':           ( #ee9ca7, #ffdde1,    0deg,    0%,  100% ),
+	'night':          ( #1e3c72, #2a5298,    0deg,    0%,  100% ),
+	'gentle':         ( #ffc3a0, #ffafbd,    0deg,    0%,  100% ),
+	'salad':          ( #B7F8DB, #50A7C2,    0deg,    0%,  100% ),
+	'a':              ( #D9AFD9, #97D9E1,    0deg,    0%,  100% ),
+	'b':              ( #74EBD5, #9FACE6,    0deg,    0%,  100% ),
+	'c':              ( #8EC5FC, #E0C3FC,    0deg,    0%,  100% ),
+	'd':              ( #21D4FD, #B721FF,    0deg,    0%,  100% ),
+	'e':              ( #08AEEA, #2AF598,    0deg,    0%,  100% ),
+	'f':              ( #D9AFD9, #97D9E1,    0deg,    0%,  100% ),
+	'h':              ( #08AEEA, #2AF598,    0deg,    0%,  100% ),
+	'g':              ( #74EBD5, #9FACE6,   90deg,    0%,  100% ),
+	'i':              ( #21D4FD, #B721FF,   19deg,    0%,  100% ),
+	'j':              ( #8EC5FC, #E0C3FC,   62deg,    0%,  100% ),
+	'k':              ( #FAACA8, #DDD6F3,   19deg,    0%,  100% ),
+	'l':              ( #FBAB7E, #F7CE68,   62deg,    0%,  100% ),
+	'm':              ( #A9C9FF, #FFBBEC,  180deg,    0%,  100% ),
+	'n':              ( #90F7EC, #32CCBC,  135deg,   10%,  100% ),
+	'o':              ( #52E5E7, #130CB7,  135deg,   10%,  100% ),
+	'p':              ( #79F1A4, #0E5CAD,  135deg,   10%,  100% ),
+	'q':              ( #97ABFF, #123597,  135deg,   10%,  100% ),
+	'r':              ( #6B73FF, #000DFF,  135deg,   10%,  100% ),
+	's':              ( #72EDF2, #5151E5,  135deg,   10%,  100% ),
+	't':              ( #3C8CE7, #00EAFF,  135deg,   10%,  100% ),
+	'u':              ( #90F7EC, #32CCBC,  135deg,   10%,  100% ),
+);
+
+@each $name, $grad in $gradients {
+	$c1: nth($grad,1);
+	$c2: nth($grad,2);
+	// $deg: nth($grad,3);
+
+	%grad {
+		&-#{$name} {
+			// @include gradient($c1,$c2,$deg)
+			@include gradient($grad...)
+			// background-image: linear-gradient( $deg, $c1 0%, $c2 100%);
+		}
+	}
+}

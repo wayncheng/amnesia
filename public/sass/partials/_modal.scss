@@ -1,0 +1,86 @@
+
+.ws-modal-wrap {
+	
+}
+.ws-modal-shit {
+	position: fixed;
+	// height: 100vh;
+	// width: 100vw;
+	height: initial;
+	width: 100%;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	z-index: 100000;
+}
+.ws-modal-overlay {
+	height: 100vh;
+	width: 100%;
+	margin: 0;
+	padding: 5vh 2.5%;
+	background-color: rgba(0,0,0,0.5);
+	display: none;
+
+	&.ws-modal-overlay_after-open {
+		display: block;
+	}
+}
+
+
+.ws-modal_after-open {
+	height: 100%;
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	background-color: #fff;
+	@include border-radius(.5rem);
+	overflow-x: hidden;
+	display: none; // set default
+	padding: 0;
+	position: relative;
+	box-shadow: $big-box-shadow;
+
+		display: block;
+}
+
+.ws-modal {
+	@extend .ws-card;
+
+
+	.ws-header {
+		background-color: $blue;
+		color: $primary;
+	}
+	.modal-body {
+		padding: 2rem 1rem;
+	}
+	.overlay-btn {
+		background-color: rgba(#000,0.4);
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		z-index: 10010;
+		font-size: 1.2rem;
+		width: 1.2em;
+		line-height: 1.2em;
+		// height: 2em;
+		text-align: center;
+		cursor: pointer;
+		@include border-radius(50%);
+		opacity: 0.81;
+
+		&:hover { opacity: 1; }
+
+		span {
+			color: $light-primary;
+		}
+
+	}
+
+}
+
+.blur-for-modal {
+	// @include vend('blur',5px);
+	@include blur(24px);
+}

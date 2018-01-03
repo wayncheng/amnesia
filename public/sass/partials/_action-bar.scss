@@ -1,0 +1,30 @@
+.action-bar {
+	// flex-basis: 58px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.3);
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	padding: 0;
+	width: 100%;
+	height: 60px;
+	a {
+		margin-right: 0;
+		font-size: 0.8em;
+		text-transform: uppercase;
+		color: #fff !important;
+	}
+
+	.limit-width {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+	// &.white-text a {
+	// 	color: #fff !important;
+	// }
+}

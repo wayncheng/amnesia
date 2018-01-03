@@ -1,0 +1,23 @@
+.pg-alone {
+	body {
+		display: flex;
+		flex-direction: column;
+		justify-content: stretch;
+		align-items: center;
+		main {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			.headline {
+				font-size: 4rem;
+				font-weight: 500;
+			}
+		}
+		footer {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+		}
+	}
+}

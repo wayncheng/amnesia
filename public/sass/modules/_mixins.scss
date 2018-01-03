@@ -1,0 +1,87 @@
+
+@mixin vend($property,$value){
+	-webkit-#{$property}: $value;
+	   -moz-#{$property}: $value;
+	    -ms-#{$property}: $value;
+	     -o-#{$property}: $value;
+	        #{$property}: $value;
+}
+
+@mixin blur($blurAmount: 5px){
+	@include vend('filter', blur($blurAmount))
+}
+
+// @mixin transition($transitions){
+// 	-webkit-transition: $transitions;
+// 	-moz-transition: $transitions;
+// 	-ms-transition: $transitions;
+// 	-o-transition: $transitions;
+// 	transition: $transitions;
+// }
+@mixin transition($transitions){
+	@include vend('transition',$transitions)
+}
+
+@mixin border-radius($radius: 5px){
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	-ms-border-radius: $radius;
+	-o-border-radius: $radius;
+	border-radius: $radius;
+}
+
+@mixin box-shadow($shadows) {
+  -webkit-box-shadow: $shadows;
+  -moz-box-shadow: $shadows;
+  -ms-box-shadow: $shadows;
+  -o-box-shadow: $shadows;
+  box-shadow: $shadows;
+}
+
+@mixin animation($animation, $count: infinite, $duration: 5s, $delay: 0ms){
+  -webkit-animation: $animation;
+     -moz-animation: $animation;
+      -ms-animation: $animation;
+       -o-animation: $animation;
+					animation: $animation;	
+  -webkit-animation-iteration-count: $count;
+     -moz-animation-iteration-count: $count;
+      -ms-animation-iteration-count: $count;
+       -o-animation-iteration-count: $count;
+					animation-iteration-count: $count;	
+  -webkit-animation-delay: $delay;
+     -moz-animation-delay: $delay;
+      -ms-animation-delay: $delay;
+       -o-animation-delay: $delay;
+					animation-delay: $delay;	
+  -webkit-animation-duration: $duration;
+     -moz-animation-duration: $duration;
+      -ms-animation-duration: $duration;
+       -o-animation-duration: $duration;
+					animation-duration: $duration;					
+}
+
+@mixin slide-animation($from,$to,$dur){
+	$duration: $dur,$dur;
+	$animation: sliding ease-in-out;
+
+	// $delay: 0s;
+	// $count: infinite;
+	@include animation($animation, infinite, $duration, 0s); 
+
+	@keyframes sliding {
+		0%   { transform: translateX($from);  }
+		50%  { transform: translateX($to);    }
+		100% { transform: translateX($from);  }
+	}
+}
+
+
+// @mixin gradient( $color-1, $color-2, $deg:0deg, $pct-1:0%, $pct-2:100% ){
+@mixin gradient( $color-1, $color-2, $deg, $pct-1, $pct-2 ){
+	background: $color-1;
+	background: -webkit-linear-gradient( $deg, $color-1 $pct-1, $color-2 $pct-2 );
+	background:    -moz-linear-gradient( $deg, $color-1 $pct-1, $color-2 $pct-2 );
+	background:         linear-gradient( $deg, $color-1 $pct-1, $color-2 $pct-2 );
+	// filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='"'$color-1'"', endColorstr='"'$color-2'"', GradientType=1 );
+}

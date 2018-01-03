@@ -1,0 +1,211 @@
+// Card Colors
+$suit-red: #FA4A2F;
+$suit-orange: #FF8B3D;
+$suit-yellow: #FAEF23;
+$suit-green: #08CC56;
+$suit-blue: #3599DB;
+$suit-purple: #9B59B6;
+$suit-pink: #FA2FB4;
+$suit-brown: #CA6924;
+$suit-wild: #FFF;
+
+
+
+$default-state: #6D7585;
+$blue-state: #3599DB;
+$green-state: #2ecc71;
+$mono-state: #929EB3;
+
+$background: #ecf0f1;
+
+$card-color: #ffffff;
+$card-shadow-color: rgba(97,122,128,.08);
+$card-text-color: #fff;
+$card-text-color-alt: rgba(#000,0.87);
+
+$border-color: rgba(#000,0.24);
+
+$abs-cushion: 10px;
+
+html {
+	font-size: 20px;
+	font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+body {
+	margin: 0;
+	background-color: $background;
+}
+#game-root {
+	margin: auto;
+	min-height: 100vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+/*===== CARD =====*/
+	.card {
+		font-size: 1.5rem;
+		height: 15em;
+		width: 10em;
+		border: none;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 1em 1.5em;
+		border-radius: 1em;
+		color: $card-text-color-alt;
+		background-color: $card-color;
+		box-shadow: 0em 0.5em 2em 2em rgba(97,122,128,.08);
+		margin-bottom: 10px;
+	}
+
+/*===== SUBJECT =====*/
+	.subject {
+		text-align: center;
+		padding: 0.5em;
+		border-radius: 10px;
+		font-weight: 700;
+		// transform: rotateZ(180deg);
+		// &:first-child {
+		// }
+	}
+
+/*===== SUIT AREA =====*/
+	.suit-area {
+		font-size: 7rem;
+		margin: 3rem auto;
+		$size: 4rem;
+		height: $size;
+		width: $size;
+		border-radius: 1rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+		&.wild-area {
+			width: 2*$size;
+		}
+		.suit {
+			flex: 1;
+			height: 100%;
+		}
+	}
+
+// .suit {
+// 	display: inline-block;
+// }
+
+/*===== ACTIVE PILE =====*/
+	.pile {
+		// margin-top: 100px;
+		padding: 1rem;
+	}
+/*===== WILD AREA =====*/
+	.wild-suit-area {
+		$size: 60px;
+		height: 2*$size;
+		width: $size;
+		overflow: hidden;
+		position: absolute;
+		top: $abs-cushion;
+		right: $abs-cushion;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		border-radius: .5rem;
+		.wild-suit {
+			flex:1;
+			height: $size;
+			width: $size;
+		}
+	}
+/*===== FORMS =====*/
+.game-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+// Button Adjustments
+	.action {
+		font-size: 1.5rem;
+		line-height: 2em;
+		padding: 0 1.4em;
+		margin: 0;
+		border-radius: 10px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		background-color: $default-state;
+		border: none;
+		outline: none;
+		position: absolute;
+		bottom: $abs-cushion;
+		right: $abs-cushion;
+		// &:focus {
+		// 	border: none;
+		// }
+	}
+	#new {
+		// position: absolute;
+		// bottom: $abs-cushion;
+		// left: $abs-cushion;
+	}
+
+
+
+.red { background-color: $suit-red }
+.orange { background-color: $suit-orange }
+.yellow { background-color: $suit-yellow; }
+.green { background-color: $suit-green }
+.blue { background-color: $suit-blue }
+.purple { background-color: $suit-purple }
+.pink { background-color: $suit-pink }
+.brown { background-color: $suit-brown }
+.wild { background-color: $suit-wild; }
+
+
+
+
+// Logs / Messages
+.log {
+	font-size: 12px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999999;
+	padding: .5em;
+
+		li {
+			line-height: 1.1;
+			display: block;
+		}
+	
+}
+.feed-container {
+	font-size: 14px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 999999;
+	padding: 1em;
+	outline: 1px solid blue;
+}
+.feed {
+	font-size: 14px;
+	padding-left: 1.5em;
+	li {
+		font-size: inherit;
+		display: list-item;
+		list-style-type: disc;
+		margin: 0;
+		padding: 0;
+		line-height: 1.3;
+	}
+}
