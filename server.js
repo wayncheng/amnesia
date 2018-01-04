@@ -44,7 +44,7 @@
 	// Set Static Directory
 	app.use(express.static(path.join(__dirname, "public")));
 
-	// ROUTES =========================================
+// ROUTES =========================================
 	// API -----
 	const apiRoutes = require("./controllers/api-controller");
 	app.use("/api", apiRoutes);
@@ -59,7 +59,7 @@
 		res.sendFile(path.join(__dirname, "./public/index.html"));
 	});
 
-	// ERRORS =========================================
+// ERRORS =========================================
 	app.use(function(req, res) {
 		res.type("text/html");
 		res.status(404);
@@ -72,12 +72,12 @@
 		res.render("500");
 	});
 
-	// START SERVER ===================================
+// START SERVER ===================================
 	const server = app.listen(PORT, () =>
 		console.log("----------------------- @ " + PORT)
 	);
 
-	// SOCKET.IO ======================================
+// SOCKET.IO ======================================
 
 	// API Routes
 	const socketIo = require("socket.io");
@@ -105,81 +105,134 @@
 	io.on("connection", socket => {
 		console.log(">>>> Connected");
 
-		// Initial Ping -----
+	// Initial Ping -----
 		io.emit("msg", "hola");
 
-		// On Disconnect -----
+	// On Disconnect -----
 		socket.on("disconnect", () => {
 			console.log("<<<< Disconnected");
 		});
 
-		// Create New Game ------
+	// Create New Game ------------------------------
 		// socket.on("new game", (player,room) => {
 		// 	console.log("---> New Game");
 		// 	io.emit("game created", room);
 		// });
 
-		// Join Game -----------------------
+	// Join Game ------------------------------
 		socket.on("join", (roomID, playerName, cb) => {
 			console.log(`>>>> Join Game ---> ${roomID} / ${playerName}`);
 
 			let roomNotFound = !roomData[roomID];
-			// let room;
+			
 			if (roomNotFound) {
 				console.log("!!!! room does not exist");
 				return cb({
 					status: "error",
 					message: "room does not exist."
 				});
-			} else {
-				// If Room Found
+			} 
+			// If Room Found
+			else {
 				let room = roomData[roomID];
 				let playerExists = room.players.includes(playerName);
+				let openRoom = (room.status === 'open');
 
-				if (playerExists) {
-					console.log("!!!! player already present in room.");
+				// If room is open for joining
+				if (openRoom){
+
+					// Error if the player name is already taken
+					if ( playerExists ) {
+						console.log("!!!! player already present in room.");
+						return cb({
+							status: "error",
+							message: "player already present in room."
+						});
+					} 
+					// Add player if room is open and player does not exist yet.
+					else {
+						// Push to players list
+						roomData[roomID].players.push(playerName);
+						
+						// Updated players list
+						let { players } = roomData[roomID];
+						console.log("players:", players);
+						
+						socket.join(roomID, () => {
+							socket.emit('joined',roomID,playerName)
+							console.log(`---> Player Joined ( ${roomID} / ${playerName} )`);
+							let msg = `${playerName} has joined ${roomID}`;
+							io.to(roomID).emit("msg", msg);
+							
+							return cb({
+								players,
+								code: "200",
+								status: "ok",
+								message: "player joined.",
+								rooms: socket.rooms
+							});
+						});
+					}
+				}
+				// Room is not open for joining
+				else {
+					console.log("!!!! room is not open for joining.");
 					return cb({
 						status: "error",
-						message: "player already present in room."
-					});
-				} else {
-					// Push to players list
-					roomData[roomID].players.push(playerName);
-
-					// Updated players list
-					let { players } = roomData[roomID];
-					console.log("players:", players);
-
-					socket.join(roomID, () => {
-						socket.emit('joined',roomID,playerName)
-						console.log(`---> Player Joined ( ${room} / ${player} )`);
-						let msg = `${player} has joined ${room}`;
-						io.to(room).emit("msg", msg);
-
-						return cb({
-							players,
-							code: "200",
-							status: "ok",
-							message: "player joined.",
-							rooms: socket.rooms
-						});
+						message: "room not open"
 					});
 				}
+
+
 			}
 		});
 
-		// Stats -----
-		socket.on("stats", cb => {
+	// Start Game ------------------------------
+		// socket.on('startGame', (roomID,cb) => {
+		socket.on('startGame', (roomID) => {
+			console.log(`>>>> Start Game ---> ${roomID}`);
+			
+			roomData[roomID].status = 'playing'; 
+			// e.g. roomData['yo'].status;
+
+			// return cb({
+			// 	code: "200",
+			// 	status: "ok",
+			// 	message: "game started"
+			// });
+
+		})
+	// Open Room ------------------------------
+		// socket.on('openRoom', (roomID,cb) => {
+		socket.on('openRoom', (roomID) => {
+			console.log(`>>>> Open Room ---> ${roomID}`);
+			
+			roomData[roomID].status = 'open'; 
+			// e.g. roomData['yo'].status;
+
+			// return cb({
+			// 	code: "200",
+			// 	status: "ok",
+			// 	message: "room open"
+			// });
+
+		})
+
+	// Stats ------------------------------
+		socket.on("stats", (roomID,cb) => {
 			console.log(`---- stats --->`);
 			let { rooms } = socket;
 			console.log("rooms:", rooms);
+			let {status, players} = roomData[roomID];
 
 			return cb({
-				rooms
+				rooms,
+				status,
+				players,
 			});
 		});
 
-		// When Player Joins a Room -----
+	// When Player Joins a Room ------------------------------
 		socket.on("joined", (room, player) => {
 			console.log(`---> Player Joined ==== ${room} / ${player}`);
 			let msg = `${player} has joined ${room}`;

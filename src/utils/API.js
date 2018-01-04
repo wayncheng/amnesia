@@ -52,21 +52,80 @@ const API = {
 	joinGame: (room,player,cb) => {
 		socket.emit("join", room, player, res => {
 			console.log("res", res);
-			
+			let newStates = {};
+
 			// If all good, broadcast to room
 			if (res.status === 'ok'){			
 				console.log('successfully joined room')	
 				// socket.emit("joined", roomID, playerName );
+
+				// Set the new room / name states
+				newStates = { 
+					currentRoom: room, 
+					currentName: player, 
+				}
 			}
+			
+			// Return new states to be set (errors will return empty object)
+			return cb(newStates);
+		});
+	},
+// Start Game //////////////////////////////////////////////////
+	startGame: (currentRoom,cb) => {
+		socket.emit("startGame", currentRoom, res => {
+			console.log("res", res);
+			let newStates = {};
+
+			// If all good, broadcast to room
+			if (res.status === 'ok'){			
+				console.log('successfully started game')
+
+				// Set the new status state
+				newStates = { 
+					status: 'playing',
+				}
+			}
+			else {
+				console.log('error starting game');
+			}
+			
+			// Return new states to be set (errors will return empty object)
+			return cb(newStates);
+		});
+	},
+// Open Room //////////////////////////////////////////////////
+	openRoom: (room,cb) => {
+		socket.emit("openRoom", room, res => {
+			console.log("res", res);
+			let newStates = {};
+
+			// If all good, broadcast to room
+			if (res.status === 'ok'){			
+				console.log('room opened')
+
+				// Set the new status state
+				newStates = { 
+					status: 'open',
+				}
+			}
+			else {
+				console.log('error opening room');
+			}
+			
+			// Return new states to be set (errors will return empty object)
+			return cb(newStates);
 		});
 	},
 // Events //////////////////////////////////////////
-	// onMessage: (cb) => {
-	// 	socket.on("msg", msg => cb(msg) );
-	// },
+	onMessage: (cb) => {
+		socket.on("msg", msg => cb(msg) );
+	},
 // Gets ////////////////////////////////////////////
-	getStats: () => {
-		socket.emit("stats", res => console.log("res:", res));
+	getStats: (roomID, cb) => {
+		socket.emit("stats",roomID, res => {
+			console.log("res:", res)
+			return cb(res)
+		});
 	}
 ////////////////////////////////////////////////////
 };
