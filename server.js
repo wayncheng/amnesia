@@ -83,7 +83,6 @@
 	const socketIo = require("socket.io");
 	const io = socketIo(server);
 
-	
 	let roomCount = 0;
 	let roomList = ["yo"];
 	let roomData = {
@@ -93,12 +92,10 @@
 		yo: {
 			status: "open",
 			id: "yo",
-			players: [
-				"wc"
-			]
+			players: ["wc"]
 		}
 	};
-	
+
 	let room = {
 		status: "",
 		id: "",
@@ -108,83 +105,81 @@
 	io.on("connection", socket => {
 		console.log(">>>> Connected");
 
-	// Initial Ping -----
-		io.emit('msg','hola')
+		// Initial Ping -----
+		io.emit("msg", "hola");
 
-	// On Disconnect -----
+		// On Disconnect -----
 		socket.on("disconnect", () => {
-			console.log("<<<< Disconnected")
-
+			console.log("<<<< Disconnected");
 		});
 
-	// Create New Game ------
+		// Create New Game ------
 		// socket.on("new game", (player,room) => {
 		// 	console.log("---> New Game");
 		// 	io.emit("game created", room);
 		// });
-		
-	// Join Game -----------------------
+
+		// Join Game -----------------------
 		socket.on("join", (roomID, playerName, cb) => {
 			console.log(`>>>> Join Game ---> ${roomID} / ${playerName}`);
 
 			let roomNotFound = !roomData[roomID];
 			// let room;
-			if (roomNotFound){
-				console.log('!!!! room does not exist')
+			if (roomNotFound) {
+				console.log("!!!! room does not exist");
 				return cb({
-					status: 'error',
-					message: 'room does not exist.',
-				})
-			}
-			// If Room Found
-			else {
+					status: "error",
+					message: "room does not exist."
+				});
+			} else {
+				// If Room Found
 				let room = roomData[roomID];
 				let playerExists = room.players.includes(playerName);
 
-				if ( playerExists ) {
-					console.log('!!!! player already present in room.')
+				if (playerExists) {
+					console.log("!!!! player already present in room.");
 					return cb({
-						status: 'error',
-						message: 'player already present in room.',
-					})
-				}
-				else {
+						status: "error",
+						message: "player already present in room."
+					});
+				} else {
 					// Push to players list
 					roomData[roomID].players.push(playerName);
 
 					// Updated players list
-					let {players} = roomData[roomID];
-					console.log('players:',players)
+					let { players } = roomData[roomID];
+					console.log("players:", players);
 
 					socket.join(roomID, () => {
-						console.log('socket.rooms:',socket.rooms)
+						socket.emit('joined',roomID,playerName)
+						console.log(`---> Player Joined ( ${room} / ${player} )`);
+						let msg = `${player} has joined ${room}`;
+						io.to(room).emit("msg", msg);
 
-					return cb({
-						players,
-						code: '200',
-						status: 'ok',
-						message: 'player joined.',
-						rooms: socket.rooms,
-					})
-					
-				})
+						return cb({
+							players,
+							code: "200",
+							status: "ok",
+							message: "player joined.",
+							rooms: socket.rooms
+						});
+					});
 				}
 			}
 		});
 
-
-	// Stats -----
-		socket.on("stats", (cb) => {
-			console.log(`---- stats --->`)
-			let {rooms} = socket;
-			console.log('rooms:',rooms)
+		// Stats -----
+		socket.on("stats", cb => {
+			console.log(`---- stats --->`);
+			let { rooms } = socket;
+			console.log("rooms:", rooms);
 
 			return cb({
-				rooms,
+				rooms
 			});
 		});
 
-	// When Player Joins a Room -----
+		// When Player Joins a Room -----
 		socket.on("joined", (room, player) => {
 			console.log(`---> Player Joined ==== ${room} / ${player}`);
 			let msg = `${player} has joined ${room}`;

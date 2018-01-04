@@ -2,6 +2,7 @@ import React from "react";
 import io from "socket.io-client";
 // let socket = io({ autoConnect: false });
 const socket = io();
+import API from '../utils/API';
 
 class Socket extends React.Component {
 	constructor(props) {
@@ -9,6 +10,7 @@ class Socket extends React.Component {
 		this.state = {
 			player: '',
 			room: '',
+			currentRoom: '',
 		};
 	}
 	componentDidMount = () => {
@@ -22,36 +24,29 @@ class Socket extends React.Component {
 			let feedEl = document.getElementById("feed");
 			feedEl.appendChild(el);
 		});
+		// API.onMessage( msg => {
+		// 	console.log("::::", msg);
+		// 	let el = document.createElement("li");
+		// 	el.classList.add("msg");
+		// 	el.innerHTML = msg;
+
+		// 	let feedEl = document.getElementById("feed");
+		// 	feedEl.appendChild(el);
+		// });
 	};
 
 	joinGame = event => {
 		event.preventDefault();
 		console.log("---> joinGame");
-		const roomID = document.getElementById("room").value.trim() || "yo";
-		const playerName = document.getElementById("player").value.trim() || "wc";
-		
-		// io.on('connection', (socket) => {
-		// socket.emit('join',roomID,playerName)
-		socket.emit("join", roomID, playerName, response => {
-			console.log("response", response);
-			
-			// If all good, broadcast to room
-			if (response.status === 'ok'){				
-				socket.emit("joined", roomID, playerName );
-			}
-		});
+		const room = document.getElementById("room").value.trim() || "purgatory";
+		const player = document.getElementById("player").value.trim() || "wc";
 
-		// io.to(roomID, () => socket.emit('joined',player,roomID))
-
-		// socket.to(roomID).emit('joined',playerName,roomID)
-
-		// socket.to(roomID).emit('nice game', "let's play a game");
-
-		// })
+		API.joinGame(room,player)
 	};
 
 	getStats = () => {
-		socket.emit("stats", (res) => console.log("res:", res));
+		API.getStats()
+		// socket.emit("stats", (res) => console.log("res:", res));
 	};
 
 	handleChange = (event) => {
@@ -89,11 +84,10 @@ class Socket extends React.Component {
 						Join
 					</button>
 				</form>
-				<a onClick={this.getStats}>Stats</a>
+				<a className="ws-btn" onClick={this.getStats}>Stats</a>
 				<section id="msg-container" className="feed-container">
 					<ul id="feed" className="feed">
-						<li className="msg">messages</li>
-						<li className="msg">go here</li>
+						<li className="msg">messages go here</li>
 					</ul>
 				</section>
 			</div>

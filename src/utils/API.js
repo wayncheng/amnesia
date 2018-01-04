@@ -1,9 +1,11 @@
 import axios from "axios";
 import subjects from './subjects.json';
 import tools from './tools';
+import io from "socket.io-client";
+const socket = io();
 
 const API = {
-////////////////////////////////////////////////////
+// New Game //////////////////////////////////////////////////
 	// getOne: function(id){
 	// 	return axios.get('/api/'+id);
 	// }
@@ -45,10 +47,27 @@ const API = {
 		// Return Processed/Shuffled Cards =========================
 		return shuffled;
 		
+	},
+// Join Game //////////////////////////////////////////////////
+	joinGame: (room,player,cb) => {
+		socket.emit("join", room, player, res => {
+			console.log("res", res);
+			
+			// If all good, broadcast to room
+			if (res.status === 'ok'){			
+				console.log('successfully joined room')	
+				// socket.emit("joined", roomID, playerName );
+			}
+		});
+	},
+// Events //////////////////////////////////////////
+	// onMessage: (cb) => {
+	// 	socket.on("msg", msg => cb(msg) );
+	// },
+// Gets ////////////////////////////////////////////
+	getStats: () => {
+		socket.emit("stats", res => console.log("res:", res));
 	}
-////////////////////////////////////////////////////
-////////////////////////////////////////////////////
-////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 };
 
