@@ -154,8 +154,18 @@ body {
 	}
 	.ws-btn {
 		background-color: $default-state;
-		font-size: 16px;
-		margin: 1em;
+		font-size: 14px;
+		margin: 5px;
+	}
+	.control-panel {
+		padding: 1em;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		// max-width: 500px;
+		margin: auto;
 	}
 	#new {
 		// position: absolute;

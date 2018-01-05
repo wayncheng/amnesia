@@ -16,6 +16,7 @@ class Socket extends React.Component {
 			
 		};
 	}
+// componentDidMount ==================================================
 	componentDidMount = () => {
 
 		// socket.on("msg", msg => {
@@ -36,8 +37,15 @@ class Socket extends React.Component {
 			let feedEl = document.getElementById("feed");
 			feedEl.appendChild(el);
 		});
-	};
 
+		////////////////////////////////////////////////////
+		// TODO: FETCH FROM COOKIES OR LOCAL STORAGE
+		////////////////////////////////////////////////////
+
+
+
+	};
+// joinGame ==================================================
 	joinGame = event => {
 		event.preventDefault();
 		console.log("---> joinGame");
@@ -49,7 +57,22 @@ class Socket extends React.Component {
 			this.setState(response)
 		})
 	};
+// handleSocket ==================================================
+	handleSocket = e => {
+		e.preventDefault();
+		console.log(`>>>> handleSocket --->`);
+		const event = e.target.getAttribute('data-socket-event');
+		const { currentRoom, currentName } = this.state;
+		console.log(`  -> ${event}`);
 
+		if (currentRoom){
+			API[event](this.state.currentRoom)
+		}
+		else {
+			console.log('no current room');
+		}
+	}
+// startGame ==================================================
 	startGame = e => {
 		e.preventDefault();
 		console.log('---> startGame');
@@ -60,6 +83,7 @@ class Socket extends React.Component {
 		// 	this.setState(response)
 		// })
 	}
+// openRoom ==================================================
 	openRoom = e => {
 		e.preventDefault();
 		console.log('---> openRoom');
@@ -70,7 +94,18 @@ class Socket extends React.Component {
 		// 	this.setState(response)
 		// })
 	}
-
+// leaveRoom ==================================================
+	leaveRoom = e => {
+		e.preventDefault();
+		console.log('---> openRoom');
+		API.openRoom(this.state.currentRoom);
+		this.getStats();
+		// API.openRoom(this.state.currentRoom, response => {
+		// 	console.log('response',response);
+		// 	this.setState(response)
+		// })
+	}
+// getStats ==================================================
 	getStats = () => {
 		API.getStats(this.state.currentRoom, response => {
 			console.log('response',response);
@@ -78,7 +113,7 @@ class Socket extends React.Component {
 		})
 		// socket.emit("stats", (res) => console.log("res:", res));
 	};
-
+// handleChange ==================================================
 	handleChange = (event) => {
 		event.preventDefault();
 		const { name, value } = event.target;
@@ -86,6 +121,7 @@ class Socket extends React.Component {
 			[name]: value
 		})
 	}
+//==================================================
 
 	render() {
 		return (
@@ -109,10 +145,16 @@ class Socket extends React.Component {
 						Join
 					</button>
 				</form>
-
-				<a className="ws-btn ws-mini" onClick={this.openRoom}>Open Room</a>
-				<a className="ws-btn ws-mini" onClick={this.startGame}>Start</a>
-				<a className="ws-btn ws-mini" onClick={this.getStats}>Stats</a>
+				<section className="control-panel">
+				<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="leaveRoom">Leave Room</a>
+				<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="openRoom" >Open Room</a>
+				<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="startGame">Start Game</a>
+				<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="getStats" >Get Stats</a>
+				{/* <a className="ws-btn ws-mini" data-socket-event="leaveRoom" onClick={this.leaveRoom}>Leave Room</a>
+				<a className="ws-btn ws-mini" data-socket-event="openRoom"  onClick={this.openRoom} >Open Room</a>
+				<a className="ws-btn ws-mini" data-socket-event="startGame" onClick={this.startGame}>Start Game</a>
+				<a className="ws-btn ws-mini" data-socket-event="getStats"  onClick={this.getStats} >Get Stats</a> */}
+				</section>
 
 				<section id="msg-container" className="feed-container">
 					<ul id="feed" className="feed">
