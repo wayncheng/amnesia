@@ -28,7 +28,7 @@ $border-color: rgba(#000,0.24);
 $abs-cushion: 10px;
 
 html {
-	font-size: 20px;
+	font-size: 16px;
 	font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 body {
@@ -156,21 +156,30 @@ body {
 		background-color: $default-state;
 		font-size: 14px;
 		margin: 5px;
+		font-weight: 300;
 	}
 	.control-panel {
 		padding: 1em;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		justify-content: center;
-		align-items: center;
-		flex-wrap: wrap;
-		// max-width: 500px;
+		align-items: flex-start;
+		// flex-wrap: wrap;
+		max-width: 500px;
 		margin: auto;
 	}
-	#new {
-		// position: absolute;
-		// bottom: $abs-cushion;
-		// left: $abs-cushion;
+	.panel-section {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		flex-wrap: wrap;
+		p {
+			margin-right: 1em;
+		}
+	}
+	.action-control {
+		cursor: pointer;
 	}
 
 
@@ -201,7 +210,10 @@ body {
 			line-height: 1.1;
 			display: block;
 		}
-	
+	&.gamelog {
+		bottom: 0;
+		top: auto;
+	}
 }
 .feed-container {
 	font-size: 14px;

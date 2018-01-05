@@ -141,10 +141,9 @@ class Game extends React.Component {
 	render() {
 		return (
 			<main id="game-root">
-				<ul className="log">
-					<li>{"turn " + this.state.turn}</li>
-					<li>{"subject " + this.state.subject}</li>
-					<li>{"suit " + this.state.suit}</li>
+				<ul className="gamelog log">
+					<li>{"subject: " + this.state.subject}</li>
+					<li>{"suit: " + this.state.suit}</li>
 				</ul>
 
 				<section className="wild-suit-area">
@@ -177,7 +176,7 @@ class Game extends React.Component {
 						return <Card specs={card} key={index} />;
 					})}
 				</section>
-
+{/* 
 					<form className="game-form">
 						<label>
 							Nickname
@@ -203,7 +202,7 @@ class Game extends React.Component {
 						>
 							Join
 						</button>
-					</form>
+					</form> */}
 			</main>
 		);
 	}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Game } from "./";
+import { Game, Socket } from "./";
 
 import subjects from './utils/subjects.json';
 import suits from './utils/suits.json';
@@ -21,7 +21,7 @@ class GameBoard extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<Socket>
 				<Game 
 					deck={ subjects }
 					players={[
@@ -31,7 +31,7 @@ class GameBoard extends React.Component {
 						"Michelle"
 					]}
 				/>
-			</div>
+			</Socket>
 		);
 	}
 }

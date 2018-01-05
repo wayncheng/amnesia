@@ -96,30 +96,70 @@
 		}
 	};
 
-	let room = {
+	let roomModel = {
 		status: "",
 		id: "",
 		players: []
 	};
 
-	io.on("connection", socket => {
-		console.log(">>>> Connected");
+io.on("connection", socket => {
+	console.log(">>>> Connected");
 
-	// Initial Ping -----
+// Initial Ping -----
 		io.emit("msg", "hola");
 
-	// On Disconnect -----
+// On Disconnect -----
 		socket.on("disconnect", () => {
 			console.log("<<<< Disconnected");
 		});
 
-	// Create New Game ------------------------------
-		// socket.on("new game", (player,room) => {
-		// 	console.log("---> New Game");
-		// 	io.emit("game created", room);
-		// });
+// Create Game ------------------------------
+		socket.on("createGame", (roomID,playerName,cb) => {
+			console.log(`>>>> Create Game ---> ${roomID} / ${playerName}`);
+			// CHECK IF ROOM ALREADY EXISTS
+			let room = roomData[roomID];
 
-	// Join Game ------------------------------
+			// ROOM AVAILABLE
+			if (!room) {
+				// Set details of new room
+				let roomDetails = {
+					status: 'open',
+					id: roomID,
+					players: [playerName]
+				}
+				
+				// Add details to roomData object
+				roomData[roomID] = roomDetails;
+				
+				console.log(`---> Game Created ( ${roomID} )`);
+				
+				// Join Socket Room ----------------
+				socket.join(roomID, () => {
+					socket.emit('joined',roomID,playerName)
+					console.log(`---> Player Joined ( ${playerName} / ${roomID} )`);
+
+					io.to(roomID).emit("msg", `${playerName} has joined ${roomID}`);
+					
+					return cb({
+						players: [playerName],
+						code: "200",
+						status: "ok",
+						message: "game created",
+					});
+				});
+			}
+			// ROOM IS NOT AVAILABLE
+			else {
+				console.log("!!!! room already exists");
+				return cb({
+					status: "error",
+					message: "room already exists"
+				});
+			}
+
+		});
+
+// Join Game ------------------------------
 		socket.on("join", (roomID, playerName, cb) => {
 			console.log(`>>>> Join Game ---> ${roomID} / ${playerName}`);
 
@@ -187,7 +227,7 @@
 
 			}
 		});
-	// Leave Game ------------------------------------------
+// Leave Game ------------------------------------------
 		socket.on("leaveGame", (roomID, playerName, cb) => {
 			console.log(`>>>> Leave Game ---> ${roomID} / ${playerName}`);
 			let {players} = roomData[roomID];
@@ -211,7 +251,7 @@
 				});
 			});
 		})
-	// Start Game / Lock Room ------------------------------
+// Start Game / Lock Room ------------------------------
 		// socket.on('startGame', (roomID,cb) => {
 		socket.on('startGame', (roomID) => {
 			console.log(`>>>> Start Game ---> ${roomID}`);
@@ -226,7 +266,7 @@
 			// });
 
 		})
-	// Open Room ------------------------------
+// Open Room ------------------------------
 		// socket.on('openRoom', (roomID,cb) => {
 		socket.on('openRoom', (roomID) => {
 			console.log(`>>>> Open Room ---> ${roomID}`);
@@ -242,7 +282,7 @@
 
 		})
 
-	// Stats ------------------------------
+// Stats ------------------------------
 		socket.on("stats", (roomID,cb) => {
 			console.log(`---- stats --->`);
 			let { rooms } = socket;
@@ -256,7 +296,7 @@
 			});
 		});
 
-	// When Player Joins a Room ------------------------------
+// When Player Joins a Room ------------------------------
 		socket.on("joined", (room, player) => {
 			console.log(`---> Player Joined ==== ${room} / ${player}`);
 			let msg = `${player} has joined ${room}`;

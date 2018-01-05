@@ -5,7 +5,7 @@ import io from "socket.io-client";
 const socket = io();
 
 const API = {
-// createGame //////////////////////////////////////////////////
+// initNewGame //////////////////////////////////////////////////
 	initNewGame: (playerNames) => {
 		let playerCount = playerNames.length;
 		console.log('playerCount',playerCount);
@@ -45,6 +45,31 @@ const API = {
 		return shuffled;
 		
 	},
+// createGame //////////////////////////////////////////////////
+	createGame: (room,player,cb) => {
+
+		//==================================================
+		// Create Room on server ===========================
+		socket.emit('createGame',room,player, res => {
+			console.log('create res:',res)
+			let newStates = {};
+
+			if (res.status === 'ok'){
+				console.log('game created');
+
+				newStates = {
+					currentRoom: room,
+					currentName: player,
+					status: 'open',
+					players: res.players,
+				}
+
+			}
+			return cb(newStates)
+		})
+
+		
+	},
 // Join Game //////////////////////////////////////////////////
 	joinGame: (room,player,cb) => {
 		socket.emit("join", room, player, res => {
@@ -59,7 +84,8 @@ const API = {
 				// Set the new room / name states
 				newStates = { 
 					currentRoom: room, 
-					currentName: player, 
+					currentName: player,
+					players: res.players,
 				}
 			}
 			
@@ -103,11 +129,13 @@ const API = {
 				// Set the new status state
 				newStates = { 
 					status: 'playing',
+					deck: API.getNewDeck(),
 				}
 			}
 			else {
 				console.log('error starting game');
 			}
+			
 			
 			// Return new states to be set (errors will return empty object)
 			return cb(newStates);
@@ -146,6 +174,38 @@ const API = {
 			console.log("res:", res)
 			return cb(res)
 		});
+	},
+
+	getNewDeck: () => {
+			//==================================================
+			// Process Cards (add suits, ids) ==================
+			const processed = subjects.map( (ea,index) => {
+				let cardObj;
+
+				if (Array.isArray(ea)){
+					cardObj = {
+						type: 'wild',
+						suit: ea,
+						id: index,
+					}
+				}
+				else {
+					cardObj = {
+						type: 'regular',
+						subject: ea,
+						suit: tools.getRandomSuit(), // Randomly pick the suit
+						id: index,
+					}
+				}
+				return cardObj;
+			});
+
+			// Shuffle Cards ===========================================
+			const shuffled = tools.shuffleArray(processed);
+			console.log('shuffled',shuffled);
+
+			// Return Processed/Shuffled Cards =========================
+			return shuffled;
 	}
 ////////////////////////////////////////////////////
 };
