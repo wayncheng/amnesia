@@ -5,10 +5,7 @@ import io from "socket.io-client";
 const socket = io();
 
 const API = {
-// New Game //////////////////////////////////////////////////
-	// getOne: function(id){
-	// 	return axios.get('/api/'+id);
-	// }
+// createGame //////////////////////////////////////////////////
 	initNewGame: (playerNames) => {
 		let playerCount = playerNames.length;
 		console.log('playerCount',playerCount);
@@ -63,6 +60,29 @@ const API = {
 				newStates = { 
 					currentRoom: room, 
 					currentName: player, 
+				}
+			}
+			
+			// Return new states to be set (errors will return empty object)
+			return cb(newStates);
+		});
+	},
+// Leave Game //////////////////////////////////////////////////
+	leaveGame: (room,player,cb) => {
+		socket.emit("leaveGame", room, player, res => {
+			console.log("res", res);
+			let newStates = {};
+
+			// If all good, broadcast to room
+			if (res.status === 'ok'){			
+				console.log('successfully left room')	
+				// socket.emit("joined", roomID, playerName );
+
+				// Set the new room / name states
+				newStates = {
+					currentRoom: '', 
+					currentName: player,
+					status: '',
 				}
 			}
 			

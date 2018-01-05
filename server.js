@@ -125,6 +125,7 @@
 
 			let roomNotFound = !roomData[roomID];
 			
+			// ROOM DOES NOT EXIST =========================
 			if (roomNotFound) {
 				console.log("!!!! room does not exist");
 				return cb({
@@ -132,24 +133,24 @@
 					message: "room does not exist."
 				});
 			} 
-			// If Room Found
+			// ROOM EXISTS =========================
 			else {
 				let room = roomData[roomID];
 				let playerExists = room.players.includes(playerName);
 				let openRoom = (room.status === 'open');
 
-				// If room is open for joining
+				// OPEN ROOM =========================
 				if (openRoom){
 
-					// Error if the player name is already taken
+					// NAME TAKEN =========================
 					if ( playerExists ) {
 						console.log("!!!! player already present in room.");
 						return cb({
 							status: "error",
 							message: "player already present in room."
 						});
-					} 
-					// Add player if room is open and player does not exist yet.
+					}
+					// NAME AVAILABLE =========================
 					else {
 						// Push to players list
 						roomData[roomID].players.push(playerName);
@@ -174,7 +175,7 @@
 						});
 					}
 				}
-				// Room is not open for joining
+				// ROOM NOT OPEN =========================
 				else {
 					console.log("!!!! room is not open for joining.");
 					return cb({
@@ -186,8 +187,31 @@
 
 			}
 		});
+	// Leave Game ------------------------------------------
+		socket.on("leaveGame", (roomID, playerName, cb) => {
+			console.log(`>>>> Leave Game ---> ${roomID} / ${playerName}`);
+			let {players} = roomData[roomID];
+			const iof = players.indexOf(playerName);
 
-	// Start Game ------------------------------
+			// Remove player's name from room in roomData object
+			roomData[roomID].players.splice(iof,1);
+
+			// Leave Socket.IO Room
+			socket.leave(roomID, () => {
+				console.log(`---> Player Left ( ${roomID} / ${playerName} )`);
+				let msg = `${playerName} has left ${roomID}`;
+				io.to(roomID).emit("msg", msg);
+				
+				return cb({
+					players,
+					code: "200",
+					status: "ok",
+					message: "player left",
+					rooms: socket.rooms
+				});
+			});
+		})
+	// Start Game / Lock Room ------------------------------
 		// socket.on('startGame', (roomID,cb) => {
 		socket.on('startGame', (roomID) => {
 			console.log(`>>>> Start Game ---> ${roomID}`);

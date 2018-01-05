@@ -57,19 +57,38 @@ class Socket extends React.Component {
 			this.setState(response)
 		})
 	};
+// handleEmit ==================================================
+	handleEmit = e => {
+		e.preventDefault();
+		console.log(`>>>> handleEmit --->`);
+		const event = e.target.getAttribute('data-socket-event');
+		const { currentRoom, currentName } = this.state;
+		console.log(`   > ${event}`);
+
+		if (currentRoom && currentName){
+			API[event](this.state.currentRoom, currentName)
+		}
+		else {
+			console.log('no current room or name');
+		}
+	}
 // handleSocket ==================================================
 	handleSocket = e => {
 		e.preventDefault();
 		console.log(`>>>> handleSocket --->`);
 		const event = e.target.getAttribute('data-socket-event');
 		const { currentRoom, currentName } = this.state;
-		console.log(`  -> ${event}`);
+		console.log(`   > ${event}`);
 
-		if (currentRoom){
-			API[event](this.state.currentRoom)
+		if (currentRoom && currentName){
+			API[event](this.state.currentRoom, currentName, response => {
+				console.log('response',response);
+				this.setState(response)
+				// this.getStats();
+			})
 		}
 		else {
-			console.log('no current room');
+			console.log('no current room or name');
 		}
 	}
 // startGame ==================================================
@@ -94,8 +113,8 @@ class Socket extends React.Component {
 		// 	this.setState(response)
 		// })
 	}
-// leaveRoom ==================================================
-	leaveRoom = e => {
+// leaveGame ==================================================
+	leaveGame = e => {
 		e.preventDefault();
 		console.log('---> openRoom');
 		API.openRoom(this.state.currentRoom);
@@ -107,7 +126,8 @@ class Socket extends React.Component {
 	}
 // getStats ==================================================
 	getStats = () => {
-		API.getStats(this.state.currentRoom, response => {
+		let {currentRoom, currentName} = this.state;
+		API.getStats(currentRoom,currentName, response => {
 			console.log('response',response);
 			this.setState(response)
 		})
@@ -146,10 +166,10 @@ class Socket extends React.Component {
 					</button>
 				</form>
 				<section className="control-panel">
-				<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="leaveRoom">Leave Room</a>
-				<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="openRoom" >Open Room</a>
-				<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="startGame">Start Game</a>
-				<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="getStats" >Get Stats</a>
+				<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="leaveGame" >Leave Game</a>
+				<a className="ws-btn ws-mini" onClick={this.handleEmit}   data-socket-event="openRoom"  >Open Room</a>
+				<a className="ws-btn ws-mini" onClick={this.handleEmit}   data-socket-event="startGame" >Start Game</a>
+				<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="getStats"  >Get Stats</a>
 				{/* <a className="ws-btn ws-mini" data-socket-event="leaveRoom" onClick={this.leaveRoom}>Leave Room</a>
 				<a className="ws-btn ws-mini" data-socket-event="openRoom"  onClick={this.openRoom} >Open Room</a>
 				<a className="ws-btn ws-mini" data-socket-event="startGame" onClick={this.startGame}>Start Game</a>
