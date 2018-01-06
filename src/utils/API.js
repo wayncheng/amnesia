@@ -86,6 +86,7 @@ const API = {
 					currentRoom: room, 
 					currentName: player,
 					players: res.players,
+					status: 'open'
 				}
 			}
 			

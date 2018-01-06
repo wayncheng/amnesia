@@ -33,6 +33,8 @@ class Card extends React.Component {
 				className={classnames("card", type)}
 				data-type={type}
 				data-suit={type === "regular" ? suit : "wild"}
+				data-id={id}
+				data-subject={subject}
 			>
 				<h3 className="subject">{subject || "Wild Card"}</h3>
 				{type === "regular" ? (

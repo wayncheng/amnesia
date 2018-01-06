@@ -124,13 +124,6 @@ body {
 			width: $size;
 		}
 	}
-/*===== FORMS =====*/
-.game-form {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
 
 // Button Adjustments
 	.action {
@@ -196,43 +189,80 @@ body {
 
 
 
+/*===== FORMS =====*/
+	.game-form {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: stretch;
+	}
+	input {
+		font-size: inherit;
+		border: 2px solid $border-color;
+		border-radius: 5px;
+		margin-left: 10px;
+		padding: 0.5em;
+
+		&:focus {
+			outline: none;
+			border-color: $blue-state;
+		}
+	}
+	label {
+		margin: 5px 0;
+	}
+	button {
+		border: 2px solid transparent;
+		
+		&:focus {
+			outline: none;
+			border-color: $blue-state;
+		}
+	}
+	.form-group {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
 
 // Logs / Messages
-.log {
-	font-size: 12px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 999999;
-	padding: .5em;
+	.log {
+		font-size: 12px;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 999999;
+		padding: .5em;
 
-		li {
-			line-height: 1.1;
-			display: block;
+			li {
+				line-height: 1.1;
+				display: block;
+			}
+		&.gamelog {
+			bottom: 0;
+			top: auto;
 		}
-	&.gamelog {
+	}
+	.feed-container {
+		font-size: 14px;
+		position: absolute;
 		bottom: 0;
-		top: auto;
+		left: 0;
+		z-index: 999999;
+		padding: 1em;
+		outline: 1px solid blue;
 	}
-}
-.feed-container {
-	font-size: 14px;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	z-index: 999999;
-	padding: 1em;
-	outline: 1px solid blue;
-}
-.feed {
-	font-size: 14px;
-	padding-left: 1.5em;
-	li {
-		font-size: inherit;
-		display: list-item;
-		list-style-type: disc;
-		margin: 0;
-		padding: 0;
-		line-height: 1.3;
+	.feed {
+		font-size: 14px;
+		padding-left: 1.5em;
+		li {
+			font-size: inherit;
+			display: list-item;
+			list-style-type: disc;
+			margin: 0;
+			padding: 0;
+			line-height: 1.3;
+		}
 	}
-}

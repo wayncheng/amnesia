@@ -146,11 +146,11 @@ class Game extends React.Component {
 	render() {
 		return (
 			<main id="game-root">
-				<ul className="gamelog log">
+				{/* <ul className="gamelog log">
 					<li>{"subject: " + this.state.subject}</li>
 					<li>{"suit: " + this.state.suit}</li>
-				</ul>
-
+				</ul> */}
+{/* 
 				<section className="wild-suit-area">
 					{this.props.wilds.map((suit, index) => {
 						let id = "wild-" + index;
@@ -163,9 +163,9 @@ class Game extends React.Component {
 							/>
 						);
 					})}
-				</section>
+				</section> */}
 
-				<button
+				{/* <button
 					id="flip"
 					className="ws-btn action"
 					type="submit"
@@ -173,7 +173,7 @@ class Game extends React.Component {
 					data-turn={this.state.turn}
 				>
 					Flip
-				</button>
+				</button> */}
 
 				
 				<section className="pile">
