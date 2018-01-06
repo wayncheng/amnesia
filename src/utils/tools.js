@@ -1,6 +1,7 @@
 'use strict';
 (function() { 
 	const suits = [ "red", "orange", "yellow", "green", "blue", "purple", "brown", "pink" ]
+	const subjects = require('./subjects.json');
 
 	const tools = {
 		//==================================================
@@ -43,6 +44,37 @@
 			let shuffled = tools.shuffleArray(numbered);
 			// console.log('shuffled',shuffled);
 
+			return shuffled;
+		},
+		getNewDeck: function(){
+			//==================================================
+			// Process Cards (add suits, ids) ==================
+			const processed = subjects.map( (ea,index) => {
+				let cardObj;
+
+				if (Array.isArray(ea)){
+					cardObj = {
+						type: 'wild',
+						suit: ea,
+						id: index,
+					}
+				}
+				else {
+					cardObj = {
+						type: 'regular',
+						subject: ea,
+						suit: tools.getRandomSuit(), // Randomly pick the suit
+						id: index,
+					}
+				}
+				return cardObj;
+			});
+
+			// Shuffle Cards ===========================================
+			const shuffled = tools.shuffleArray(processed);
+			console.log('shuffled',shuffled);
+
+			// Return Processed/Shuffled Cards =========================
 			return shuffled;
 		}
 

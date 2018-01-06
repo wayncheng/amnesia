@@ -86,10 +86,10 @@ class Game extends React.Component {
 	//==================================================
 	playTurn = () => {
 		// Turns increment steadily
-		let currentTurn = this.state.turn;
+		let currentTurn = this.props.turn;
 		let turn = currentTurn + 1;
 		// Next Card
-		let card = finalSequence[turn];
+		let card = this.props.deck[turn];
 		console.log("card", card);
 		let { subject, suit, type } = card;
 
@@ -98,6 +98,7 @@ class Game extends React.Component {
 			this.setState({
 				wilds: suit
 			});
+			this.props.updateWilds(suit)
 		} else {
 		}
 
@@ -116,6 +117,10 @@ class Game extends React.Component {
 			type,
 			turn
 		});
+
+
+		// Update rest of group
+		this.props.updateGroup();
 	};
 	//==================================================
 	handleTurns = event => {
@@ -147,7 +152,7 @@ class Game extends React.Component {
 				</ul>
 
 				<section className="wild-suit-area">
-					{this.state.wilds.map((suit, index) => {
+					{this.props.wilds.map((suit, index) => {
 						let id = "wild-" + index;
 						return (
 							<div

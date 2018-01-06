@@ -1,4 +1,5 @@
 import React from "react";
+import {Game} from "../";
 // import io from "socket.io-client";
 // let socket = io({ autoConnect: false });
 // const socket = io();
@@ -12,7 +13,7 @@ style({
   colorSuccess: "#07bc0c",
   colorWarning: "#f1c40f",
   colorError: "#e74c3c",
-  colorProgressDefault: "rgba(0,0,0,0.5)",
+  colorProgressDefault: "rgba(0,0,0,0.24)",
   mobile: "only screen and (max-width : 480px)",
   fontFamily: "inherit",
 	zIndex: 999999,
@@ -28,31 +29,22 @@ class Socket extends React.Component {
 			currentRoom: '',
 			currentName: '',
 			turn: -1,
-			players: []
+			players: [],
+			wilds: [],
 		};
 	}
 // componentDidMount ==================================================
 	componentDidMount = () => {
-
-		// socket.on("msg", msg => {
-		// 	console.log("msg:", msg);
-		// 	let el = document.createElement("li");
-		// 	el.classList.add("msg");
-		// 	el.innerHTML = msg;
-
-		// 	let feedEl = document.getElementById("feed");
-		// 	feedEl.appendChild(el);
-		// });
+		
 		API.onMessage( msg => {
 			console.log("   :", msg);
 			toast(msg)
-			// let el = document.createElement("li");
-			// el.classList.add("msg");
-			// el.innerHTML = msg;
-
-			// let feedEl = document.getElementById("feed");
-			// feedEl.appendChild(el);
 		});
+
+		API.onNewState( newState => {
+			console.log('newState',newState);
+			this.setState(newState)
+		})
 
 		////////////////////////////////////////////////////
 		// TODO: FETCH FROM COOKIES OR LOCAL STORAGE
@@ -146,14 +138,13 @@ class Socket extends React.Component {
 	// 	this.getStats();
 	// }
 // getStats ==================================================
-	getStats = () => {
-		let {currentRoom, currentName} = this.state;
-		API.getStats(currentRoom,currentName, response => {
-			console.log('response',response);
-			this.setState(response)
-		})
-		// socket.emit("stats", (res) => console.log("res:", res));
-	};
+	// getStats = () => {
+	// 	let {currentRoom, currentName} = this.state;
+	// 	API.getStats(currentRoom,currentName, response => {
+	// 		console.log('response',response);
+	// 		this.setState(response)
+	// 	})
+	// };
 // handleChange ==================================================
 	handleChange = (event) => {
 		event.preventDefault();
@@ -162,49 +153,80 @@ class Socket extends React.Component {
 			[name]: value
 		})
 	}
+// handleUpdate ==================================================
+	handleUpdate = () => {
+		// e.preventDefault();
+		console.log('update group');
+		let {currentRoom,currentName} = this.state;
+		API.drawCard(currentRoom);
+	}
+// handleWilds ==================================================
+	handleWilds = (wilds) => {
+		// e.preventDefault();
+		console.log('update group');
+		let {currentRoom,currentName} = this.state;
+		let newState = {
+			wilds
+		}
+		API.updateState(currentRoom, newState);
+	}
 //==================================================
 
 	render() {
-		return (
-			<div className="socket">
+		return <div className="socket">
 				<section className="control-panel">
-						<div className="panel-section">
-							<p>Game/Room</p>
-							<a className="ws-btn ws-mini" onClick={this.handleEmit}   data-socket-event="createGame">Create</a>
-							<a className="ws-btn ws-mini" onClick={this.handleEmit}   data-socket-event="startGame" >Start</a>
-							<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="leaveGame" >Leave</a>
-							<a className="ws-btn ws-mini" onClick={this.handleEmit}   data-socket-event="openRoom"  >Open</a>
-						</div>
-						<div className="panel-section">
-							<p>General</p>
-								<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="getStats"  >Get Stats</a>
-						</div>
-				{/* <a className="ws-btn ws-mini" data-socket-event="leaveRoom" onClick={this.leaveRoom}>Leave Room</a>
-				<a className="ws-btn ws-mini" data-socket-event="openRoom"  onClick={this.openRoom} >Open Room</a>
-				<a className="ws-btn ws-mini" data-socket-event="startGame" onClick={this.startGame}>Start Game</a>
-				<a className="ws-btn ws-mini" data-socket-event="getStats"  onClick={this.getStats} >Get Stats</a> */}
+					<div className="panel-section">
+						<p>Game/Room</p>
+						<a className="ws-btn ws-mini" onClick={this.handleEmit} data-socket-event="createGame">
+							Create
+						</a>
+						<a className="ws-btn ws-mini" onClick={this.handleEmit} data-socket-event="startGame">
+							Start
+						</a>
+						<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="leaveGame">
+							Leave
+						</a>
+						<a className="ws-btn ws-mini" onClick={this.handleEmit} data-socket-event="openRoom">
+							Open
+						</a>
+					</div>
+					<div className="panel-section">
+						<p>Actions</p>
+						<a className="ws-btn ws-mini" onClick={this.handleEmit} data-socket-event="drawCard">
+							Draw Card
+						</a>
+					</div>
+					<div className="panel-section">
+						<p>General</p>
+						<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="getStats">
+							Get Stats
+						</a>
+					</div>
 				</section>
 				<form className="game-form">
-					<label> Name
-						<input type="text" id="player" name="player" onChange={this.handleChange} value={this.state.player}/>
+					<label>
+						{" "}
+						Name
+						<input type="text" id="player" name="player" onChange={this.handleChange} value={this.state.player} />
 					</label>
-					<label> Room
-						<input type="text" id="room" name="room" onChange={this.handleChange} value={this.state.room}/>
+					<label>
+						{" "}
+						Room
+						<input type="text" id="room" name="room" onChange={this.handleChange} value={this.state.room} />
 					</label>
-					<button
-							id="new"
-							className="ws-btn ws-mini"
-							type="button"
-							onClick={this.createGame}
-						>
+					<div className="panel-section">
+						<button id="new" className="ws-btn ws-mini" type="button" onClick={this.createGame}>
 							New
 						</button>
-					<button id="join" className="ws-btn ws-mini" type="submit" onClick={this.joinGame} >
-						Join
-					</button>
+						<button id="join" className="ws-btn ws-mini" type="submit" onClick={this.joinGame}>
+							Join
+						</button>
+					</div>
 				</form>
-				
-				<ToastContainer autoClose={2400}/>
+
+				<ToastContainer autoClose={2400} />
+
+				<Game turn={this.state.turn} deck={this.state.deck} wilds={this.state.wilds} updateGroup={this.handleUpdate} updateWilds={this.handleWilds} />
 
 				{this.props.children}
 
@@ -214,13 +236,12 @@ class Socket extends React.Component {
 					<li>{"status: " + this.state.status}</li>
 					<li>{"turn: " + this.state.turn}</li>
 					<li>
-						{this.state.players.map( (player,index) => {
-							return <p key={`player-${index}`}>{player}</p>
+						{this.state.players.map((player, index) => {
+							return <p key={`player-${index}`}>{player}</p>;
 						})}
 					</li>
 				</ul>
-			</div>
-		);
+			</div>;
 	}
 }
 export default Socket;

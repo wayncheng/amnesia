@@ -82,6 +82,7 @@
 	// API Routes
 	const socketIo = require("socket.io");
 	const io = socketIo(server);
+	const tools = require('./src/utils/tools');
 
 	let roomCount = 0;
 	let roomList = ["yo"];
@@ -92,7 +93,7 @@
 		yo: {
 			status: "open",
 			id: "yo",
-			players: ["wc"]
+			players: ["wc"],
 		}
 	};
 
@@ -106,7 +107,7 @@ io.on("connection", socket => {
 	console.log(">>>> Connected");
 
 // Initial Ping -----
-		io.emit("msg", "hola");
+		// io.emit("msg", "hola");
 
 // On Disconnect -----
 		socket.on("disconnect", () => {
@@ -125,7 +126,8 @@ io.on("connection", socket => {
 				let roomDetails = {
 					status: 'open',
 					id: roomID,
-					players: [playerName]
+					players: [playerName],
+					turn: -1,
 				}
 				
 				// Add details to roomData object
@@ -200,16 +202,16 @@ io.on("connection", socket => {
 						console.log("players:", players);
 						
 						socket.join(roomID, () => {
-							socket.emit('joined',roomID,playerName)
+							// socket.emit('joined',roomID,playerName)
 							console.log(`---> Player Joined ( ${roomID} / ${playerName} )`);
-							let msg = `${playerName} has joined ${roomID}`;
-							io.to(roomID).emit("msg", msg);
+							// let msg = `${playerName} has joined ${roomID}`;
+							// io.to(roomID).emit("msg", msg);
 							
 							return cb({
 								players,
 								code: "200",
 								status: "ok",
-								message: "player joined.",
+								message: "player joined",
 								rooms: socket.rooms
 							});
 						});
@@ -258,7 +260,12 @@ io.on("connection", socket => {
 			
 			roomData[roomID].status = 'playing'; 
 			// e.g. roomData['yo'].status;
-
+			
+			io.to(roomID).emit('newState', {
+				status: 'playing',
+				deck: tools.getNewDeck(),
+			})
+			
 			// return cb({
 			// 	code: "200",
 			// 	status: "ok",
@@ -274,12 +281,27 @@ io.on("connection", socket => {
 			roomData[roomID].status = 'open'; 
 			// e.g. roomData['yo'].status;
 
-			// return cb({
-			// 	code: "200",
-			// 	status: "ok",
-			// 	message: "room open"
-			// });
+			io.to(roomID).emit('newState', {
+				status: 'open',
+				deck: []
+			})
+		})
+// Draw Card ------------------------------
+		socket.on('drawCard', (roomID) => {
+			console.log(`---> Draw Card (${roomID})`);
+			
+			// let {turn} = roomData[roomID];
 
+			// roomData[roomID].turn = turn+1;
+			roomData[roomID].turn++;
+
+			// New Turn Number
+			let {turn} = roomData[roomID];
+
+			// Broadcast to room
+			io.to(roomID).emit('newState',{
+				turn
+			})
 		})
 
 // Stats ------------------------------
@@ -302,10 +324,27 @@ io.on("connection", socket => {
 			let msg = `${player} has joined ${room}`;
 			io.to(room).emit("msg", msg);
 		});
-	});
+// New Player ------------------------------
+		socket.on("newPlayer", (room, player) => {
+			console.log(`---> newPlayer (${player})`);
+			io.to(room).emit("msg", `${player} has joined ${room}`);
 
-	// }
+			// let {players} = roomData[room];
+			// let newState = {
+			// 	players
+			// }
+			io.to(room).emit('newState', {
+				players: roomData[room].players
+			})
+		});
+// Update State ------------------------------
+		socket.on("updateState", (room, newState) => {
+			console.log(`---> updateState (${room})`);
+			io.to(room).emit('newState', newState)
+		});
 
-	//==================================================
-	module.exports = server; // Export for testing
+////////////////////////////////////////////////////
+}); // end io.on(connection) ///////////////////////
+//==================================================
+module.exports = server; // Export for testing
 })();

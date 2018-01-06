@@ -22,15 +22,7 @@ class GameBoard extends React.Component {
 	render() {
 		return (
 			<Socket>
-				<Game 
-					deck={ subjects }
-					players={[
-						"Wayne",
-						"Irene",
-						"Angela",
-						"Michelle"
-					]}
-				/>
+				{/* <Game /> */}
 			</Socket>
 		);
 	}
