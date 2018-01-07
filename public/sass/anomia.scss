@@ -61,6 +61,11 @@ body {
 		background-color: $card-color;
 		box-shadow: 0em 0.5em 2em 2em rgba(97,122,128,.08);
 		margin-bottom: 10px;
+		
+		// All children should be ignored
+		* {
+			// pointer-events: none;
+		}
 	}
 
 /*===== SUBJECT =====*/
@@ -103,6 +108,7 @@ body {
 	.pile {
 		// margin-top: 100px;
 		padding: 1rem;
+		cursor: pointer;
 	}
 /*===== WILD AREA =====*/
 	.wild-suit-area {
@@ -188,6 +194,46 @@ body {
 .wild { background-color: $suit-wild; }
 
 
+/*===== MODAL =====*/
+	.ws-modal2 {
+		background-color: transparent;
+		width: initial;
+		height: initial;
+		margin: auto;
+		max-width: 240px;
+	}
+	.ws-modal-overlay.ws-modal-overlay_after-open {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.player-list {
+		// width: 400px;
+		// height: 600px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: stretch;
+		h3 {
+			color: #fff;
+			margin-bottom: 12px;
+		}
+		li {
+			font-size: 1.5rem;
+			padding: 0.8em 1em;
+			margin: 0.5em 0;
+			border-radius: 10px;
+			min-width: 160px;
+			line-height: 1;
+			
+			// background-color: rgba(#000,0.25);
+			// color: #fff;
+			background-color: #fff;
+			color: rgba(#000,0.8);
+			font-weight: 600;
+			cursor: pointer;
+		}
+	}
 
 /*===== FORMS =====*/
 	.game-form {
@@ -196,11 +242,16 @@ body {
 		justify-content: center;
 		align-items: stretch;
 	}
+	.input-group {
+		margin: 5px 0;
+		position: relative;
+
+	}
 	input {
 		font-size: inherit;
 		border: 2px solid $border-color;
 		border-radius: 5px;
-		margin-left: 10px;
+		// margin-left: 10px;
 		padding: 0.5em;
 
 		&:focus {
@@ -209,7 +260,14 @@ body {
 		}
 	}
 	label {
-		margin: 5px 0;
+		position: absolute;
+		left: .5em;
+		top: .5em;
+		color: rgba(0,0,0,0.5);
+		opacity: 0;
+		// &:focus{
+		// 	opacity: 0;
+		// }
 	}
 	button {
 		border: 2px solid transparent;

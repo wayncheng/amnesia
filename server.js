@@ -104,14 +104,14 @@
 	};
 
 io.on("connection", socket => {
-	console.log(">>>> Connected");
+	console.log("✔️");
 
 // Initial Ping -----
 		// io.emit("msg", "hola");
 
 // On Disconnect -----
 		socket.on("disconnect", () => {
-			console.log("<<<< Disconnected");
+			console.log("❌");
 		});
 
 // Create Game ------------------------------
@@ -219,7 +219,7 @@ io.on("connection", socket => {
 				}
 				// ROOM NOT OPEN =========================
 				else {
-					console.log("!!!! room is not open for joining.");
+					console.log("⛔️️ room is not open for joining.");
 					return cb({
 						status: "error",
 						message: "room not open"
@@ -301,6 +301,21 @@ io.on("connection", socket => {
 			// Broadcast to room
 			io.to(roomID).emit('newState',{
 				turn
+			})
+		})
+// Send Card ------------------------------
+		socket.on('sendCard', (roomID,playerID,cardID,cb) => {
+			console.log(`---> Send Card (${roomID} / ${playerID} / ${cardID})`);
+
+			// Send to room
+			io.to(roomID).emit('newCard',{
+				playerID,
+				cardID,
+			})
+
+			return cb({
+				status: 'ok',
+				message: 'card sent'
 			})
 		})
 

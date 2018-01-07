@@ -1,9 +1,0 @@
-//============================================
-// Flex 
-$flex-class-slug: 'f' !default;
-
-	@for $i from 0 through 12 {
-		.#{$flex-class-slug}#{$i} {
-			flex: $i !important;
-		}
-	}
