@@ -5,6 +5,9 @@ import {Game,Card} from "../";
 // const socket = io();
 import API from '../utils/API';
 import { ToastContainer, toast, style } from 'react-toastify';
+import ReactModal from 'react-modal';
+
+// Modal.setAppElement('#app');
 
 style({
   width: "320px",
@@ -35,7 +38,11 @@ class Socket extends React.Component {
 
 			subject: "",
 			type: "regular",
-			suit: ""
+			suit: "",
+
+			cardSelected: false,
+			isOpen: false,
+
 		};
 	}
 // componentDidMount ==================================================
@@ -175,47 +182,47 @@ class Socket extends React.Component {
 		}
 		API.updateState(currentRoom, newState);
 	}
-//==================================================
-handleTurn = (e) => {
-	e.preventDefault();
+// handleTurn ==================================================
+	handleTurn = (e) => {
+		e.preventDefault();
 
-	// Turns increment steadily
-	let currentTurn = this.state.turn;
-	let turn = currentTurn + 1;
-	// Next Card
-	let card = this.state.deck[turn];
-	console.log("card", card);
-	let { subject, suit, type } = card;
+		// Turns increment steadily
+		let currentTurn = this.state.turn;
+		let turn = currentTurn + 1;
+		// Next Card
+		let card = this.state.deck[turn];
+		console.log("card", card);
+		let { subject, suit, type } = card;
 
-	if (type === "wild") {
-		subject = "Wild Card";
+		if (type === "wild") {
+			subject = "Wild Card";
+			this.setState({
+				wilds: suit
+			});
+			this.updateWilds(suit)
+		} else {
+		}
+
+		// this.setState({
+		// 	cards
+		// })
+
+		// Add to player's card deck
+		let { cards } = this.state;
+		cards.unshift(card);
+
 		this.setState({
-			wilds: suit
+			cards,
+			subject,
+			suit,
+			type,
+			turn
 		});
-		this.updateWilds(suit)
-	} else {
-	}
-
-	// this.setState({
-	// 	cards
-	// })
-
-	// Add to player's card deck
-	let { cards } = this.state;
-	cards.unshift(card);
-
-	this.setState({
-		cards,
-		subject,
-		suit,
-		type,
-		turn
-	});
 
 
-	// Update rest of group
-	this.updateGroup();
-};
+		// Update rest of group
+		this.updateGroup();
+	};
 //==================================================
 	handleCard = e => {
 		e.preventDefault();
@@ -238,6 +245,24 @@ handleTurn = (e) => {
 		
 		
 	}
+// handleModalTrigger ========================
+	handleModalTrigger = event => {
+		event.preventDefault();
+		this.setState({
+			isOpen: true
+		});
+	};
+// afterOpenModal ========================
+	afterOpenModal = event => {
+		const rootEl = document.getElementById("root");
+		rootEl.classList.add("blur-for-modal");
+	};
+// closeModal ========================
+	closeModal = event => {
+		const rootEl = document.getElementById("root");
+		rootEl.classList.remove("blur-for-modal");
+		this.setState({ isOpen: false });
+	};
 //==================================================
 
 	render() {
@@ -246,6 +271,13 @@ handleTurn = (e) => {
 		return <div id="game-root" className="socket ">
 {/* Control Panel=============================== */}
 				<section className="control-panel">
+				
+				<a
+							className="ws-btn ws-primary"
+							onClick={this.handleModalTrigger}
+						>
+						Open Modal
+						</a>
 				{/* Game/Room =============================== */}
 				{ status &&
 					<div className="panel-section">
@@ -280,6 +312,7 @@ handleTurn = (e) => {
 						<a id="flip" className="ws-btn action" onClick={this.handleTurn} >
 							Flip
 						</a>
+						
 					</div>
 				}
 				{/* General =============================== */}
@@ -354,6 +387,28 @@ handleTurn = (e) => {
 				</ul>
 {/* Toasts =============================== */}
 				<ToastContainer autoClose={2400} />
+
+{/* Modal =============================== */}
+
+				<ReactModal
+					isOpen={this.state.isOpen}
+					onAfterOpen={this.afterOpenModal}
+					onRequestClose={this.closeModal}
+					contentLabel="Waynestrap Modal"
+					portalClassName="ws-modal-shit"
+					className={{
+						base: "ws-modal",
+						afterOpen: "ws-modal_after-open",
+						beforeClose: "ws-modal_before-close"
+					}}
+					overlayClassName={{
+						base: "ws-modal-overlay",
+						afterOpen: "ws-modal-overlay_after-open",
+						beforeClose: "ws-modal-overlay_before-close"
+					}}
+				>
+					Modal
+				</ReactModal>
 {/* END =============================== */}
 			</div>;
 	}
