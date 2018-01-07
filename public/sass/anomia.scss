@@ -9,19 +9,22 @@ $suit-pink: #FA2FB4;
 $suit-brown: #CA6924;
 $suit-wild: #FFF;
 
-
-
 $default-state: #6D7585;
 $blue-state: #3599DB;
 $green-state: #2ecc71;
+$disabled-state: rgba(#6D7585,0.5);
 $mono-state: #929EB3;
 
 $background: #ecf0f1;
+
+$primary: rgba(#000, .87);
+$secondary: rgba(#000, .6);
 
 $card-color: #ffffff;
 $card-shadow-color: rgba(97,122,128,.08);
 $card-text-color: #fff;
 $card-text-color-alt: rgba(#000,0.87);
+
 
 $border-color: rgba(#000,0.24);
 
@@ -59,58 +62,78 @@ body {
 		border-radius: 1em;
 		color: $card-text-color-alt;
 		background-color: $card-color;
-		box-shadow: 0em 0.5em 2em 2em rgba(97,122,128,.08);
+		// box-shadow: 0em 0.5em 2em 2em rgba(97,122,128,.08);
 		margin-bottom: 10px;
+		position: absolute;
+
+		// Only apply box shadow to bottom card (or else they will stack)
+		&:first-child {
+			box-shadow: 0em 0.5em 2em 2em rgba(97,122,128,.08);
+		}
 		
 		// All children should be ignored
-		* {
-			// pointer-events: none;
-		}
+		* { pointer-events: none; }
+
+		/*===== Subject =====*/
+			.subject {
+				text-align: center;
+				padding: 0.5em;
+				border-radius: 10px;
+				font-weight: 700;
+				// transform: rotateZ(180deg);
+				// &:first-child {
+				// }
+			}
+		/*===== Suit Area =====*/
+			.suit-area {
+				font-size: 7rem;
+				margin: 3rem auto;
+				$size: 4rem;
+				height: $size;
+				width: $size;
+				border-radius: 1rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				overflow: hidden;
+				&.wild-area {
+					width: 2*$size;
+				}
+				.suit {
+					flex: 1;
+					height: 100%;
+				}
+			}
 	}
 
-/*===== SUBJECT =====*/
-	.subject {
+
+/*===== Winnings =====*/
+	.winnings {
+		font-size: 1.5rem;
+		font-weight: 600;
+		background-color: $suit-yellow;
+		color: $primary;
+		$dimension: 2.4em;
+		height: $dimension;
+		width: $dimension;
+		line-height: $dimension;
 		text-align: center;
-		padding: 0.5em;
-		border-radius: 10px;
-		font-weight: 700;
-		// transform: rotateZ(180deg);
-		// &:first-child {
-		// }
+		border-radius: $dimension/2;
+		padding: 0;
+		position: fixed;
+		bottom: 1rem;
+		left: 1rem;
 	}
-
-/*===== SUIT AREA =====*/
-	.suit-area {
-		font-size: 7rem;
-		margin: 3rem auto;
-		$size: 4rem;
-		height: $size;
-		width: $size;
-		border-radius: 1rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		overflow: hidden;
-		&.wild-area {
-			width: 2*$size;
-		}
-		.suit {
-			flex: 1;
-			height: 100%;
-		}
-	}
-
-// .suit {
-// 	display: inline-block;
-// }
-
-/*===== ACTIVE PILE =====*/
+/*===== Active Pile=====*/
 	.pile {
-		// margin-top: 100px;
+		font-size: 1.5rem;
 		padding: 1rem;
+		min-height: 400px;
+		min-width: 300px;
+		position: relative;
 		cursor: pointer;
 	}
-/*===== WILD AREA =====*/
+/*===== Wild Area =====*/
 	.wild-suit-area {
 		$size: 60px;
 		height: 2*$size;
@@ -131,7 +154,7 @@ body {
 		}
 	}
 
-// Button Adjustments
+/*===== Buttons =====*/
 	.action {
 		font-size: 1.5rem;
 		line-height: 2em;
@@ -157,6 +180,9 @@ body {
 		margin: 5px;
 		font-weight: 300;
 	}
+
+
+/*===== Control Panel =====*/
 	.control-panel {
 		padding: 1em;
 		display: flex;
@@ -164,37 +190,55 @@ body {
 		justify-content: center;
 		align-items: flex-start;
 		// flex-wrap: wrap;
-		max-width: 500px;
+		max-width: 200px;
 		margin: auto;
+		position: fixed;
+		top: 0;
+		left: 0;
 	}
 	.panel-section {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		justify-content: flex-start;
-		align-items: center;
+		align-items: stretch;
 		flex-wrap: wrap;
-		p {
-			margin-right: 1em;
+		.panel-title {
+			margin-bottom: 5px;
 		}
 	}
 	.action-control {
 		cursor: pointer;
 	}
 
+/*===== Roll Call =====*/
+	.roll-call {
+		font-size: 1.5rem;
+		font-weight: 600;
+		padding: 0.5em 1em;
+		padding-top: 0.5em;
+		border-radius: 8px;
+		background-color: #fff;
 
-
-.red { background-color: $suit-red }
-.orange { background-color: $suit-orange }
-.yellow { background-color: $suit-yellow; }
-.green { background-color: $suit-green }
-.blue { background-color: $suit-blue }
-.purple { background-color: $suit-purple }
-.pink { background-color: $suit-pink }
-.brown { background-color: $suit-brown }
-.wild { background-color: $suit-wild; }
-
-
-/*===== MODAL =====*/
+		.section-title {
+			font-size: 0.5em;
+			text-transform: uppercase;
+			line-height: 3;
+			font-weight: 700;
+			letter-spacing: 1px;
+			border-bottom: 2px solid $border-color;
+			color: $secondary;
+		}
+		.roll-call-list {
+			padding: 0;
+		}
+		li,
+		.player-in-lobby {
+			// font-size: 1em;
+			margin: 8px 0;
+			display: list-item;
+		}
+	}
+/*===== Modal =====*/
 	.ws-modal2 {
 		background-color: transparent;
 		width: initial;
@@ -235,17 +279,35 @@ body {
 		}
 	}
 
-/*===== FORMS =====*/
+/*===== Forms =====*/
 	.game-form {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: stretch;
 	}
+	.form-info {
+		font-size: 1rem;
+		.form-headline {
+			font-size: 1.4em;
+			color: $primary;
+		}
+		.form-subheadline {
+			color: $secondary;
+		}
+	}
 	.input-group {
 		margin: 5px 0;
 		position: relative;
-
+	}
+	.form-group {
+		display: flex;
+		flex-direction: row;
+		justify-content: stretch;
+		align-items: center;
+		button {
+			flex: 1;
+		}
 	}
 	input {
 		font-size: inherit;
@@ -277,27 +339,20 @@ body {
 			border-color: $blue-state;
 		}
 	}
-	.form-group {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-end;
-		align-items: center;
-	}
 
 
-// Logs / Messages
+/*===== Logs =====*/
 	.log {
 		font-size: 12px;
 		position: fixed;
-		top: 0;
+		bottom: 4rem;
 		left: 0;
 		z-index: 999999;
 		padding: .5em;
-
-			li {
-				line-height: 1.1;
-				display: block;
-			}
+		li {
+			line-height: 1.1;
+			display: block;
+		}
 		&.gamelog {
 			bottom: 0;
 			top: auto;
@@ -324,3 +379,16 @@ body {
 			line-height: 1.3;
 		}
 	}
+
+/*===== Colors =====*/
+	.red { background-color: $suit-red }
+	.orange { background-color: $suit-orange }
+	.yellow { background-color: $suit-yellow; }
+	.green { background-color: $suit-green }
+	.blue { background-color: $suit-blue }
+	.purple { background-color: $suit-purple }
+	.pink { background-color: $suit-pink }
+	.brown { background-color: $suit-brown }
+	.wild { background-color: $suit-wild; }
+
+

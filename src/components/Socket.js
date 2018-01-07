@@ -3,6 +3,7 @@ import { Game, Card } from "../";
 import API from "../utils/API";
 import { ToastContainer, toast, style } from "react-toastify";
 import Modal from "react-modal";
+import PlayerList from "./PlayerList";
 
 // Set Modal root
 Modal.setAppElement("#app");
@@ -31,10 +32,11 @@ class Socket extends React.Component {
 			currentRoom: "",
 			currentName: "",
 			turn: -1,
-			players: ["apple", "banana", "cookie"],
+			players: [],
 			wilds: [],
 			cards: [],
 			winnings: [],
+			deck: [],
 
 			subject: "",
 			type: "regular",
@@ -46,6 +48,9 @@ class Socket extends React.Component {
 	}
 // componentDidMount =========================================
 	componentDidMount = () => {
+
+		
+		// Socket Listeners ===============
 		API.onMessage(msg => {
 			console.log("💬", msg);
 			toast(msg);
@@ -64,6 +69,14 @@ class Socket extends React.Component {
 			if (playerID === this.state.currentName){
 				toast('Card Received');
 				console.log('cardID',cardID);
+
+				// Add to winnings pile
+				let {winnings} = this.state;
+				winnings.push(cardID)
+				this.setState({
+					winnings,
+				})
+
 			} else {
 				console.log('card transferred between players',newCard);
 			}
@@ -72,7 +85,13 @@ class Socket extends React.Component {
 		////////////////////////////////////////////////////
 		// TODO: FETCH FROM COOKIES OR LOCAL STORAGE
 		////////////////////////////////////////////////////
+
+		// let stored = JSON.parse(sessionStorage.getItem('amnesia')); // Fetch from Local Storage
+		// if (stored) { // Set state if there is data stored
+		// 	this.setState(stored)
+		// }
 	};
+
 // createGame ================================================
 	createGame = e => {
 		e.preventDefault();
@@ -175,7 +194,7 @@ class Socket extends React.Component {
 		// Next Card
 		let card = this.state.deck[turn];
 		console.log("card", card);
-		let { subject, suit, type } = card;
+		let { subject, suit, type, id } = card;
 
 		if (type === "wild") {
 			subject = "Wild Card";
@@ -192,7 +211,7 @@ class Socket extends React.Component {
 
 		// Add to player's card deck
 		let { cards } = this.state;
-		cards.unshift(card);
+		cards.push(card);
 
 		this.setState({
 			cards,
@@ -239,13 +258,6 @@ class Socket extends React.Component {
 			cardID: id,
 		});
 	};
-// handleModalTrigger ========================================
-	handleModalTrigger = event => {
-		event.preventDefault();
-		this.setState({
-			isOpen: true
-		});
-	};
 // afterOpenModal ============================================
 	afterOpenModal = event => {
 		const rootEl = document.getElementById("app");
@@ -266,7 +278,12 @@ class Socket extends React.Component {
 		console.log(`Sending to ${receiverID}...`);
 
 		this.closeModal();
-		
+
+		// Remove last card in pile
+		let {cards} = this.state;
+		cards.pop();
+		this.setState({cards})
+
 		API.sendCard(currentRoom,receiverID,cardID, response => {
 			console.log('response',response);
 			if (response.status === 'ok'){
@@ -277,79 +294,66 @@ class Socket extends React.Component {
 			}
 		})
 	};
+// TODO: Store Locally =======================================
+	storeData = () => {
+		const stateString = JSON.stringify(this.state);
+		console.log('stateString:',stateString)
+		// Store in Session Storage
+		sessionStorage.setItem('amnesia',stateString)
+	}
+	fetchData = e => {
+		e.preventDefault();
+		const fetched =	JSON.parse(sessionStorage.getItem('amnesia'));
+		console.log('fetched:',fetched)
+	}
 // RENDER ====================================================
 
 	render() {
-		let { status, currentRoom, currentName } = this.state;
+		let { status, currentRoom, currentName, players, cards, winnings } = this.state;
 
 		return (
 			<div id="game-root" className="socket ">
 			{/* Control Panel=============================== */}
-				<section className="control-panel">
-				{/* Game/Room =============================== */}
-					{status && (
-						<div className="panel-section">
-							<p>Game</p>
-							{status !== "playing" && (
-								<a
-									className="ws-btn ws-mini"
-									onClick={this.handleEmit}
-									data-socket-event="startGame"
-								>
-									Start
-								</a>
-							)}
-							{currentRoom && (
-								<a
-									className="ws-btn ws-mini"
-									onClick={this.handleSocket}
-									data-socket-event="leaveGame"
-								>
-									Leave
-								</a>
-							)}
-							{status !== "open" && (
-								<a
-									className="ws-btn ws-mini"
-									onClick={this.handleEmit}
-									data-socket-event="openRoom"
-								>
-									Open
-								</a>
-							)}
-						</div>
-					)}
-				{/* General =============================== */}
-					{/* <div className="panel-section">
-						<p>General</p>
-						<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="getStats">
-							Get Stats
-						</a>
-					</div> */}
-				</section>
-			{/* Form =============================== */}
+				{status && (
+					<section className="control-panel">
+							<div className="panel-section">
+								{status !== "playing" && (
+									<a className="ws-btn ws-mini" onClick={this.handleEmit} data-socket-event="startGame" >
+										Start
+									</a>
+								)}
+								{status !== "open" && (
+									<a className="ws-btn ws-mini" onClick={this.handleEmit} data-socket-event="openRoom" >
+										End
+									</a>
+								)}
+								{currentRoom && (
+									<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="leaveGame" >
+										Leave Room
+									</a>
+								)}
+							</div>
+					</section>
+				)}
+			{/* Player List ============================= */}
+				{ (status === 'open') && (
+					<section className="roll-call container">
+						<h4 className="section-title">Who's Here</h4>
+						<PlayerList players={this.state.players} currentName={currentName} />
+					</section>
+				)}
+			{/* Game Form =============================== */}
 				{!currentRoom && (
 					<form className="game-form">
+						<div className="form-info">
+							<h4 className="form-headline">Game Info</h4>
+						</div>
 						<div className="input-group">
-							<input
-								type="text"
-								id="player"
-								name="player"
-								placeholder="Name"
-								onChange={this.handleChange}
-								value={this.state.player}
-							/>
+							<input id="player" type="text" name="player" placeholder="Name" onChange={this.handleChange} value={this.state.player} />
 							<label htmlFor="player">Name</label>
 						</div>
 						<div className="input-group">
-							<input
-								type="text"
-								id="room"
-								name="room"
-								placeholder="Room"
-								onChange={this.handleChange}
-								value={this.state.room}
-							/>
+							<input type="text" id="room" name="room" placeholder="Room" onChange={this.handleChange} value={this.state.room} />
 							<label htmlFor="room">Room</label>
 						</div>
 						<div className="form-group">
@@ -388,40 +392,44 @@ class Socket extends React.Component {
 						);
 					})}
 				</section>
-			{/* props.children =============================== */}
-				{this.props.children}
 			{/* Pile =============================== */}
+			{cards.length !== 0 && (
 				<section className="pile" onClick={this.handleCard}>
 					{this.state.cards.map((card, index) => {
 						return <Card specs={card} key={index} />;
 					})}
 				</section>
+			)}
+			{/* Winnings ================================== */}
+			{winnings.length !== 0 && (
+				<aside className="winnings" data-wins={this.state.winnings.length}>
+					{this.state.winnings.length}
+				</aside>
+			)}
 			{/* Flip Button =============================== */}
 				{status === 'playing' && (
 					<a id="flip" className="ws-btn action" onClick={this.handleTurn}> Flip </a>
 				)}
 			{/* Log =============================== */}
-				<ul className="log">
+				{/* <ul className="log">
 					{currentRoom && <li>{"room: " + currentRoom}</li>}
 					{currentName && <li>{"player: " + currentName}</li>}
-					{/* <li>{"status: " + status}</li> */}
-					{/* <li>{"turn: " + this.state.turn}</li> */}
-					{/* <li>{"subject: " + this.state.subject}</li> */}
-					{/* <li>{"suit: " + this.state.suit}</li> */}
-					{/* <li>
+					<li>{"status: " + status}</li>
+					<li>{"turn: " + this.state.turn}</li>
+					<li>{"subject: " + this.state.subject}</li>
+					<li>{"suit: " + this.state.suit}</li>
+					<li>
 						<ul>
 							{this.state.players.map((player, index) => {
 								return <li key={`player-${index}`}>{player}</li>;
 							})}
 						</ul>
-					</li> */}
-				</ul>
+					</li>
+				</ul> */}
 			{/* Toasts =============================== */}
 				<ToastContainer autoClose={1500} />
 
 			{/* Modal =============================== */}
-				<a className="ws-btn ws-primary" onClick={this.handleModalTrigger}> Open Modal </a>
-
 				<Modal
 					isOpen={this.state.isOpen}
 					onAfterOpen={this.afterOpenModal}

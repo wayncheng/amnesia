@@ -1,6 +1,7 @@
 
 export { default as Card} from './components/Card'
 export { default as Player} from './components/Player'
+export { default as PlayerList} from './components/PlayerList'
 export { default as Socket} from './components/Socket'
 
 
