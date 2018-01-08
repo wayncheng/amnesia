@@ -104,14 +104,14 @@
 	};
 
 io.on("connection", socket => {
-	console.log("✅  "+socket.id);
+	console.log("connect"+socket.id);
 
 // Initial Ping -----
 		// io.emit("msg", "hola");
 
 // On Disconnect -----
 		socket.on("disconnect", () => {
-			console.log("❌  "+socket.id);
+			console.log("disconnect"+socket.id);
 		});
 
 // Create Game ------------------------------
@@ -219,7 +219,7 @@ io.on("connection", socket => {
 				}
 				// ROOM NOT OPEN =========================
 				else {
-					console.log("⛔️️ room is not open for joining.");
+					console.log("(!) room is not open for joining.");
 					return cb({
 						status: "error",
 						message: "room not open"

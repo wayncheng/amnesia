@@ -45,20 +45,6 @@ module.exports = {
 				test: /\.svg$/,
 				exclude: /node_modules/,
 				use: ["svg-react-loader"],
-				// options: {
-				// 	classIdPrefix: "[name]-[hash:8]__",
-				// 	filters: [
-				// 			function (value) {
-				// 					// ...
-				// 					this.update(newvalue);
-				// 			}
-				// 	],
-				// 	propsMap: {
-				// 			fillRule: 'fill-rule',
-				// 			foo: 'bar'
-				// 	},
-				// 	xmlnsTest: /^xmlns.*$/
-				// }
 			},
 			{ // GIF, PNG, JPG, JPEG
 				test: /\.(gif|png|jpe?g)$/i,

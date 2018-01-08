@@ -1,16 +1,12 @@
 import React from "react";
 import { Route, BrowserRouter, HashRouter, Switch, Redirect } from "react-router-dom";
-import { 
-	GameBoard,
-	Socket, 
-} from "..";
+import { Game } from "../";
 
 
 const Routes = (
 		<BrowserRouter >
         <Switch>
-            <Route path="/io" component={Socket} />
-            <Route exact path="/" component={GameBoard} />
+            <Route exact path="/" component={Game} />
             <Route component={NoMatch} />
         </Switch>
     </BrowserRouter>
