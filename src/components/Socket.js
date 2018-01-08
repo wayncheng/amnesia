@@ -16,7 +16,7 @@ style({
 	colorSuccess: "#07bc0c",
 	colorWarning: "#f1c40f",
 	colorError: "#e74c3c",
-	colorProgressDefault: "rgba(0,0,0,0.24)",
+	colorProgressDefault: "rgba(0,0,0,0.12)",
 	mobile: "only screen and (max-width : 480px)",
 	fontFamily: "inherit",
 	zIndex: 999999
@@ -318,18 +318,18 @@ class Socket extends React.Component {
 					<section className="control-panel">
 							<div className="panel-section">
 								{status !== "playing" && (
-									<a className="ws-btn ws-mini" onClick={this.handleEmit} data-socket-event="startGame" >
+									<a className="ws-btn ws-mini ws-green" onClick={this.handleEmit} data-socket-event="startGame" >
 										Start
 									</a>
 								)}
 								{status !== "open" && (
-									<a className="ws-btn ws-mini" onClick={this.handleEmit} data-socket-event="openRoom" >
+									<a className="ws-btn ws-mini ws-danger" onClick={this.handleEmit} data-socket-event="openRoom" >
 										End
 									</a>
 								)}
 								{currentRoom && (
-									<a className="ws-btn ws-mini" onClick={this.handleSocket} data-socket-event="leaveGame" >
-										Leave Room
+									<a className="ws-btn ws-mini ws-danger" onClick={this.handleSocket} data-socket-event="leaveGame" >
+										Leave
 									</a>
 								)}
 							</div>
@@ -346,7 +346,7 @@ class Socket extends React.Component {
 				{!currentRoom && (
 					<form className="game-form">
 						<div className="form-info">
-							<h4 className="form-headline">Game Info</h4>
+							<h4 className="form-headline">Waynomia</h4>
 						</div>
 						<div className="input-group">
 							<input id="player" type="text" name="player" placeholder="Name" onChange={this.handleChange} value={this.state.player} />
@@ -393,19 +393,19 @@ class Socket extends React.Component {
 					})}
 				</section>
 			{/* Pile =============================== */}
-			{cards.length !== 0 && (
-				<section className="pile" onClick={this.handleCard}>
-					{this.state.cards.map((card, index) => {
-						return <Card specs={card} key={index} />;
-					})}
-				</section>
-			)}
+				{cards.length !== 0 && (
+					<section className="pile" onClick={this.handleCard}>
+						{this.state.cards.map((card, index) => {
+							return <Card specs={card} key={index} />;
+						})}
+					</section>
+				)}
 			{/* Winnings ================================== */}
-			{winnings.length !== 0 && (
-				<aside className="winnings" data-wins={this.state.winnings.length}>
-					{this.state.winnings.length}
-				</aside>
-			)}
+				{status === 'playing' && (
+					<aside className="winnings" data-wins={this.state.winnings.length}>
+						{this.state.winnings.length}
+					</aside>
+				)}
 			{/* Flip Button =============================== */}
 				{status === 'playing' && (
 					<a id="flip" className="ws-btn action" onClick={this.handleTurn}> Flip </a>

@@ -51,8 +51,10 @@ body {
 /*===== CARD =====*/
 	.card {
 		font-size: 1.5rem;
-		height: 15em;
-		width: 10em;
+		// height: 15em;
+		// width: 10em;
+		height: 100%;
+		width: 100%;
 		border: none;
 		display: flex;
 		flex-direction: column;
@@ -121,17 +123,25 @@ body {
 		border-radius: $dimension/2;
 		padding: 0;
 		position: fixed;
-		bottom: 1rem;
-		left: 1rem;
+		bottom: $abs-cushion;
+		left: $abs-cushion;
 	}
 /*===== Active Pile=====*/
 	.pile {
 		font-size: 1.5rem;
-		padding: 1rem;
-		min-height: 400px;
-		min-width: 300px;
+		padding: 0;
 		position: relative;
 		cursor: pointer;
+		margin: auto;
+		
+		$w: 90vw;
+		width: $w;
+		height: 1.5*$w;
+
+		$max-w: 400px;
+		max-height: $max-w * 1.5;
+		max-width: $max-w;
+
 	}
 /*===== Wild Area =====*/
 	.wild-suit-area {
@@ -155,14 +165,23 @@ body {
 	}
 
 /*===== Buttons =====*/
+	.ws-btn {
+		background-color: $default-state;
+		font-size: 14px;
+		margin: 5px;
+		font-weight: 300;
+	}
 	.action {
 		font-size: 1.5rem;
-		line-height: 2em;
-		padding: 0 1.4em;
+		$h: 2em;
+		height: $h;
+		line-height: $h;
+		width: 2*$h;
+		padding: 0;
 		margin: 0;
-		border-radius: 10px;
-		font-weight: 700;
-		text-transform: uppercase;
+		border-radius: $h/2;
+		// font-weight: 700;
+		// text-transform: uppercase;
 		letter-spacing: 1px;
 		background-color: $default-state;
 		border: none;
@@ -173,12 +192,6 @@ body {
 		// &:focus {
 		// 	border: none;
 		// }
-	}
-	.ws-btn {
-		background-color: $default-state;
-		font-size: 14px;
-		margin: 5px;
-		font-weight: 300;
 	}
 
 
@@ -289,15 +302,20 @@ body {
 	.form-info {
 		font-size: 1rem;
 		.form-headline {
-			font-size: 1.4em;
-			color: $primary;
+			font-size: 1.5em;
+			color: $secondary;
+			text-align: center;
+			line-height: 2;
+			letter-spacing: .1em;
+			text-transform: uppercase;
+			font-weight: 600;
 		}
 		.form-subheadline {
 			color: $secondary;
 		}
 	}
 	.input-group {
-		margin: 5px 0;
+		margin: .5em 0;
 		position: relative;
 	}
 	.form-group {
