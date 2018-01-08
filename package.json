@@ -1,6 +1,6 @@
 {
   "name": "waynomia",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -8,14 +8,14 @@
     "start": "node server.js",
     "node": "nodemon server.js",
     "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress",
-    "watch": "browser-sync start -p localhost:5000 -f 'public/css'"
+    "watch": "browser-sync start -p localhost:8000 -f 'public/css'"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wayncheng/waynomia"
   },
   "author": "wayne cheng",
-  "license": "MIT",
+  "license": "Apache 2.0",
   "dependencies": {
     "axios": "^0.16.2",
     "babel-core": "^6.21.0",

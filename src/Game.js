@@ -43,7 +43,8 @@ class Game extends React.Component {
 			suit: "",
 
 			cardSelected: false,
-			isOpen: false
+			isOpen: false,
+			menuOpen: false,
 		};
 	}
 // componentDidMount =========================================
@@ -52,7 +53,7 @@ class Game extends React.Component {
 		
 		// Socket Listeners ===============
 		API.onMessage(msg => {
-			console.log("::", msg);
+			console.log("💬", msg);
 			toast(msg);
 		});
 
@@ -95,21 +96,19 @@ class Game extends React.Component {
 // createGame ================================================
 	createGame = e => {
 		e.preventDefault();
-		console.log("---> createGame");
-		// const room = document.getElementById("room").value.trim() || "yo";
-		// const player = document.getElementById("player").value.trim() || "wc";
+		console.log("👉 createGame");
 
 		let { room = "yo", player = "wc" } = this.state;
 
 		API.createGame(room, player, response => {
-			console.log("response", response);
+			console.log("👈", response);
 			this.setState(response);
 		});
 	};
 // joinGame ==================================================
 	joinGame = event => {
 		event.preventDefault();
-		console.log("---> joinGame");
+		console.log("👉 joinGame");
 		// const room = document.getElementById("room").value.trim() || "yo";
 		// const player = document.getElementById("player").value.trim() || "wc";
 		let { room = "yo", player = "wc" } = this.state;
@@ -130,7 +129,7 @@ class Game extends React.Component {
 // handleEmit ================================================
 	handleEmit = e => {
 		e.preventDefault();
-		console.log(`>>>> handleEmit --->`);
+		console.log(`👉  handleEmit --->`);
 		const event = e.target.getAttribute("data-socket-event");
 		const { currentRoom, currentName } = this.state;
 		console.log(`   > ${event}`);
@@ -269,6 +268,24 @@ class Game extends React.Component {
 		rootEl.classList.remove("blur-for-modal");
 		this.setState({ isOpen: false });
 	};
+// MENU //////////////////////////////////////////////////
+// toggleMenu ================================================
+	toggleMenu = e => {
+		// const el = document.getElementById("app");
+		// el.classList.remove("blur-for-modal");
+		this.setState({ menuOpen: true });
+	};
+// afterOpenMenu ============================================
+	afterOpenMenu = event => {
+		const rootEl = document.getElementById("app");
+		rootEl.classList.add("blur-for-modal");
+	};
+// closeMenu ================================================
+	closeMenu = e => {
+		const el = document.getElementById("app");
+		el.classList.remove("blur-for-modal");
+		this.setState({ menuOpen: false });
+	};
 // handleSend ================================================
 	handleSend = e => {
 		e.preventDefault();
@@ -314,29 +331,6 @@ class Game extends React.Component {
 		return (
 			<div id="game-root" className="socket ">
 			<Helmet title={'Waynomia'+ (currentRoom && ` (${currentRoom})`)}/>
-			{/* <Helmet title={ currentRoom ? `Waynomia (${currentRoom})` : 'Waynomia' }/> */}
-			{/* Control Panel=============================== */}
-				{status && (
-					<section className="control-panel">
-							<div className="panel-section">
-								{status !== "playing" && (
-									<a className="ws-btn ws-mini ws-green" onClick={this.handleEmit} data-socket-event="startGame" >
-										Start
-									</a>
-								)}
-								{status !== "open" && (
-									<a className="ws-btn ws-mini ws-danger" onClick={this.handleEmit} data-socket-event="openRoom" >
-										End
-									</a>
-								)}
-								{currentRoom && (
-									<a className="ws-btn ws-mini ws-danger" onClick={this.handleSocket} data-socket-event="leaveGame" >
-										Leave
-									</a>
-								)}
-							</div>
-					</section>
-				)}
 			{/* Player List ============================= */}
 				{ (status === 'open') && (
 					<section className="roll-call container">
@@ -403,7 +397,7 @@ class Game extends React.Component {
 					</section>
 				)}
 			{/* Winnings ================================== */}
-				{status === 'playing' && (
+				{status && (
 					<aside className="winnings" data-wins={this.state.winnings.length}>
 						{this.state.winnings.length}
 					</aside>
@@ -412,6 +406,8 @@ class Game extends React.Component {
 				{status === 'playing' && (
 					<a id="flip" className="ws-btn action" onClick={this.handleTurn}> Flip </a>
 				)}
+			{/* Menu Toggle =============================== */}
+				<a id="menu-toggle" className="ws-btn ws-mini" onClick={this.toggleMenu}>Menu</a>
 			{/* Log =============================== */}
 				{/* <ul className="log">
 					{currentRoom && <li>{"room: " + currentRoom}</li>}
@@ -467,6 +463,46 @@ class Game extends React.Component {
 						}
 						})}
 					</ul>
+				</Modal>
+				<Modal
+					isOpen={this.state.menuOpen}
+					onAfterOpen={this.afterOpenMenu}
+					onRequestClose={this.closeMenu}
+					contentLabel="Waynomia Menu"
+					portalClassName="ws-modal-shit ws-modal-menu dark-modal"
+					className={{
+						base: "ws-modal2",
+						afterOpen: "ws-modal2_after-open",
+						beforeClose: "ws-modal2_before-close"
+					}}
+					overlayClassName={{
+						base: "ws-modal-overlay",
+						afterOpen: "ws-modal-overlay_after-open",
+						beforeClose: "ws-modal-overlay_before-close"
+					}}
+				>
+					<h3 className="modal-title">Menu</h3>
+					<section className="control-panel">
+						{status && (
+							<div className="panel-section">
+								{status !== "playing" && (
+									<a className="ws-btn ws-mini ws-green" onClick={this.handleEmit} data-socket-event="startGame" >
+										Start Game
+									</a>
+								)}
+								{status !== "open" && (
+									<a className="ws-btn ws-mini ws-danger" onClick={this.handleEmit} data-socket-event="openRoom" >
+										End Game
+									</a>
+								)}
+								{currentRoom && (
+									<a className="ws-btn ws-mini ws-warning" onClick={this.handleSocket} data-socket-event="leaveGame" >
+										Leave Room
+									</a>
+								)}
+							</div>
+						)}
+					</section>
 				</Modal>
 			{/* END =============================== */}
 			</div>
