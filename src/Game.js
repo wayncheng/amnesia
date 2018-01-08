@@ -1,8 +1,9 @@
 import React from "react";
-import { Card,PlayerList } from "./";
-import API from "./utils/API";
 import { ToastContainer, toast, style } from "react-toastify";
 import Modal from "react-modal";
+import Helmet from 'react-helmet';
+import { Card,PlayerList } from "./";
+import API from "./utils/API";
 
 // Set Modal root
 Modal.setAppElement("#app");
@@ -163,7 +164,7 @@ class Game extends React.Component {
 		event.preventDefault();
 		const { name, value } = event.target;
 		this.setState({
-			[name]: value
+			[name]: value.trim().toLowerCase()
 		});
 	};
 // updateGroup ===============================================
@@ -312,6 +313,8 @@ class Game extends React.Component {
 
 		return (
 			<div id="game-root" className="socket ">
+			<Helmet title={'Waynomia'+ (currentRoom && ` (${currentRoom})`)}/>
+			{/* <Helmet title={ currentRoom ? `Waynomia (${currentRoom})` : 'Waynomia' }/> */}
 			{/* Control Panel=============================== */}
 				{status && (
 					<section className="control-panel">

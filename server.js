@@ -104,14 +104,14 @@
 	};
 
 io.on("connection", socket => {
-	console.log("connect"+socket.id);
+	console.log("✅   "+socket.id);
 
 // Initial Ping -----
 		// io.emit("msg", "hola");
 
 // On Disconnect -----
 		socket.on("disconnect", () => {
-			console.log("disconnect"+socket.id);
+			console.log("🚫   "+socket.id);
 		});
 
 // Create Game ------------------------------
