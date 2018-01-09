@@ -1,21 +1,11 @@
-import React from "react";
+import React, {Component} from "react";
 import classnames from "classnames";
-// regularCard = {
-// 	type: 'regular',
-// 	subject: 'poop',
-// 	suit: 'green'
-// }
-// wildCard = {
-// 	type: 'wild',
-// 	suitA: 'blue',
-// 	suitB: 'green'
-// }
 
-class Card extends React.Component {
+class Card extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			suit: "red"
+			suit: ""
 		};
 	}
 
@@ -37,24 +27,21 @@ class Card extends React.Component {
 				data-subject={subject}
 			>
 				<h3 className="subject">{subject || "Wild Card"}</h3>
-				{type === "regular" ? (
-					<div className={"suit-area"} >
-						<div className={"suit "+suit}/>
-					</div>
-				) : (
-					<div className="suit-area wild-area">
-						<div className={`suit ${suit[0]}`} />
-						<div className={`suit ${suit[1]}`} />
-						{/* // <div className={classnames("suit", "wild", suit[1])} /> */}
-					</div>
-				)}
+				{type === "regular" 
+					? (
+						<div className={"suit-area"} >
+							<div className={"suit "+suit}/>
+						</div>
+					) : (
+						<div className="suit-area wild-area">
+							<div className={`suit ${suit[0]}`} />
+							<div className={`suit ${suit[1]}`} />
+						</div>
+					)
+				}
+			{/* <a className="ws-btn ws-primary dismiss-btn" onClick={this.props.dismissCard}> Dismiss </a>  */}
 			</div>
 		);
 	}
 }
 export default Card;
-
-Card.defaultProps = {
-	subject: "(Subject)",
-	suit: "?"
-};

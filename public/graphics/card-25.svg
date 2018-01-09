@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150">
+  <defs>
+    <style>
+      .a {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <title>card-25-rad</title>
+  <path class="a" d="M75,0H25C14,0,8,0,4,4S0,14,0,25V125c0,11,0,17,4,21s10.1,4,21,4H75c11,0,17,0,21-4s4-10.1,4-21V25c0-11,0-17-4-21S86,0,75,0Z"/>
+</svg>
