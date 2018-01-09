@@ -135,7 +135,7 @@
 		"Horned Animal",
 		"Unit of Energy",
 		"Vacation Spot",
-		"WWF Wrestler",
+		"WWE Wrestler",
 		"French City",
 		"Sundae Topping",
 		"Winter Sport"

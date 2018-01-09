@@ -111,9 +111,22 @@ class Game extends React.Component {
 			}
 			else {
 				this.setState(response);
+
+				API.getStats(this.state.currentRoom, (response) => {
+					console.log('response',response);
+				})
 			}
 		});
 	};
+// endGame / openRoom  =======================================
+	endGame = e => {
+		e.preventDefault();
+		console.log(`👉  endGame =>`);
+		
+		const { currentRoom, currentName } = this.state;
+
+		API.openRoom(currentRoom);
+	}
 // handleEmit ================================================
 	handleEmit = e => {
 		e.preventDefault();
