@@ -13,7 +13,7 @@ body {
 	// background-image: $hero-pattern-food;
 	// background-image: $hero-pattern-circuit;
 	// background-image: $hero-pattern-topography;
-	@include hero-background($hero-pattern-topography,$background);
+	@include hero-background($hero-pattern-circuit,$background);
 }
 #game-root {
 	margin: auto;
