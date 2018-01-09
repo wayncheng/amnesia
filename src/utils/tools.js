@@ -2,6 +2,8 @@
 (function() { 
 	const suits = [ "red", "orange", "yellow", "green", "blue", "purple", "brown", "pink" ]
 	const subjects = require('./subjects.json');
+	const allWilds = require('./wilds');
+	const allTopics = require('./topics');
 
 	const tools = {
 		//==================================================
@@ -46,10 +48,35 @@
 
 			return shuffled;
 		},
-		getNewDeck: function(){
+		//==================================================
+		// Get New, Shuffled Deck
+		//==================================================
+		getNewDeck: function(size = 69){
 			//==================================================
-			// Process Cards (add suits, ids) ==================
-			const processed = subjects.map( (ea,index) => {
+			// Get N Random indeces for Regular Topics..........
+			let indeces = [];
+			let min = 0;
+			let max = allTopics.length;
+
+			while (indeces.length <= size){
+				let random = Math.floor(Math.random() * (max - min + 1)) + min;
+
+				if (indeces.indexOf(random) === -1){
+					indeces.push(random)
+				}
+			}
+
+			// Map the indeces to topics........................
+			let regulars = indeces.map( (ea,index) => allTopics[ea] )
+
+			// Pick 7 Random Unique Wild Combinations...........
+			let wilds = this.getWilds();
+
+			// Join Regular and Wild Cards......................
+			let combined = regulars.concat(wilds);
+
+			// Process Cards (add suits, ids)...................
+			const processed = combined.map( (ea,index) => {
 				let cardObj;
 
 				if (Array.isArray(ea)){
@@ -70,12 +97,26 @@
 				return cardObj;
 			});
 
-			// Shuffle Cards ===========================================
+			// Shuffle Cards ...................................
 			const shuffled = tools.shuffleArray(processed);
-			console.log('shuffled',shuffled);
 
-			// Return Processed/Shuffled Cards =========================
+			// Return Processed/Shuffled Cards .................
 			return shuffled;
+		},
+		//==================================================
+		// Get 7 Wild Combinations
+		//==================================================
+		getWilds: function(){
+			let wilds = allWilds;
+
+			// Shuffle all possible wild combinations (28)
+			let shuffledWilds = tools.shuffleArray(wilds);
+
+			// Extract the first 7 from shuffled
+			let selectedWilds = shuffledWilds.splice(0,7);
+
+			// Return the selected 7
+			return selectedWilds;
 		}
 
 	};
