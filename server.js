@@ -1,13 +1,13 @@
 "use strict";
 
 (function() {
-	// DEPENDENCIES ===================================
+// DEPENDENCIES ===================================
 	const express = require("express");
 	const bodyParser = require("body-parser");
 	const path = require("path");
 	require("dotenv").config();
 
-	// CONFIG =======================================
+// CONFIG =======================================
 	const app = express();
 	const PORT = process.env.PORT || 8000;
 	app.disable("x-powered-by");
@@ -46,12 +46,12 @@
 
 // ROUTES =========================================
 	// API -----
-	const apiRoutes = require("./controllers/api-controller");
-	app.use("/api", apiRoutes);
+	// const apiRoutes = require("./controllers/api-controller");
+	// app.use("/api", apiRoutes);
 
 	// Socket.IO -----
-	const socketController = require("./controllers/socket-controller");
-	app.use("/io", socketController);
+	// const socketController = require("./controllers/socket-controller");
+	// app.use("/io", socketController);
 
 	// Default React route
 	// Basic HTML gets (Handled by ReactRouter)
@@ -85,22 +85,13 @@
 	const tools = require('./src/utils/tools');
 
 	let roomCount = 0;
-	let roomList = ["yo"];
+	let roomList = [];
 	let roomData = {
 		// "roomName": {
-		// 	status: "open"
+		// 	status: "",
+		// 	id: "whatever",
+		// 	players: ["whoever"]
 		// }
-		yo: {
-			status: "open",
-			id: "yo",
-			players: ["wc"],
-		}
-	};
-
-	let roomModel = {
-		status: "",
-		id: "",
-		players: []
 	};
 
 io.on("connection", socket => {

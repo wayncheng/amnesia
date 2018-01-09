@@ -56,9 +56,9 @@
 			// Get N Random indeces for Regular Topics..........
 			let indeces = [];
 			let min = 0;
-			let max = allTopics.length;
+			let max = allTopics.length-1;
 
-			while (indeces.length <= size){
+			while (indeces.length < size){
 				let random = Math.floor(Math.random() * (max - min + 1)) + min;
 
 				if (indeces.indexOf(random) === -1){
@@ -70,13 +70,13 @@
 			let regulars = indeces.map( (ea,index) => allTopics[ea] )
 
 			// Pick 7 Random Unique Wild Combinations...........
-			let wilds = this.getWilds();
+			let wilds = tools.getWilds();
 
 			// Join Regular and Wild Cards......................
 			let combined = regulars.concat(wilds);
 
 			// Process Cards (add suits, ids)...................
-			const processed = combined.map( (ea,index) => {
+			let processed = combined.map( (ea,index) => {
 				let cardObj;
 
 				if (Array.isArray(ea)){
@@ -99,7 +99,7 @@
 
 			// Shuffle Cards ...................................
 			const shuffled = tools.shuffleArray(processed);
-
+			
 			// Return Processed/Shuffled Cards .................
 			return shuffled;
 		},

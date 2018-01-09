@@ -28,6 +28,8 @@ body {
 $w: 90vw;
 $max-w: 300px;
 $edge: 300px;
+$d: 60px;
+
 /*===== PILE =====*/
 	.pile {
 		font-size: 1.5rem;
@@ -91,16 +93,16 @@ $edge: 300px;
 			.suit-area {
 				font-size: 7rem;
 				margin: 3rem auto;
-				$size: 4rem;
-				height: $size;
-				width: $size;
+				$d: 4rem;
+				height: $d;
+				width: $d;
 				border-radius: 1rem;
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				overflow: hidden;
 				&.wild-area {
-					width: 2*$size;
+					width: 2*$d;
 				}
 				.suit {
 					flex: 1;
@@ -129,13 +131,15 @@ $edge: 300px;
 		font-size: 20px;
 		border-radius: 50%;
 		background-color: #fff;
-		height: $x + (2 * $pad);
+		height: $d;
+		width: $d;
+		line-height: $d;
 		cursor: pointer;
+		text-align: center;
 
 		.icon-burger-menu {
-			height: $x;
-			width: $x;
-			margin: $pad;
+			width: 1em;
+			height: initial;
 		}
 	}
 /*===== Winnings =====*/
@@ -158,9 +162,8 @@ $edge: 300px;
 	}
 /*===== Wild Area =====*/
 	.wild-suit-area {
-		$size: 60px;
-		height: $size;
-		width: $size*2;
+		height: $d;
+		width: $d*2;
 		overflow: hidden;
 		position: fixed;
 		top: $abs-cushion;
@@ -172,8 +175,8 @@ $edge: 300px;
 		border-radius: .5rem;
 		.wild-suit {
 			flex:1;
-			height: $size;
-			width: $size;
+			height: $d;
+			width: $d;
 		}
 	}
 

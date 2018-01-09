@@ -5,23 +5,6 @@ import Helmet from 'react-helmet';
 import { Card, PlayerList, WildSuits, Winnings, ActivePile, MenuToggle, GameForm } from "./";
 import API from "./utils/API";
 
-// Set Modal root
-Modal.setAppElement("#app");
-
-// Toast Styling
-style({
-	width: "320px",
-	colorDefault: "#fff",
-	colorInfo: "#3498db",
-	colorSuccess: "#07bc0c",
-	colorWarning: "#f1c40f",
-	colorError: "#e74c3c",
-	colorProgressDefault: "rgba(0,0,0,0.12)",
-	mobile: "only screen and (max-width : 480px)",
-	fontFamily: "inherit",
-	zIndex: 999999
-});
-
 class Game extends React.Component {
 	constructor(props) {
 		super(props);
@@ -134,10 +117,10 @@ class Game extends React.Component {
 // handleEmit ================================================
 	handleEmit = e => {
 		e.preventDefault();
-		console.log(`👉  handleEmit --->`);
+		// console.log(`👉  handleEmit --->`);
 		const event = e.target.getAttribute("data-socket-event");
 		const { currentRoom, currentName } = this.state;
-		console.log(`   > ${event}`);
+		// console.log(`   > ${event}`);
 
 		if (currentRoom && currentName) {
 			API[event](this.state.currentRoom, currentName);
@@ -148,16 +131,15 @@ class Game extends React.Component {
 // handleSocket ==============================================
 	handleSocket = e => {
 		e.preventDefault();
-		console.log(`>>>> handleSocket --->`);
+		// console.log(`>>>> handleSocket --->`);
 		const event = e.target.getAttribute("data-socket-event");
 		const { currentRoom, currentName } = this.state;
-		console.log(`   * ${event}`);
+		// console.log(`   * ${event}`);
 
 		if (currentRoom && currentName) {
 			API[event](this.state.currentRoom, currentName, response => {
 				console.log("response", response);
 				this.setState(response);
-				// this.getStats();
 			});
 		} else {
 			console.log("no current room or name");
@@ -167,15 +149,11 @@ class Game extends React.Component {
 	portState = newState => this.setState(newState);
 // updateGroup ===============================================
 	updateGroup = () => {
-		// e.preventDefault();
-		console.log("update group");
 		let { currentRoom, currentName } = this.state;
 		API.drawCard(currentRoom);
 	};
 // updateWilds ===============================================
 	updateWilds = wilds => {
-		// e.preventDefault();
-		console.log("update group");
 		let { currentRoom, currentName } = this.state;
 		let newState = {
 			wilds
@@ -248,13 +226,21 @@ class Game extends React.Component {
 		const suit = el.getAttribute("data-suit");
 		const subject = el.getAttribute("data-subject");
 		const card = { id, type, suit, subject };
+		// console.log('card',card);
 
-		console.log('card',card);
-
-		this.setState({
-			isOpen: true,
-			cardID: id,
-		});
+		if (type === 'wild'){
+			let {cards} = this.state;
+			let popped = cards.pop();
+			this.setState({
+				cards
+			})
+		}
+		else {	
+			this.setState({
+				isOpen: true,
+				cardID: id,
+			});
+		}
 	};
 // afterOpenModal ============================================
 	afterOpenModal = () => {
@@ -302,7 +288,7 @@ class Game extends React.Component {
 		this.setState({cards})
 
 		API.sendCard(currentRoom,receiverID,cardID, response => {
-			console.log('sendCard ==>',response);
+			// console.log('sendCard ==>',response);
 			if (response.status === 'ok'){
 				toast(`Card sent to ${receiverID}`)
 			}
@@ -337,7 +323,7 @@ class Game extends React.Component {
 				<WildSuits wilds={this.state.wilds}/>
 				
 				{cards.length !== 0 && 
-				<ActivePile cards={this.state.cards} onClick={this.handleCard} /> }
+				<ActivePile cards={this.state.cards} onClick={this.handleCard} portState={this.portState} /> }
 				
 				{status && 
 				<Winnings winnings={this.state.winnings}/> }
@@ -440,3 +426,22 @@ class Game extends React.Component {
 	}
 }
 export default Game;
+
+
+
+// Set Modal root
+Modal.setAppElement("#app");
+
+// Toast Styling
+style({
+	width: "320px",
+	colorDefault: "#fff",
+	colorInfo: "#3498db",
+	colorSuccess: "#07bc0c",
+	colorWarning: "#f1c40f",
+	colorError: "#e74c3c",
+	colorProgressDefault: "rgba(0,0,0,0.12)",
+	mobile: "only screen and (max-width : 480px)",
+	fontFamily: "inherit",
+	zIndex: 999999
+});
