@@ -328,25 +328,30 @@ class Game extends React.Component {
 
 		return (
 			<div id="game-root" className="socket ">
-				<MenuToggle onClick={this.toggleMenu} />
 			
 				{!currentRoom &&
 				<GameForm portState={this.portState} joinGame={this.joinGame} createGame={this.createGame} /> }
 				
-				<WildSuits wilds={this.state.wilds}/>
 				
 				{cards.length !== 0 && 
 				<ActivePile cards={this.state.cards} onClick={this.handleCard} portState={this.portState} /> }
 				
-				{status && 
-				<Winnings winnings={this.state.winnings}/> }
 				
-				{status === 'playing' && 
-				<a id="flip" className="ws-btn action" onClick={this.handleTurn}> Flip </a> }
 
 				{status === 'open' && 
 				<PlayerList players={this.state.players} currentName={currentName} /> }
 			
+
+				<section className="level">
+					<MenuToggle onClick={this.toggleMenu} />
+					{status === 'playing' && 
+						<WildSuits wilds={this.state.wilds}/> }
+					{status === 'playing' && 
+						<a id="flip" className="ws-btn action" onClick={this.handleTurn}> Flip </a> }
+					{status && 
+						<Winnings winnings={this.state.winnings}/> }
+				</section>
+
 				{/* Not Visible ================================== */}
 				<ToastContainer autoClose={1500} />
 				<Helmet title={'Waynomia'+ (currentRoom && ` (${currentRoom})`)}/>

@@ -8,11 +8,6 @@ html {
 
 body {
 	margin: 0;
-	// background-color: $background;
-	// background-color: #ecf0f1;
-	// background-image: $hero-pattern-food;
-	// background-image: $hero-pattern-circuit;
-	// background-image: $hero-pattern-topography;
 	@include hero-background($hero-pattern-circuit,$background);
 }
 #game-root {
@@ -30,6 +25,25 @@ $max-w: 300px;
 $edge: 300px;
 $d: 60px;
 
+/*===== Levels =====*/
+	.level {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		position: fixed;
+		height: $d;
+		padding: 1rem;
+		outline: 1px solid red;
+		bottom: 0;
+		left: 0;
+
+		& > * {
+			position: relative;
+
+		}
+	}
 /*===== PILE =====*/
 	.pile {
 		font-size: 1.5rem;
@@ -142,6 +156,12 @@ $d: 60px;
 			height: initial;
 		}
 	}
+	#menu-toggle {
+		// position: fixed;
+		// top: $abs-cushion;
+		// left: $abs-cushion;
+	}
+
 /*===== Winnings =====*/
 	.winnings {
 		font-size: 1.5rem;
@@ -211,12 +231,6 @@ $d: 60px;
 		// 	border: none;
 		// }
 	}
-	#menu-toggle {
-		position: fixed;
-		top: $abs-cushion;
-		left: $abs-cushion;
-	}
-
 
 /*===== Roll Call =====*/
 	.roll-call {
