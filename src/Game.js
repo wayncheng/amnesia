@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer, toast, style } from "react-toastify";
 import Modal from "react-modal";
 import Helmet from 'react-helmet';
-import { Card,PlayerList } from "./";
+import { Card, PlayerList, WildSuits, Winnings, ActivePile, MenuToggle, GameForm } from "./";
 import API from "./utils/API";
 
 // Set Modal root
@@ -50,7 +50,6 @@ class Game extends React.Component {
 // componentDidMount =========================================
 	componentDidMount = () => {
 		
-		
 		// Socket Listeners ===============
 		API.onMessage(msg => {
 			console.log("💬", msg);
@@ -92,7 +91,13 @@ class Game extends React.Component {
 		// 	this.setState(stored)
 		// }
 	};
-
+// clearOut ==================================================
+	clearOut = () => {
+		this.setState({
+			cards: [],
+			currentRoom: '',
+		})
+	}
 // createGame ================================================
 	createGame = e => {
 		e.preventDefault();
@@ -158,14 +163,8 @@ class Game extends React.Component {
 			console.log("no current room or name");
 		}
 	};
-// handleChange ==============================================
-	handleChange = event => {
-		event.preventDefault();
-		const { name, value } = event.target;
-		this.setState({
-			[name]: value.trim().toLowerCase()
-		});
-	};
+// portState =================================================
+	portState = newState => this.setState(newState);
 // updateGroup ===============================================
 	updateGroup = () => {
 		// e.preventDefault();
@@ -258,14 +257,15 @@ class Game extends React.Component {
 		});
 	};
 // afterOpenModal ============================================
-	afterOpenModal = event => {
+	afterOpenModal = () => {
 		const rootEl = document.getElementById("app");
 		rootEl.classList.add("blur-for-modal");
 	};
 // closeModal ================================================
-	closeModal = e => {
+	closeModal = () => {		
 		const rootEl = document.getElementById("app");
 		rootEl.classList.remove("blur-for-modal");
+
 		this.setState({ isOpen: false });
 	};
 // MENU //////////////////////////////////////////////////
@@ -324,187 +324,117 @@ class Game extends React.Component {
 		console.log('fetched:',fetched)
 	}
 // RENDER ====================================================
-
 	render() {
 		let { status, currentRoom, currentName, players, cards, winnings } = this.state;
 
 		return (
 			<div id="game-root" className="socket ">
-			<Helmet title={'Waynomia'+ (currentRoom && ` (${currentRoom})`)}/>
-			{/* Player List ============================= */}
-				{ (status === 'open') && (
-					<section className="roll-call container">
-						<h4 className="section-title">Who's Here</h4>
-						<PlayerList players={this.state.players} currentName={currentName} />
-					</section>
-				)}
-			{/* Game Form =============================== */}
-				{!currentRoom && (
-					<form className="game-form">
-						<div className="form-info">
-							<h4 className="form-headline">Waynomia</h4>
-						</div>
-						<div className="input-group">
-							<input id="player" type="text" name="player" placeholder="Name" onChange={this.handleChange} value={this.state.player} />
-							<label htmlFor="player">Name</label>
-						</div>
-						<div className="input-group">
-							<input type="text" id="room" name="room" placeholder="Room" onChange={this.handleChange} value={this.state.room} />
-							<label htmlFor="room">Room</label>
-						</div>
-						<div className="form-group">
-							<button
-								id="join"
-								className="ws-btn ws-mini"
-								type="submit"
-								onClick={this.joinGame}
-							>
-								{" "}
-								Join{" "}
-							</button>
-							<button
-								id="new"
-								className="ws-btn ws-mini"
-								type="button"
-								onClick={this.createGame}
-							>
-								{" "}
-								New{" "}
-							</button>
-						</div>
-					</form>
-				)}
-			{/* Wild Suits =============================== */}
-				<section className="wild-suit-area">
-					{this.state.wilds.map((suit, index) => {
-						let id = "wild-" + index;
-						return (
-							<div
-								id={id}
-								className={"wild-suit " + suit}
-								data-suit={suit}
-								key={id}
-							/>
-						);
-					})}
-				</section>
-			{/* Pile =============================== */}
-				{cards.length !== 0 && (
-					<section className="pile" onClick={this.handleCard}>
-						{this.state.cards.map((card, index) => {
-							return <Card specs={card} key={index} />;
-						})}
-					</section>
-				)}
-			{/* Winnings ================================== */}
-				{status && (
-					<aside className="winnings" data-wins={this.state.winnings.length}>
-						{this.state.winnings.length}
-					</aside>
-				)}
-			{/* Flip Button =============================== */}
-				{status === 'playing' && (
-					<a id="flip" className="ws-btn action" onClick={this.handleTurn}> Flip </a>
-				)}
-			{/* Menu Toggle =============================== */}
-				<a id="menu-toggle" className="ws-btn ws-mini" onClick={this.toggleMenu}>Menu</a>
-			{/* Log =============================== */}
-				{/* <ul className="log">
-					{currentRoom && <li>{"room: " + currentRoom}</li>}
-					{currentName && <li>{"player: " + currentName}</li>}
-					<li>{"status: " + status}</li>
-					<li>{"turn: " + this.state.turn}</li>
-					<li>{"subject: " + this.state.subject}</li>
-					<li>{"suit: " + this.state.suit}</li>
-					<li>
-						<ul>
+				<MenuToggle onClick={this.toggleMenu} />
+			
+				{!currentRoom &&
+				<GameForm portState={this.portState} joinGame={this.joinGame} createGame={this.createGame} /> }
+				
+				<WildSuits wilds={this.state.wilds}/>
+				
+				{cards.length !== 0 && 
+				<ActivePile cards={this.state.cards} onClick={this.handleCard} /> }
+				
+				{status && 
+				<Winnings winnings={this.state.winnings}/> }
+				
+				{status === 'playing' && 
+				<a id="flip" className="ws-btn action" onClick={this.handleTurn}> Flip </a> }
+
+				{status === 'open' && 
+				<PlayerList players={this.state.players} currentName={currentName} /> }
+			
+				{/* Not Visible ================================== */}
+				<ToastContainer autoClose={1500} />
+				<Helmet title={'Waynomia'+ (currentRoom && ` (${currentRoom})`)}/>
+				
+				{/* Modal =================================== */}
+					<Modal
+						isOpen={this.state.isOpen}
+						onAfterOpen={this.afterOpenModal}
+						onRequestClose={this.closeModal}
+						contentLabel="Player List"
+						portalClassName="ws-modal-shit"
+						className={{
+							base: "ws-modal2",
+							afterOpen: "ws-modal2_after-open",
+							beforeClose: "ws-modal2_before-close"
+						}}
+						overlayClassName={{
+							base: "ws-modal-overlay",
+							afterOpen: "ws-modal-overlay_after-open",
+							beforeClose: "ws-modal-overlay_before-close"
+						}}
+					>
+						<ul className="player-list" onClick={this.closeModal}>
+							<h3>
+								{ (this.state.players.length > 1) 
+									? "Send Card to:"
+									: "You're the only one playing... so there's nobody to send this card to."
+								}
+							</h3>
 							{this.state.players.map((player, index) => {
-								return <li key={`player-${index}`}>{player}</li>;
+								// Return list of other players
+								if ( this.state.currentName !== player){
+									return (
+										<li 
+										className="player-destination" 
+										key={`player-dest-${index}`}
+										onClick={this.handleSend}
+										data-player={player}
+										>
+										{player}
+									</li>
+								);
+							}
 							})}
 						</ul>
-					</li>
-				</ul> */}
-			{/* Toasts =============================== */}
-				<ToastContainer autoClose={1500} />
-
-			{/* Modal =============================== */}
-				<Modal
-					isOpen={this.state.isOpen}
-					onAfterOpen={this.afterOpenModal}
-					onRequestClose={this.closeModal}
-					contentLabel="Player List"
-					portalClassName="ws-modal-shit"
-					className={{
-						base: "ws-modal2",
-						afterOpen: "ws-modal2_after-open",
-						beforeClose: "ws-modal2_before-close"
-					}}
-					overlayClassName={{
-						base: "ws-modal-overlay",
-						afterOpen: "ws-modal-overlay_after-open",
-						beforeClose: "ws-modal-overlay_before-close"
-					}}
-				>
-					<ul className="player-list">
-						<h3>Send Card to:</h3>
-						{this.state.players.map((player, index) => {
-							// Return list of other players
-							if ( this.state.currentName !== player){
-								return (
-									<li 
-									className="player-destination" 
-									key={`player-dest-${index}`}
-									onClick={this.handleSend}
-									data-player={player}
-									>
-									{player}
-								</li>
-							);
-						}
-						})}
-					</ul>
-				</Modal>
-				<Modal
-					isOpen={this.state.menuOpen}
-					onAfterOpen={this.afterOpenMenu}
-					onRequestClose={this.closeMenu}
-					contentLabel="Waynomia Menu"
-					portalClassName="ws-modal-shit ws-modal-menu dark-modal"
-					className={{
-						base: "ws-modal2",
-						afterOpen: "ws-modal2_after-open",
-						beforeClose: "ws-modal2_before-close"
-					}}
-					overlayClassName={{
-						base: "ws-modal-overlay",
-						afterOpen: "ws-modal-overlay_after-open",
-						beforeClose: "ws-modal-overlay_before-close"
-					}}
-				>
-					<h3 className="modal-title">Menu</h3>
-					<section className="control-panel">
-						{status && (
-							<div className="panel-section">
-								{status !== "playing" && (
-									<a className="ws-btn ws-mini ws-green" onClick={this.handleEmit} data-socket-event="startGame" >
-										Start Game
-									</a>
-								)}
-								{status !== "open" && (
-									<a className="ws-btn ws-mini ws-danger" onClick={this.handleEmit} data-socket-event="openRoom" >
-										End Game
-									</a>
-								)}
-								{currentRoom && (
-									<a className="ws-btn ws-mini ws-warning" onClick={this.handleSocket} data-socket-event="leaveGame" >
-										Leave Room
-									</a>
-								)}
-							</div>
-						)}
-					</section>
-				</Modal>
-			{/* END =============================== */}
+					</Modal>
+					<Modal
+						isOpen={this.state.menuOpen}
+						onAfterOpen={this.afterOpenMenu}
+						onRequestClose={this.closeMenu}
+						contentLabel="Waynomia Menu"
+						portalClassName="ws-modal-shit ws-modal-menu dark-modal"
+						className={{
+							base: "ws-modal2",
+							afterOpen: "ws-modal2_after-open",
+							beforeClose: "ws-modal2_before-close"
+						}}
+						overlayClassName={{
+							base: "ws-modal-overlay",
+							afterOpen: "ws-modal-overlay_after-open",
+							beforeClose: "ws-modal-overlay_before-close"
+						}}
+					>
+						<h3 className="modal-title">Menu</h3>
+						<section className="control-panel" onClick={this.closeMenu}>
+							{status && (
+								<div className="panel-section">
+									{status !== "playing" && (
+										<a className="ws-btn ws-green" onClick={this.handleEmit} data-socket-event="startGame" >
+											Start Game
+										</a>
+									)}
+									{status !== "open" && (
+										<a className="ws-btn ws-danger" onClick={this.handleEmit} data-socket-event="openRoom" >
+											End Game
+										</a>
+									)}
+									{currentRoom && (
+										<a className="ws-btn ws-warning" onClick={this.handleSocket} data-socket-event="leaveGame" >
+											Leave Room
+										</a>
+									)}
+								</div>
+							)}
+						</section>
+					</Modal>
+				{/* END ===================================== */}
 			</div>
 		);
 	}
