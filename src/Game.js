@@ -39,7 +39,7 @@ class Game extends React.Component {
 			menuOpen: false
 		};
 	}
-	// componentDidMount =========================================
+// componentDidMount =========================================
 	componentDidMount = () => {
 		// Socket Listeners ===============
 		API.onMessage(msg => {
@@ -94,14 +94,14 @@ class Game extends React.Component {
 		// 	this.setState(stored)
 		// }
 	};
-	// clearOut ==================================================
+// clearOut ==================================================
 	clearOut = () => {
 		this.setState({
 			cards: [],
 			currentRoom: ""
 		});
 	};
-	// createGame ================================================
+// createGame ================================================
 	createGame = e => {
 		e.preventDefault();
 		console.log("👉 createGame");
@@ -113,7 +113,7 @@ class Game extends React.Component {
 			this.setState(response);
 		});
 	};
-	// joinGame ==================================================
+// joinGame ==================================================
 	joinGame = event => {
 		event.preventDefault();
 		console.log("👉 joinGame");
@@ -454,7 +454,7 @@ class Game extends React.Component {
 					isOpen={this.state.menuOpen}
 					onAfterOpen={this.afterOpenModal}
 					onRequestClose={this.closeMenu}
-					contentLabel="Waynomia Menu"
+					contentLabel="Amnesia Menu"
 					portalClassName="ws-modal-shit ws-modal-menu dark-modal"
 					className={{
 						base: "ws-modal2",
@@ -467,7 +467,7 @@ class Game extends React.Component {
 						beforeClose: "ws-modal-overlay_before-close"
 					}}
 				>
-					<h3 className="modal-title">Menu</h3>
+					<h3 className="modal-title">Main Menu</h3>
 					<section className="control-panel" onClick={this.closeMenu}>
 						{status && (
 							<div className="panel-section">

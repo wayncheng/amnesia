@@ -12,11 +12,11 @@
 		
 io.on("connection", socket => {
 	console.log("✅   " + socket.id);
-	direct('string msg')
-	direct({ type: 'success', text: 'success' })
-	direct({ type: 'info', text: 'info' })
-	direct({ type: 'warn', text: 'warn' })
-	direct({ type: 'error', text: 'error' })
+	// direct('string msg')
+	// direct({ type: 'success', text: 'success' })
+	// direct({ type: 'info', text: 'info' })
+	// direct({ type: 'warn', text: 'warn' })
+	// direct({ type: 'error', text: 'error' })
 
 	// On Disconnect -----
 		socket.on("disconnect", () => {
