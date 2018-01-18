@@ -70,10 +70,12 @@
 			let regulars = indeces.map( (ea,index) => allTopics[ea] )
 
 			// Pick 7 Random Unique Wild Combinations...........
-			let wilds = tools.getWilds();
+			let wilds = allWilds;
+			let shuffledWilds = tools.shuffleArray(wilds); // Shuffle all possible wild combinations (28)
+			let selectedWilds = shuffledWilds.splice(0,7); // Extract the first 7 from shuffled
 
 			// Join Regular and Wild Cards......................
-			let combined = regulars.concat(wilds);
+			let combined = regulars.concat(selectedWilds);
 
 			// Process Cards (add suits, ids)...................
 			let processed = combined.map( (ea,index) => {
@@ -98,7 +100,7 @@
 			});
 
 			// Shuffle Cards ...................................
-			const shuffled = tools.shuffleArray(processed);
+			let shuffled = tools.shuffleArray(processed);
 			
 			// Return Processed/Shuffled Cards .................
 			return shuffled;

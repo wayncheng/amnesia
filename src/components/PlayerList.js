@@ -18,6 +18,9 @@ const PlayerList = props => {
 					);
 				})}
 			</ul>
+
+			{props.children}
+
 		</section>
 	);
 };

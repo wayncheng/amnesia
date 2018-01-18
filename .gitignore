@@ -5,7 +5,6 @@
 
 # testing
 /coverage
-/s3-tests
 
 # production
 /build

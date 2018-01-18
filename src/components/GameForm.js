@@ -26,7 +26,7 @@ class GameForm extends Component {
 
 	render() {
 		return (
-			<div className="card-background">
+			<div className="card-background focal-point">
 				<form className="game-form">
 					<div className="form-info">
 						<h4 className="form-headline">Waynomia</h4>
