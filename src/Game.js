@@ -14,6 +14,16 @@ import {
 } from "./";
 import API from "./utils/API";
 
+const suitsArray = [
+	"red",
+	"orange",
+	"brown",
+	"yellow",
+	"pink",
+	"purple",
+	"green",
+	"blue",
+];
 class Game extends React.Component {
 	constructor(props) {
 		super(props);
@@ -392,14 +402,23 @@ class Game extends React.Component {
 				{/* {status !== "playing" && <a className="ws-btn ws-green" onClick={this.startGame}> Start Game </a> } */}
 
 				<section className="level">
+					
 					<MenuToggle onClick={this.toggleMenu} />
-
-					{status === "playing" && (
-						<WildSuits wilds={this.state.wilds} />
-					)}
 					{status === "playing" && (
 						<Winnings winnings={this.state.winnings} />
 					)}
+					{status === "playing" && (
+						<WildSuits wilds={this.state.wilds} />
+					)}
+
+					{/* Temporary =========== */}
+					{/* {suitsArray.map( (suit,index) => {
+						return (
+							<div className={"suit-area"} key={'suitarea-'+index} >
+								<div className={"acon suit "+suit}/>
+							</div>
+						)
+					})} */}
 				</section>
 
 				{/* Not Visible ================================== */}

@@ -8,7 +8,7 @@ const WildSuits = props => {
 				return (
 					<div
 						id={id}
-						className={"wild-suit " + suit}
+						className={"acon wild-suit " + suit}
 						data-suit={suit}
 						key={id}
 					/>

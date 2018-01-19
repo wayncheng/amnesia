@@ -1,0 +1,57 @@
+@import 'icomoon-variables';
+
+// Feather Icons 
+.icon-command::before  { content: "\e910"; }
+.icon-hash::before     { content: "\e920"; }
+.icon-grid::before     { content: "\e91f"; }
+.icon-map::before      { content: "\e929"; }
+.icon-star::before     { content: "\e93c"; }
+.icon-triangle::before { content: "\e940"; }
+.icon-zap::before      { content: "\e944"; }
+.icon-target::before   { content: "\e93f"; }
+.icon-lines::before    { content: "\e92c"; }
+.icon-buoy::before     { content: "\e924"; }
+.icon-heart::before    { content: "\e921"; }
+.icon-box::before      { content: "\e908"; }
+.icon-aperture::before { content: "\e903"; }
+	// .icon-red    { @extend .icon-heart; }
+	// .icon-orange { @extend .icon-hash; }
+	// .icon-yellow { @extend .icon-zap; }
+	// .icon-green  { @extend .icon-command; }
+	// .icon-blue   { @extend .icon-buoy; }
+	// .icon-purple { @extend .icon-star; }
+	// .icon-brown  { @extend .icon-target; }
+	// .icon-pink   { @extend .icon-map; }
+
+
+// Icomoon Icons
+.i-spades::before    { content: $acon-spades }
+.i-diamonds::before  { content: $acon-diamonds }
+.i-buoy::before    	 { content: $acon-lifebuoy }
+.i-map::before    	 { content: $acon-map }
+.i-fire::before      { content: $acon-fire }
+.i-leaf::before      { content: $acon-leaf }
+.i-command::before   { content: $acon-command }
+.i-infinite::before  { content: $acon-infinite }
+.i-section::before   { content: $acon-section }
+.i-star::before      { content: $acon-star-full }
+.i-heart::before     { content: $acon-heart }
+.i-contrast::before  { content: $acon-contrast }
+.i-bookmark::before  { content: $acon-bookmark }
+.i-trophy::before    { content: $acon-trophy }
+.i-target::before    { content: $acon-target }
+.i-clubs::before     { content: $acon-clubs }
+.i-stack::before     { content: $acon-stack }
+.i-cog::before       { content: $acon-cog }
+.i-eye::before       { content: $acon-eye }
+
+
+
+.icon-red    { @extend .i-heart; }
+.icon-orange { @extend .i-diamonds; }
+.icon-yellow { @extend .i-star; }
+.icon-green  { @extend .i-target; }
+.icon-blue   { @extend .i-map; }
+.icon-purple { @extend .i-stack; }
+.icon-brown  { @extend .i-spades; }
+.icon-pink   { @extend .i-clubs; }

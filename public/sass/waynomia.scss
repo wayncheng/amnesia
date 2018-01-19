@@ -75,7 +75,7 @@ body {
 	height: 100%;
 	width: 100%;
 	border: none;
-	padding: 1em 2em;
+	padding: 2em 0em;
 	color: $card-text-color-alt;
 	// border-radius: 2em;
 	// background-color: $card-color;
@@ -92,54 +92,42 @@ body {
 		pointer-events: none;
 	}
 
-	/*===== Subject =====*/
-		.subject {
-			font-size: 1.5em;
-			text-align: center;
-			padding: 0.5em;
-			border-radius: 10px;
-			font-weight: 800;
-			letter-spacing: -1px;
-			word-spacing: 3px;
-			transform: rotateZ(180deg);
-			// &:first-child {
-			// }
-		}
-	/*===== Suit Area =====*/
-		.suit-area {
-			font-size: 7rem;
-			// margin: 3rem auto;
-			// border-radius: 1rem;
-			// $d: 4rem;
-				$d: 5rem;	
-				margin: 2rem auto;
-				border-radius: 0rem;
-			height: $d;
-			width: $d;
-			line-height: $d;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			// overflow: hidden;
-
-			&.wild-area {
-				width: 2*$d;
-			}
-		}
 
 } // end .card
-/*===== Suits =====*/
-.suit {
-	flex: 1;
-	font-size: inherit;
-	height: inherit;
-	line-height: inherit;
-	width: inherit;
-	font-weight: 500;
-	font-family: Ubuntu;
-	text-align: center;
-	background-color: transparent;
-}
+
+/*===== Subject =====*/
+	.subject {
+		font-size: 1.5em;
+		text-align: center;
+		padding: 0.5em 1em;
+		border-radius: 10px;
+		font-weight: 800;
+		letter-spacing: -1px;
+		word-spacing: 3px;
+		transform: rotateZ(180deg);
+	}
+/*===== Suit Area =====*/
+	.suit-area {
+		font-size: 7rem;
+		// margin: 3rem auto;
+		// border-radius: 1rem;
+		// $d: 4rem;
+			$d: 5rem;	
+			margin: 2rem auto;
+			border-radius: 0rem;
+		height: $d;
+		line-height: $d;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		// overflow: hidden;
+
+		&.wild-area {
+			width: 2*$d;
+		}
+	}
+
 /*===== Card Background =====*/
 	.card-background {
 		width: $edge;
@@ -191,22 +179,30 @@ body {
 	}
 /*===== Wild Area =====*/
 	.wild-suit-area {
-		height: $d;
-		width: $d*2;
-		overflow: hidden;
+		font-size: 3rem;
+		// height: $d;
+		// width: $d*2;
+		// overflow: hidden;
 		// position: fixed;
 		// top: $abs-cushion;
 		// right: $abs-cushion;
 		// bottom: 6rem;
 		display: flex;
 		flex-direction: row;
-		justify-content: stretch;
-		align-items: stretch;
+		justify-content: center;
+		align-items: center;
 		border-radius: 1rem;
+			font-size: 3rem;
+			height: 1em;
+			width: initial;
+			min-width: 2em;
+			border-radius: 0;
 		.wild-suit {
 			flex: 1;
-			height: $d;
-			width: $d;
+			font-size: inherit;
+			height: 1em;
+			width: 1em;
+			margin: 0 10px;
 		}
 	}
 
@@ -462,6 +458,8 @@ body {
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
+			flex-direction: row;
+			justify-content: flex-start;
 		width: 100%;
 		position: fixed;
 		height: $d;
@@ -474,78 +472,5 @@ body {
 		}
 	}
 
-/*===== Suits (8 total) =====*/
-
-// Deprecated
-	// .red { background-color: $suit-red; }
-	// .orange { background-color: $suit-orange; }
-	// .yellow { background-color: $suit-yellow; }
-	// .green { background-color: $suit-green; }
-	// .blue { background-color: $suit-blue; }
-	// .purple { background-color: $suit-purple; }
-	// .pink { background-color: $suit-pink; }
-	// .brown { background-color: $suit-brown; }
-
-	.wild { background-color: $suit-wild; }
-/*
-	Square
-	Ring
-	*
-	#
-	$
-	@
-	+
-	^
-
-*/
-
-// Red Asterisk
-.red {
-	&::before { content: '*' }
-	font-size: 10rem;
-	color: $suit-red;
-}
-
-// Orange Hashtag
-.orange { 
-	&::before { content: '#' }
-	color: $suit-orange;
-}
-
-// Yellow Square
-.yellow { 
-	background-color: $suit-yellow; 
-	border-radius: 1rem;
-	border-radius: 8px;
-}
-
-// Green Dot
-.green {
-	background-color: $suit-green;
-	border-radius: 50%;
-}
-
-// Blue
-.blue {
-	&::before { content: '=' }
-	color: $suit-blue;
-	font-size: 10rem; // causes misalignment
-	font-size: 8rem;
-}
-
-// Purple
-.purple {
-	&::before { content: '+' }
-	color: $suit-purple;
-	font-size: 10rem;
-}
-.pink {
-	&::before { content: '@' }
-	color: $suit-pink;
-	font-size: 6rem;
-}
-.brown {
-	&::before { content: '$' }
-	color: $suit-brown;
-}
-
+/*===== Suits =====*/
+@import 'suits'
