@@ -1,1 +1,1 @@
-# Waynomia
+# Amnesia
