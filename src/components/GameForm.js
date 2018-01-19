@@ -9,6 +9,11 @@ class GameForm extends Component {
 		}
 	}
 
+	componentDidMount = () => {
+		// Set focus to player input field by default
+		document.getElementById('player').focus();
+	}
+
 	// handleChange ==============================================
 	handleChange = event => {
 		event.preventDefault();
@@ -29,7 +34,7 @@ class GameForm extends Component {
 			<div className="card-background focal-point">
 				<form className="game-form">
 					<div className="form-info">
-						<h4 className="form-headline">Waynomia</h4>
+						<h4 className="form-headline">Amnesia</h4>
 					</div>
 					<div className="input-group">
 						<input

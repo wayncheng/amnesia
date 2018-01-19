@@ -1,0 +1,101 @@
+
+/*===== Menu Modal =====*/
+.dark-modal {
+	.modal-title {
+		color: #fff;
+		text-align: center;
+		font-size: 2.4rem;
+	}
+}
+.control-panel {
+	padding: 1em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	// flex-wrap: wrap;
+	min-width: 240px;
+	max-width: 400px;
+	width: initial;
+	margin: auto;
+	// position: fixed;
+	// top: 3em;
+	// left: 0;
+	.ws-btn {
+		font-size: 1.2rem;
+		margin: 10px 0;
+	}
+}
+.panel-section {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	flex-wrap: wrap;
+	width: 100%;
+	margin-bottom: 1rem;
+	.panel-title {
+		margin-bottom: 5px;
+	}
+	.panel-text {
+		color: #fff;
+		font-size: 1.3rem;
+		line-height: 1.5;
+		// text-align: center;
+	}
+
+	&.aligned-left {
+		width: initial;
+		text-align: left;
+	}
+}
+.action-control {
+	cursor: pointer;
+}
+
+/*===== Modal =====*/
+.ws-modal2 {
+	background-color: transparent;
+	width: initial;
+	height: initial;
+	margin: auto;
+	max-width: 240px;
+}
+.ws-modal-overlay.ws-modal-overlay_after-open {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(#000, 0.85);
+	.ws-modal2 {
+		&:focus {
+			outline: none;
+		}
+	}
+}
+.player-list {
+	// width: 400px;
+	// height: 600px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
+	h3 {
+		color: #fff;
+		margin-bottom: 12px;
+	}
+	li {
+		font-size: 1.5rem;
+		padding: 0.8em 1em;
+		margin: 0.5em 0;
+		border-radius: 10px;
+		min-width: 160px;
+		line-height: 1;
+
+		// background-color: rgba(#000,0.25);
+		// color: #fff;
+		background-color: #fff;
+		color: rgba(#000, 0.8);
+		font-weight: 600;
+		cursor: pointer;
+	}
+}

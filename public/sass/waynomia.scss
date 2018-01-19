@@ -1,12 +1,15 @@
 @import "variables";
 @import "hero-patterns";
+@import "forms","cards","modals","roll-call","buttons","peripherals";
+@import 'suits';
 
 html {
 	font-size: 16px;
-	font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen-Sans, Ubuntu,
-		Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif,
-		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	@include hero-background($hero-pattern-circuit,$background);
+
+	height: initial;
+	min-height: 100vh;
 }
 
 body {
@@ -17,460 +20,90 @@ body {
 }
 
 /*===== Root =====*/
-#game-root {
-	margin: auto;
-	min-height: 100vh;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 2rem;
-}
+	#game-root {
+		margin: auto;
+		min-height: 100vh;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 2rem;
+	}
 
 /*===== PILE =====*/
-.pile {
-	font-size: 1.5rem;
-	padding: 0;
-	position: relative;
-	cursor: pointer;
-	// margin: auto;
-
-	width: $w;
-	height: 1.5*$w;
-	max-height: $max-w * 1.5;
-	max-width: $max-w;
-
-	border-radius: 2.4em;
-	box-shadow: $shadow;
-	overflow: visible;
-}
-.focal-point {
-	// position: fixed;
-	// top: 2rem;
-	position: relative;
-	// height: initial;
-	// width: initial;
-	padding: 0;
-	min-height: 0;
-	background-color: transparent;
-	margin-bottom: 4rem;
-
-	.action {
-		position: absolute;
-		bottom: 0;
-		left: 50%;
-		transform: translate(-50%,50%);
-	}
-}
-/*===== CARD =====*/
-.card {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	position: absolute;
-	margin-bottom: 10px;
-	font-size: 1.5rem;
-	height: 100%;
-	width: 100%;
-	border: none;
-	padding: 2em 0em;
-	color: $card-text-color-alt;
-	// border-radius: 2em;
-	// background-color: $card-color;
-	background-color: transparent;
-	background-image: $card-url;
-
-	// Only apply box shadow to bottom card (or else they will stack)
-	&:first-child {
-		// box-shadow: 0em 0.5em 2em 2em rgba(97,122,128,.08);
-	}
-
-	// All children should be ignored
-	* {
-		pointer-events: none;
-	}
-
-
-} // end .card
-
-/*===== Subject =====*/
-	.subject {
-		font-size: 1.5em;
-		text-align: center;
-		padding: 0.5em 1em;
-		border-radius: 10px;
-		font-weight: 800;
-		letter-spacing: -1px;
-		word-spacing: 3px;
-		transform: rotateZ(180deg);
-	}
-/*===== Suit Area =====*/
-	.suit-area {
-		font-size: 7rem;
-		// margin: 3rem auto;
-		// border-radius: 1rem;
-		// $d: 4rem;
-			$d: 5rem;	
-			margin: 2rem auto;
-			border-radius: 0rem;
-		height: $d;
-		line-height: $d;
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		// overflow: hidden;
-
-		&.wild-area {
-			width: 2*$d;
-		}
-	}
-
-/*===== Card Background =====*/
-	.card-background {
-		width: $edge;
-		height: $edge * 1.5;
-		background-image: $card-url;
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: center;
-		display: flex;
-		justify-content: stretch;
-		align-items: center;
-	}
-/*===== Burger Menu =====*/
-	.burger-menu {
-		$pad: 0.7em;
-		$x: 1em;
-		color: $primary;
-		font-size: 20px;
-		border-radius: 50%;
-		background-color: #fff;
-		height: $d;
-		width: $d;
-		line-height: $d;
-		cursor: pointer;
-		text-align: center;
-
-		.icon-burger-menu {
-			width: 1em;
-			height: initial;
-		}
-	}
-
-/*===== Winnings =====*/
-	.winnings {
+	.pile {
 		font-size: 1.5rem;
-		font-weight: 600;
-		height: $d;
-		width: $d;
-		line-height: $d;
-		text-align: center;
-		border-radius: $d/2;
 		padding: 0;
-		// position: fixed;
-		// bottom: $abs-cushion;
-		// left: $abs-cushion;
-
-		background-color: $winnings;
-		color: #fff;
-	}
-/*===== Wild Area =====*/
-	.wild-suit-area {
-		font-size: 3rem;
-		// height: $d;
-		// width: $d*2;
-		// overflow: hidden;
-		// position: fixed;
-		// top: $abs-cushion;
-		// right: $abs-cushion;
-		// bottom: 6rem;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		border-radius: 1rem;
-			font-size: 3rem;
-			height: 1em;
-			width: initial;
-			min-width: 2em;
-			border-radius: 0;
-		.wild-suit {
-			flex: 1;
-			font-size: inherit;
-			height: 1em;
-			width: 1em;
-			margin: 0 10px;
-		}
-	}
-
-/*===== Buttons =====*/
-	.ws-btn {
-		background-color: $default-state;
-		font-size: 1.1rem;
-		padding: 0.8rem;
-		margin: 5px;
-		font-weight: 300;
-	}
-	#flip,
-	.action {
-		font-size: 1.5rem;
-		$h: $d*2;
-		height: $h;
-		line-height: $h;
-		width: $h;
-		padding: 0;
-		margin: 0;
-		border-radius: $h / 2;
-		letter-spacing: 1px;
-		background-color: $default-state;
-		border: none;
-		outline: none;
-		// position: fixed;
-		// bottom: $abs-cushion;
-		// right: $abs-cushion;
-	}
-
-/*===== Roll Call =====*/
-	.roll-call {
-		$indent: 8px;
-		font-size: 1.5rem;
-		font-weight: 600;
-		padding: 1em;
-		border-radius: 1em;
-		background-color: #fff;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: stretch;
-		min-width: 300px;
-
-		.section-title {
-			font-size: 0.6em;
-			text-transform: uppercase;
-			line-height: 3;
-			font-weight: 700;
-			letter-spacing: 1px;
-			border-bottom: 2px solid $border-color;
-			color: $secondary;
-			padding-left: $indent;
-		}
-		.roll-call-list {
-			padding: 0;
-			margin-top: 0.75rem;
-		}
-		li,
-		.player-in-lobby {
-			// font-size: 1em;
-			// margin: 8px 0;
-			display: list-item;
-			padding-left: $indent;
-			line-height: 2;
-		}
-	}
-/*===== Menu Modal =====*/
-	.dark-modal {
-		.modal-title {
-			color: #fff;
-			text-align: center;
-			font-size: 2.4rem;
-		}
-	}
-	.control-panel {
-		padding: 1em;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		// flex-wrap: wrap;
-		min-width: 240px;
-		max-width: 400px;
-		width: initial;
-		margin: auto;
-		// position: fixed;
-		// top: 3em;
-		// left: 0;
-		.ws-btn {
-			font-size: 1.2rem;
-			margin: 10px 0;
-		}
-	}
-	.panel-section {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: stretch;
-		flex-wrap: wrap;
-		width: 100%;
-		margin-bottom: 1rem;
-		.panel-title {
-			margin-bottom: 5px;
-		}
-		.panel-text {
-			color: #fff;
-			font-size: 1.3rem;
-			line-height: 1.5;
-			// text-align: center;
-		}
-
-		&.aligned-left {
-			width: initial;
-			text-align: left;
-		}
-	}
-	.action-control {
-		cursor: pointer;
-	}
-
-/*===== Modal =====*/
-	.ws-modal2 {
-		background-color: transparent;
-		width: initial;
-		height: initial;
-		margin: auto;
-		max-width: 240px;
-	}
-	.ws-modal-overlay.ws-modal-overlay_after-open {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background-color: rgba(#000, 0.85);
-		.ws-modal2 {
-			&:focus {
-				outline: none;
-			}
-		}
-	}
-	.player-list {
-		// width: 400px;
-		// height: 600px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: stretch;
-		h3 {
-			color: #fff;
-			margin-bottom: 12px;
-		}
-		li {
-			font-size: 1.5rem;
-			padding: 0.8em 1em;
-			margin: 0.5em 0;
-			border-radius: 10px;
-			min-width: 160px;
-			line-height: 1;
-
-			// background-color: rgba(#000,0.25);
-			// color: #fff;
-			background-color: #fff;
-			color: rgba(#000, 0.8);
-			font-weight: 600;
-			cursor: pointer;
-		}
-	}
-
-/*===== Forms =====*/
-	.game-form {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: stretch;
-		padding: 2em;
-		flex: 1;
-	}
-	.form-info {
-		font-size: 1rem;
-		.form-headline {
-			font-size: 1.5em;
-			color: $secondary;
-			text-align: center;
-			line-height: 2;
-			letter-spacing: 0.1em;
-			text-transform: uppercase;
-			font-weight: 600;
-		}
-		.form-subheadline {
-			color: $secondary;
-		}
-	}
-	.input-group {
-		margin: 0.5em 0;
 		position: relative;
-		display: flex;
-		flex-direction: row;
-		justify-content: stretch;
-		align-items: center;
-		& > input {
-			flex: 1;
+		cursor: pointer;
+		// margin: auto;
+
+		width: $w;
+		height: 1.5*$w;
+		max-height: $max-w * 1.5;
+		max-width: $max-w;
+
+		border-radius: 2.4em;
+		box-shadow: $shadow;
+		overflow: visible;
+	}
+
+/*===== Focal Point / Spotlight =====*/
+	.focal-point {
+		// position: fixed;
+		// top: 2rem;
+		position: relative;
+		// height: initial;
+		// width: initial;
+		padding: 0;
+		min-height: 0;
+		background-color: transparent;
+		margin-bottom: 4rem;
+
+		.action {
+			// position: absolute;
+			// left: 50%;
+			// bottom: 0;
+			// transform: translate(-50%,50%);
+			// top: 0;
+			// transform: translate(-50%,-50%);
 		}
 	}
-	.form-group {
-		display: flex;
-		flex-direction: row;
-		justify-content: stretch;
-		align-items: center;
-		margin: 0.5em 0;
-		button {
-			flex: 1;
-		}
-	}
-	input {
-		font-size: inherit;
-		border: 2px solid $border-color;
+
+/*===== Swipe =====*/
+	// .drag-handle,
+	.swipe-area {
+		$x: 2rem;
+		// min-height: $x;
+		// min-width: $x;
+		padding: 5px 10px;
+		cursor: pointer;
+		margin: 8px;
+		// border: 2px solid $blue-state;
+		background-color: #fff;
 		border-radius: 5px;
-		// margin-left: 10px;
-		padding: 0.5em;
-		box-shadow: none;
-		-webkit-appearance: none;
-
-		&:focus {
-			outline: none;
-			border-color: $blue-state;
-		}
-
-		&::placeholder {
-			color: $faint;
-			font-weight: 500;
-		}
-	}
-	label {
-		position: absolute;
-		left: 0.5em;
-		top: 0.5em;
-		color: rgba(0, 0, 0, 0.5);
-		opacity: 0;
-	}
-	button {
-		border: 2px solid transparent;
-
-		&:focus {
-			outline: none;
-			border-color: $blue-state;
-		}
-	}
-
-
-/*===== Levels =====*/
-	.level {
+		text-align: center;
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
+		flex-direction: column;
+		justify-content: center;
 		align-items: center;
-			flex-direction: row;
-			justify-content: flex-start;
-		width: 100%;
-		position: fixed;
-		height: $d;
-		padding: 1rem;
-		bottom: 1rem;
-		left: 0;
-
-		& > * {
-			position: relative;
-		}
+		
 	}
 
-/*===== Suits =====*/
-@import 'suits'
+/*===== Draggable =====*/
+	.draggable {
+		cursor: pointer;
+		&.dragging {
+			transition: transform 0s;
+		}
+		transition: transform 1s;
+	}
+	// .dragged {
+	// 	transition: transform 1s;
+	// }
+	// .dragging {
+	// }
+	// .drag-end {
+	// 	transition: transform 1s;
+	// }

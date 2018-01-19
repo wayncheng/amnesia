@@ -11,6 +11,8 @@ import {
 	MenuToggle,
 	GameForm,
 	BlanketModal,
+	Swipe,
+	Drag,
 } from "./";
 import API from "./utils/API";
 
@@ -60,10 +62,11 @@ class Game extends React.Component {
 				toast(msg);
 			} else {
 				// If msg is an object, use the type of toast that is specified
-				let toastType = msg.type;
-				let toastText = msg.text;
+				// let toastType = msg.type;
+				// let toastText = msg.text;
+				let {type,text} = msg;
 
-				toast[toastType](toastText); // e.g. toast.error('Error Text!')
+				toast[type](text); // e.g. toast.error('Error Text!')
 			}
 		});
 
@@ -87,10 +90,18 @@ class Game extends React.Component {
 				this.setState({
 					winnings
 				});
-			} else {
+			} 
+			else {
 				console.log("card transferred between players", newCard);
 			}
 		});
+
+		// Refresh Warning
+		// window.addEventListener('beforeunload', (e) => {
+		// 	var dialogText = 'NOOOOOOOO';
+		// 	e.returnValue = dialogText;
+		// 	return dialogText;
+		// })
 
 		// Disable mobile scroll
 		// document.ontouchmove = function(e){ e.preventDefault(); }
@@ -358,6 +369,15 @@ class Game extends React.Component {
 
 		return (
 			<div id="game-root" className="socket ">
+
+
+			{/* Testing ========================= */}
+				{/* <Swipe>
+						SWIPE
+					</Swipe> */}
+					
+
+			{/* Spotlight ======================== */}
 				<div className="focal-point">
 					{!currentRoom && (
 						<GameForm
@@ -374,14 +394,16 @@ class Game extends React.Component {
 						/>
 					)}
 					{status === "playing" && (
-						<a
-							id="flip"
-							className="ws-btn action"
-							onClick={this.handleTurn}
-						>
-							{" "}
-							Flip{" "}
-						</a>
+						<Drag>
+							<a
+								id="flip"
+								className="ws-btn action"
+								onClick={this.handleTurn}
+								>
+								{" "}
+								Flip{" "}
+							</a>
+						</Drag>
 					)}
 
 					{status === "open" && (
@@ -399,8 +421,9 @@ class Game extends React.Component {
 						</PlayerList>
 					)}
 				</div>
-				{/* {status !== "playing" && <a className="ws-btn ws-green" onClick={this.startGame}> Start Game </a> } */}
 
+
+			{/* Bottom Section =============================== */}
 				<section className="level">
 					
 					<MenuToggle onClick={this.toggleMenu} />
@@ -421,11 +444,11 @@ class Game extends React.Component {
 					})} */}
 				</section>
 
-				{/* Not Visible ================================== */}
+			{/* Not Visible ================================== */}
 				<ToastContainer autoClose={1500} />
 				<Helmet title={"Amnesia" + (currentRoom && ` (${currentRoom})`)} />
 
-				{/* Modal =================================== */}
+			{/* Modals =================================== */}
 				
 				<Modal
 					isOpen={this.state.isOpen}

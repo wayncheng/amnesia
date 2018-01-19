@@ -1,0 +1,35 @@
+
+/*===== Buttons =====*/
+.ws-btn {
+	background-color: $default-state;
+	font-size: 1.1rem;
+	padding: 0.8rem;
+	margin: 5px;
+	font-weight: 300;
+}
+#flip,
+.action {
+	font-size: 1.5rem;
+	$h: $d*1.5;
+	height: $h;
+	line-height: $h;
+	width: $h;
+	padding: 0;
+	margin: 0;
+	border-radius: $h / 2;
+	letter-spacing: 1px;
+	background-color: $default-state;
+	border: none;
+	outline: none;
+	// position: fixed;
+	// bottom: $abs-cushion;
+	// right: $abs-cushion;
+
+	position: absolute;
+	left: 50%;
+	// bottom: 0;
+	// transform: translate(-50%,50%);
+	top: 0;
+	margin-top: -$h/2;
+	margin-left: -$h/2;
+}

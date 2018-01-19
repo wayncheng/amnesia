@@ -1,0 +1,81 @@
+
+/*===== CARD =====*/
+.card {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	margin-bottom: 10px;
+	font-size: 1.5rem;
+	height: 100%;
+	width: 100%;
+	border: none;
+	padding: 2em 0em;
+	color: $card-text-color-alt;
+	// border-radius: 2em;
+	// background-color: $card-color;
+	background-color: transparent;
+	background-image: $card-url;
+
+	// Only apply box shadow to bottom card (or else they will stack)
+	&:first-child {
+		// box-shadow: 0em 0.5em 2em 2em rgba(97,122,128,.08);
+	}
+
+	// All children should be ignored
+	* {
+		pointer-events: none;
+	}
+
+
+} // end .card
+
+/*===== Subject =====*/
+	.subject {
+		font-size: 1.5em;
+		text-align: center;
+		padding: 0.5em 1em;
+		border-radius: 10px;
+		font-weight: 800;
+		letter-spacing: -1px;
+		word-spacing: 3px;
+		transform: rotateZ(180deg);
+	}
+/*===== Suit Area =====*/
+	.suit-area {
+		font-size: 6rem;
+		// margin: 3rem auto;
+		// border-radius: 1rem;
+		// $d: 4rem;
+			$d: 5rem;	
+			margin: 2rem auto;
+			border-radius: 0rem;
+		height: $d;
+		line-height: $d;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		// overflow: hidden;
+
+		&.wild-area {
+			// width: 2*$d;
+			font-size: 5rem;
+		}
+	}
+
+
+
+/*===== Card Background =====*/
+.card-background {
+	width: $edge;
+	height: $edge * 1.5;
+	background-image: $card-url;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	display: flex;
+	justify-content: stretch;
+	align-items: center;
+}
