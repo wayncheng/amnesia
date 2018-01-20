@@ -130,8 +130,8 @@ const API = {
 
 // CARD ////////////////////////////////////////////
 	// Draw Card ====================================
-		drawCard: (room,player,cb) => {
-			socket.emit("drawCard", room);
+		drawCard: (room,player,isWild,cb) => {
+			socket.emit("drawCard",room,player,isWild);
 		},
 	// Send Card ====================================
 		sendCard: (roomID,receiverID,cardID,cb) => {

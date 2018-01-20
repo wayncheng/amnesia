@@ -38,7 +38,8 @@ io.on("connection", socket => {
 					status: "open",
 					id: roomID,
 					players: [playerName],
-					turn: -1
+					turn: -1,
+					order: [],
 				};
 
 				// Add details to roomData object
@@ -218,7 +219,7 @@ io.on("connection", socket => {
 			});
 
 // Draw Card ------------------------------
-			socket.on("drawCard", roomID => {
+			socket.on("drawCard", (roomID,playerName,isWild) => {
 				console.log(`⚡️  Draw Card >>>> [${roomID}]`);
 
 				roomData[roomID].turn++;
@@ -230,6 +231,26 @@ io.on("connection", socket => {
 				io.to(roomID).emit("newState", {
 					turn
 				});
+
+				
+				let { players, order } = roomData[roomID];
+				
+				// Learn Player Sequence ..............
+				if (order.length < players.length){
+					console.log('order:',order)
+					roomData[roomID].order.push(playerName)
+				}
+				// Notify Next Player ..................
+				else if (order.length === players.length) {
+
+					// if last card was wild, nudge the player (playerName) that just flipped 
+					// for regular cards...
+					// 1. find index of playerName in room.order
+					// 2. get next player's name in room.order (index+1)
+					// 3. if index from (1) equals length -1, that means it's the last one
+					//    get name of first player in array.
+					
+				}
 			});
 
 // Send Card ------------------------------

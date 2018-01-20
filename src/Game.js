@@ -225,8 +225,6 @@ class Game extends React.Component {
 	};
 // portState =================================================
 	portState = newState => this.setState(newState);
-// updateGroup ===============================================
-	updateGroup = () => API.drawCard(this.state.currentRoom);
 // updateWilds ===============================================
 	updateWilds = wilds => API.updateState( this.state.currentRoom, {wilds} );
 	
@@ -237,10 +235,10 @@ class Game extends React.Component {
 		// Turns increment steadily
 		let currentTurn = this.state.turn;
 		let turn = currentTurn + 1;
-		// Next Card
-		let card = this.state.deck[turn];
-		console.log("card", card);
+		let card = this.state.deck[turn]; // Next Card
 		let { subject, suit, type, id } = card;
+		console.log("card", card);
+		let isWild = false;
 
 		if (type === "wild") {
 			subject = "Wild Card";
@@ -248,12 +246,10 @@ class Game extends React.Component {
 				wilds: suit
 			});
 			this.updateWilds(suit);
-		} else {
-		}
 
-		// this.setState({
-		// 	cards
-		// })
+			// Set isWild to true, which will be used for smart turn assistance feature
+			isWild = true;
+		} 
 
 		// Add to player's card deck
 		let { cards } = this.state;
@@ -268,7 +264,8 @@ class Game extends React.Component {
 		});
 
 		// Update rest of group
-		this.updateGroup();
+		let {currentRoom, currentName} = this.state;
+		API.drawCard(currentRoom,currentName,isWild);
 	};
 
 
