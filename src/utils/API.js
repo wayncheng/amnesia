@@ -14,21 +14,28 @@ const API = {
 		createGame: (room,player,cb) => {
 			// Create Room on server ===========================
 			socket.emit('createGame',room,player, res => {
-				console.log('create res:',res)
-				let newStates = {};
+				let response = {
+					status: res.status,
+				}
 
 				if (res.status === 'ok'){
 					console.log('game created');
 
-					newStates = {
+					let newStates = {
 						currentRoom: room,
 						currentName: player,
 						status: 'open',
 						players: res.players,
 					}
 
+					response.newStates = newStates;
+
 				}
-				return cb(newStates)
+				else {
+					response = res
+				}
+				
+				return cb(response)
 			})
 
 			
@@ -36,32 +43,33 @@ const API = {
 	// Join Game =======================================
 		joinGame: (room,player,cb) => {
 			socket.emit("join", room, player, res => {
-				console.log("API res", res);
-				let newStates = {};
+				
+				let response = {
+					status: res.status,
+				}
 
-				// If all good, broadcast to room
-				if (res.status === 'ok'){			
-					console.log('successfully joined room')	
+				if (res.status === 'ok'){
+					console.log('joined game');
 					socket.emit("newPlayer", room, player );
 
-					// Set the new room / name states
-					newStates = { 
-						currentRoom: room, 
+					let newStates = {
+						currentRoom: room,
 						currentName: player,
+						status: 'open',
 						players: res.players,
-						status: 'open'
 					}
-					return cb(newStates)
+
+					response.newStates = newStates;
+
 				}
 				else {
-					return cb(res)
+					response = res
 				}
 				
-				// Return new states to be set (errors will return empty object)
-				// return cb(newStates);
+				return cb(response)
 			});
 		},
-	// Leave Game ======================================
+	// Leave Game ======================================*
 		leaveGame: (room,player,cb) => {
 			socket.emit("leaveGame", room, player, res => {
 				console.log("res", res);
@@ -93,29 +101,7 @@ const API = {
 		},
 	// Start Game ======================================
 		startGame: (currentRoom, currentName, cb) => {
-			socket.emit("startGame", currentRoom, res => {
-				console.log("res", res);
-				let newStates = {};
-
-				// If all good, broadcast to room
-				if (res.status === 'ok'){			
-					console.log('successfully started game')
-
-
-					// Set the new status state
-					// newStates = { 
-						// status: 'playing',
-						// deck: API.getNewDeck(),
-					// }
-				}
-				else {
-					console.log('error starting game');
-				}
-				
-				
-				// Return new states to be set (errors will return empty object)
-				return cb(newStates);
-			});
+			socket.emit("startGame", currentRoom, res => cb(res) )
 		},
 	// Open Room =======================================
 		openRoom: (room,cb) => {

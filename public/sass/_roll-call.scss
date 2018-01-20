@@ -13,6 +13,8 @@
 	align-items: stretch;
 	min-width: 300px;
 
+	box-shadow: $shadow-2;
+
 	.section-title {
 		font-size: 0.6em;
 		text-transform: uppercase;
@@ -25,7 +27,8 @@
 	}
 	.roll-call-list {
 		padding: 0;
-		margin-top: 0.75rem;
+		// margin-top: 0.75rem;
+		margin: .75rem 0;
 	}
 	li,
 	.player-in-lobby {

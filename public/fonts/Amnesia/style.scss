@@ -1,0 +1,479 @@
+@import "variables";
+
+@font-face {
+  font-family: 'Amnesia';
+  src:  url('#{$icomoon-font-path}/Amnesia.eot?fl31fi');
+  src:  url('#{$icomoon-font-path}/Amnesia.eot?fl31fi#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/Amnesia.ttf?fl31fi') format('truetype'),
+    url('#{$icomoon-font-path}/Amnesia.woff?fl31fi') format('woff'),
+    url('#{$icomoon-font-path}/Amnesia.svg?fl31fi#Amnesia') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.acon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Amnesia' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.acon-bubble_chart {
+  &:before {
+    content: $acon-bubble_chart;
+  }
+}
+.acon-star {
+  &:before {
+    content: $acon-star;
+  }
+}
+.acon-flash {
+  &:before {
+    content: $acon-flash;
+  }
+}
+.acon-point-of-interest {
+  &:before {
+    content: $acon-point-of-interest;
+  }
+}
+.acon-infinity {
+  &:before {
+    content: $acon-infinity;
+  }
+}
+.acon-cog2 {
+  &:before {
+    content: $acon-cog2;
+  }
+}
+.acon-waves {
+  &:before {
+    content: $acon-waves;
+  }
+}
+.acon-star-outline {
+  &:before {
+    content: $acon-star-outline;
+  }
+}
+.acon-flash-outline {
+  &:before {
+    content: $acon-flash-outline;
+  }
+}
+.acon-ac_unit {
+  &:before {
+    content: $acon-ac_unit;
+  }
+}
+.acon-all_inclusive {
+  &:before {
+    content: $acon-all_inclusive;
+  }
+}
+.acon-attach_file {
+  &:before {
+    content: $acon-attach_file;
+  }
+}
+.acon-brightness_low {
+  &:before {
+    content: $acon-brightness_low;
+  }
+}
+.acon-brightness_high {
+  &:before {
+    content: $acon-brightness_high;
+  }
+}
+.acon-broken_image {
+  &:before {
+    content: $acon-broken_image;
+  }
+}
+.acon-camera {
+  &:before {
+    content: $acon-camera;
+  }
+}
+.acon-change_history {
+  &:before {
+    content: $acon-change_history;
+  }
+}
+.acon-wb_cloudy {
+  &:before {
+    content: $acon-wb_cloudy;
+  }
+}
+.acon-directions_run {
+  &:before {
+    content: $acon-directions_run;
+  }
+}
+.acon-explore {
+  &:before {
+    content: $acon-explore;
+  }
+}
+.acon-extension {
+  &:before {
+    content: $acon-extension;
+  }
+}
+.acon-favorite {
+  &:before {
+    content: $acon-favorite;
+  }
+}
+.acon-filter_vintage {
+  &:before {
+    content: $acon-filter_vintage;
+  }
+}
+.acon-fingerprint {
+  &:before {
+    content: $acon-fingerprint;
+  }
+}
+.acon-games {
+  &:before {
+    content: $acon-games;
+  }
+}
+.acon-gesture {
+  &:before {
+    content: $acon-gesture;
+  }
+}
+.acon-my_location {
+  &:before {
+    content: $acon-my_location;
+  }
+}
+.acon-star2 {
+  &:before {
+    content: $acon-star2;
+  }
+}
+.acon-grain {
+  &:before {
+    content: $acon-grain;
+  }
+}
+.acon-graphic_eq {
+  &:before {
+    content: $acon-graphic_eq;
+  }
+}
+.acon-group_work {
+  &:before {
+    content: $acon-group_work;
+  }
+}
+.acon-home2 {
+  &:before {
+    content: $acon-home2;
+  }
+}
+.acon-hourglass_full {
+  &:before {
+    content: $acon-hourglass_full;
+  }
+}
+.acon-language {
+  &:before {
+    content: $acon-language;
+  }
+}
+.acon-layers {
+  &:before {
+    content: $acon-layers;
+  }
+}
+.acon-local_hospital {
+  &:before {
+    content: $acon-local_hospital;
+  }
+}
+.acon-room {
+  &:before {
+    content: $acon-room;
+  }
+}
+.acon-looks {
+  &:before {
+    content: $acon-looks;
+  }
+}
+.acon-map2 {
+  &:before {
+    content: $acon-map2;
+  }
+}
+.acon-memory {
+  &:before {
+    content: $acon-memory;
+  }
+}
+.acon-more_horiz {
+  &:before {
+    content: $acon-more_horiz;
+  }
+}
+.acon-more_vert {
+  &:before {
+    content: $acon-more_vert;
+  }
+}
+.acon-nature {
+  &:before {
+    content: $acon-nature;
+  }
+}
+.acon-navigation {
+  &:before {
+    content: $acon-navigation;
+  }
+}
+.acon-new_releases {
+  &:before {
+    content: $acon-new_releases;
+  }
+}
+.acon-notifications {
+  &:before {
+    content: $acon-notifications;
+  }
+}
+.acon-pan_tool {
+  &:before {
+    content: $acon-pan_tool;
+  }
+}
+.acon-person {
+  &:before {
+    content: $acon-person;
+  }
+}
+.acon-pets {
+  &:before {
+    content: $acon-pets;
+  }
+}
+.acon-polymer {
+  &:before {
+    content: $acon-polymer;
+  }
+}
+.acon-radio_button_checked {
+  &:before {
+    content: $acon-radio_button_checked;
+  }
+}
+.acon-rss_feed {
+  &:before {
+    content: $acon-rss_feed;
+  }
+}
+.acon-school {
+  &:before {
+    content: $acon-school;
+  }
+}
+.acon-security {
+  &:before {
+    content: $acon-security;
+  }
+}
+.acon-send {
+  &:before {
+    content: $acon-send;
+  }
+}
+.acon-settings {
+  &:before {
+    content: $acon-settings;
+  }
+}
+.acon-textsms {
+  &:before {
+    content: $acon-textsms;
+  }
+}
+.acon-stars {
+  &:before {
+    content: $acon-stars;
+  }
+}
+.acon-style {
+  &:before {
+    content: $acon-style;
+  }
+}
+.acon-swap_calls {
+  &:before {
+    content: $acon-swap_calls;
+  }
+}
+.acon-texture {
+  &:before {
+    content: $acon-texture;
+  }
+}
+.acon-touch_app {
+  &:before {
+    content: $acon-touch_app;
+  }
+}
+.acon-wb_sunny {
+  &:before {
+    content: $acon-wb_sunny;
+  }
+}
+.acon-wifi {
+  &:before {
+    content: $acon-wifi;
+  }
+}
+.acon-wifi_tethering {
+  &:before {
+    content: $acon-wifi_tethering;
+  }
+}
+.acon-hand-o-up {
+  &:before {
+    content: $acon-hand-o-up;
+  }
+}
+.acon-hand-pointer-o {
+  &:before {
+    content: $acon-hand-pointer-o;
+  }
+}
+.acon-diamond {
+  &:before {
+    content: $acon-diamond;
+  }
+}
+.acon-bars {
+  &:before {
+    content: $acon-bars;
+  }
+}
+.acon-navicon {
+  &:before {
+    content: $acon-navicon;
+  }
+}
+.acon-reorder {
+  &:before {
+    content: $acon-reorder;
+  }
+}
+.acon-home {
+  &:before {
+    content: $acon-home;
+  }
+}
+.acon-spades {
+  &:before {
+    content: $acon-spades;
+  }
+}
+.acon-clubs {
+  &:before {
+    content: $acon-clubs;
+  }
+}
+.acon-diamonds {
+  &:before {
+    content: $acon-diamonds;
+  }
+}
+.acon-stack {
+  &:before {
+    content: $acon-stack;
+  }
+}
+.acon-lifebuoy {
+  &:before {
+    content: $acon-lifebuoy;
+  }
+}
+.acon-map {
+  &:before {
+    content: $acon-map;
+  }
+}
+.acon-lock {
+  &:before {
+    content: $acon-lock;
+  }
+}
+.acon-cog {
+  &:before {
+    content: $acon-cog;
+  }
+}
+.acon-trophy {
+  &:before {
+    content: $acon-trophy;
+  }
+}
+.acon-target {
+  &:before {
+    content: $acon-target;
+  }
+}
+.acon-bookmark {
+  &:before {
+    content: $acon-bookmark;
+  }
+}
+.acon-sun {
+  &:before {
+    content: $acon-sun;
+  }
+}
+.acon-contrast {
+  &:before {
+    content: $acon-contrast;
+  }
+}
+.acon-star-full {
+  &:before {
+    content: $acon-star-full;
+  }
+}
+.acon-heart {
+  &:before {
+    content: $acon-heart;
+  }
+}
+.acon-infinite {
+  &:before {
+    content: $acon-infinite;
+  }
+}
+.acon-command {
+  &:before {
+    content: $acon-command;
+  }
+}
+.acon-radio-checked {
+  &:before {
+    content: $acon-radio-checked;
+  }
+}
+

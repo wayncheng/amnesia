@@ -17,22 +17,33 @@
 	& > * {
 		position: relative;
 	}
+
+	// Make suits smaller when doing temporary tests in level
+	.suit-area {
+		font-size: 3rem;
+	}
 }
 
 
 /*===== Burger Menu =====*/
 .burger-menu {
-	$pad: 0.7em;
-	$x: 1em;
+	// $pad: 0.7em;
+	$x: 2.5em;
 	color: $primary;
-	font-size: 20px;
+	font-size: 1.5rem;
 	border-radius: 50%;
 	background-color: #fff;
-	height: $d;
-	width: $d;
-	line-height: $d;
+	height: $x;
+	width: $x;
+	line-height: $x;
 	cursor: pointer;
 	text-align: center;
+	box-shadow: $shadow-2;
+	transition: box-shadow .2s;
+
+	&:hover {
+		box-shadow: $shadow-3;
+	}
 
 	.icon-burger-menu {
 		width: 1em;

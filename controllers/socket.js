@@ -64,7 +64,7 @@ io.on("connection", socket => {
 				console.log("⚠️  Room already exists");
 				return cb({
 					status: "error",
-					message: "room already exists"
+					message: "Room is occupied"
 				});
 			}
 		});
@@ -87,7 +87,7 @@ io.on("connection", socket => {
 				// Return callback with error details
 				return cb({
 					status: "error",
-					message: "room does not exist"
+					message: "Room does not exist"
 				});
 
 			} else {
@@ -104,7 +104,7 @@ io.on("connection", socket => {
 						
 						return cb({
 							status: "error",
-							message: "player already present in room."
+							message: "Player already present in this room."
 						});
 					} else {
 						// NAME AVAILABLE =========================
@@ -125,7 +125,7 @@ io.on("connection", socket => {
 								players,
 								code: "200",
 								status: "ok",
-								message: "player joined",
+								message: "Player joined",
 								rooms: socket.rooms
 							});
 						});
@@ -135,7 +135,7 @@ io.on("connection", socket => {
 					console.log("⚠️  room is not open for joining.");
 					return cb({
 						status: "error",
-						message: "room not open"
+						message: "Room is not open to join"
 					});
 				}
 			}
@@ -185,6 +185,13 @@ io.on("connection", socket => {
 
 				// Lock room by updating status
 				roomData[roomID].status = "playing";
+
+				// Build New Deck
+				let deck = tools.getNewDeck();
+				if (deck.length !== 76){
+					console.log(`⚠️⚠️⚠️⚠️⚠️  deck builder broken  ⚠️⚠️⚠️⚠️⚠️`);
+					alert('deck build broken')
+				}
 
 				io.to(roomID).emit("newState", {
 					status: "playing",

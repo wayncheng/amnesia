@@ -126,37 +126,45 @@ class Game extends React.Component {
 	createGame = e => {
 		e.preventDefault();
 		console.log("👉 createGame");
+		let {room,player} = this.state;
 
-		let { room = "yo", player = "wc" } = this.state;
 
-		API.createGame(room, player, response => {
-			console.log("👈", response);
-			this.setState(response);
-		});
+		if (room && player){
+			API.createGame(room, player, response => {
+				console.log("👈", response);
+
+				if (response.status === 'ok') {
+					this.setState(response.newStates);
+				}
+				else {
+					toast.error(response.message)
+				}
+			});
+		}
+		else {
+			toast.error('Name & Room are both required')
+		}
 	};
 // joinGame ==================================================
 	joinGame = event => {
 		event.preventDefault();
 		console.log("👉 joinGame");
-		// const room = document.getElementById("room").value.trim() || "yo";
-		// const player = document.getElementById("player").value.trim() || "wc";
-		let { room = "yo", player = "wc" } = this.state;
-		console.log("room:", room);
-		console.log("player:", player);
+		let { room,player } = this.state;
 
-		API.joinGame(room, player, response => {
-			console.log("joinGame ==>", response);
-			if (response.status === "error") {
-				console.log("response.message", response.message);
-				toast(response.message);
-			} else {
-				this.setState(response);
-
-				API.getStats(this.state.currentRoom, response => {
-					console.log("response", response);
-				});
-			}
-		});
+		if (room && player){
+			API.joinGame(room, player, response => {
+				console.log("👈 joinGame", response);
+				
+				if (response.status === "ok") {
+					this.setState(response.newStates);
+				} else {
+					toast.error(response.message);
+				}
+			});
+		}
+		else {
+			toast.error('Name & Room are both required')
+		}
 	};
 // endGame / openRoom  =======================================
 	endGame = e => {
@@ -170,12 +178,18 @@ class Game extends React.Component {
 // startGame =================================================
 	startGame = e => {
 		e.preventDefault();
-		console.log(`👉  startGame =>`);
+		console.log(`👉 startGame =>`);
 
 		const { currentRoom, currentName } = this.state;
 
 		API.startGame(currentRoom, currentName, response => {
-			console.log("🗣  startGame", response);
+			console.log("👈 startGame", response);
+
+			if (response.status === "ok") {
+				this.setState(response.newStates);
+			} else {
+				toast.error(response.message);
+			}
 		});
 	};
 // handleEmit ================================================
