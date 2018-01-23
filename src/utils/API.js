@@ -165,6 +165,14 @@ const API = {
 			return cb(res)
 		});
 	},
+// Get Info ========================================
+	getInfo: (cb) => {
+		socket.emit('info', res => cb(res))
+		// socket.emit("info", res => {
+		// 	console.log("info =>", res)
+		// 	return cb(res)
+		// });
+	},
 
 ////////////////////////////////////////////////////
 };

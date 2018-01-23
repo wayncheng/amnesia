@@ -31,7 +31,7 @@ class GameForm extends Component {
 
 	render() {
 		return (
-			<div className="card-background focal-point">
+			// <div className="card-background">
 				<form className="game-form">
 					<div className="form-info">
 						<h4 className="form-headline">Amnesia</h4>
@@ -79,7 +79,7 @@ class GameForm extends Component {
 						</button>
 					</div>
 				</form>
-			</div>
+			// </div>
 		);
 	}
 }

@@ -10,20 +10,14 @@
 		let roomList = [];
 		let roomData = {};
 		
+		
 io.on("connection", socket => {
 	console.log("✅   " + socket.id);
-	// direct('string msg')
-	// direct({ type: 'success', text: 'success' })
-	// direct({ type: 'info', text: 'info' })
-	// direct({ type: 'warn', text: 'warn' })
-	// direct({ type: 'error', text: 'error' })
 
 	// On Disconnect -----
-		socket.on("disconnect", () => {
-			console.log("🚫   " + socket.id);
-		});
+		socket.on("disconnect", () => { console.log("🚫   " + socket.id); });
 
-// Create Game ------------------------------
+// Create Game ----------------------------
 		socket.on("createGame", (roomID, playerName, cb) => {
 			console.log(`🚀  Create Game >>>> ${roomID} / ${playerName}`)
 
@@ -142,7 +136,7 @@ io.on("connection", socket => {
 			}
 		});
 
-// Leave Game ------------------------------------------
+// Leave Game -----------------------------
 			socket.on("leaveGame", (roomID, playerName, cb) => {
 				console.log(`👋  Leave Game >>>> [${roomID}] / (${playerName})`);
 				let { players } = roomData[roomID];
@@ -180,7 +174,7 @@ io.on("connection", socket => {
 				});
 			});
 
-// Start Game / Lock Room ------------------------------
+// Start Game / Lock Room -----------------
 			socket.on("startGame", roomID => {
 				console.log(`🚀  Start Game >>>> [${roomID}]`);
 
@@ -269,14 +263,14 @@ io.on("connection", socket => {
 				});
 			});
 
-// When Player Joins a Room ------------------------------
+// When Player Joins a Room ---------------
 			socket.on("joined", (room, player) => {
 				console.log(`🔔  Player Joined >>>> [${room}] / (${player})`);
 				let msg = `${player} has joined ${room}`;
 				io.to(room).emit("msg", msg);
 			});
 
-// New Player ------------------------------
+// New Player -----------------------------
 			socket.on("newPlayer", (room, player) => {
 				console.log(`⚡️  newPlayer >>>> (${player})`);
 
@@ -293,14 +287,14 @@ io.on("connection", socket => {
 				});
 			});
 
-// Update State ------------------------------
+// Update State ---------------------------
 			socket.on("updateState", (room, newState) => {
 				console.log(`⚡️  updateState >>>> [${room}]`);
 				io.to(room).emit("newState", newState);
 			});
 
 
-// Stats ------------------------------
+// Stats ......
 		socket.on("stats", (roomID, cb) => {
 			console.log(`>>>> stats`);
 			let { rooms } = socket;
@@ -326,8 +320,13 @@ io.on("connection", socket => {
 			});
 		});
 
+// Info ......
+		socket.on('info', (cb) => {
+			
+			return cb(roomData)
+		})
 
-// Direct Message One Player ----------------------
+// Direct Message One Player --------------
 		function direct(msg) {
 			// socket.to(socket.id).emit(msg)
 			io.to(socket.id).emit('msg', msg)

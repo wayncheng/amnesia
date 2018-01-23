@@ -13,6 +13,7 @@ import {
 	BlanketModal,
 	Swipe,
 	Drag,
+	MainMenu,
 } from "./";
 import API from "./utils/API";
 
@@ -279,8 +280,6 @@ class Game extends React.Component {
 		this.setState({ menuOpen: false });
 	};
 
-
-
 // handleCard ================================================
 	handleCard = e => {
 		e.preventDefault();
@@ -318,7 +317,7 @@ class Game extends React.Component {
 	};
 
 
-// PlayerList Modal ============================================
+// PlayerList Modal ==========================================
 	afterOpenModal = () => {
 		const rootEl = document.getElementById("app");
 		rootEl.classList.add("blur-for-modal");
@@ -355,6 +354,17 @@ class Game extends React.Component {
 		});
 	};
 
+// TEMP: Get Info ============================================
+	getInfo = () => {
+		API.getInfo(response => {
+			console.log('getInfo =>',response)
+		})
+	}
+	getStats = () => {
+		API.getStats(response => {
+			console.log('getStats =>',response)
+		})
+	}
 // TODO: Store Locally =======================================
 	storeData = () => {
 		const stateString = JSON.stringify(this.state);
@@ -388,17 +398,11 @@ class Game extends React.Component {
 						SWIPE
 					</Swipe> */}
 					
-
-			{/* Subheadline ======================== */}
-				{status === 'open' && (
-					<h4 className="subheadline">Once the whole gang's here, Press "Start"</h4> )}
-
 			{/* Focal Point / Spotlight ======================== */}
-				<div className="focal-point">
+				<div className="focal-point card-background">
 					{/* Landing State */}
 					{!currentRoom && (
 						<GameForm portState={this.portState} joinGame={this.joinGame} createGame={this.createGame} /> )}
-
 					
 					{/* Waiting Lobby State */}
 					{status === "open" && (
@@ -414,20 +418,25 @@ class Game extends React.Component {
 								Start Game{" "}
 							</a>
 						</PlayerList>
-				)}
-
-
-					
-					
+					)}
+		
 					{/* Active Game State */}
 					{cards.length !== 0 && (
 						<ActivePile cards={this.state.cards} onClick={this.handleCard} portState={this.portState} /> )}
 					{status === "playing" && (
-						<Drag> 
-							<a id="flip" className="ws-btn action" onClick={this.handleTurn} > {" "} Flip{" "} </a> 
-							</Drag> )}
+						// <Drag> 
+						// 	<a id="flip" className="ws-btn action" onClick={this.handleTurn} >Flip</a> 
+						// </Drag>
+						// <div className="card-background">
+							<a id="flip" className="ws-btn action" onClick={this.handleTurn} >Flip</a> 
+						// </div> 
+					)}
 				</div>
 
+
+			{/* Subheadline ======================== */}
+				{status === 'open' && (
+					<h4 className="subheadline">Once the whole gang's here, Press "Start"</h4> )}
 
 			{/* Bottom Section Level =============================== */}
 				<section className="level">
@@ -454,8 +463,7 @@ class Game extends React.Component {
 				</div>
 				<Helmet title={"Amnesia" + (currentRoom && ` (${currentRoom})`)} />
 
-			{/* Modals =================================== */}
-				
+			{/* Player Modals =================================== */}
 				<Modal
 					isOpen={this.state.isOpen}
 					onAfterOpen={this.afterOpenModal}
@@ -472,8 +480,11 @@ class Game extends React.Component {
 						afterOpen: "ws-modal-overlay_after-open",
 						beforeClose: "ws-modal-overlay_before-close"
 					}}
+					onClick={this.closeModal}
 				>
-					<ul className="player-list" onClick={this.closeModal}>
+					<div className="modal-container limited-container">
+					
+					<ul className="player-list">
 						<h3>
 							{this.state.players.length > 1
 								? "Send Card to:"
@@ -495,9 +506,10 @@ class Game extends React.Component {
 							}
 						})}
 					</ul>
+					</div>
 				</Modal>
 
-
+			{/* Main Menu ================================ */}
 				<Modal
 					isOpen={this.state.menuOpen}
 					onAfterOpen={this.afterOpenModal}
@@ -515,62 +527,17 @@ class Game extends React.Component {
 						beforeClose: "ws-modal-overlay_before-close"
 					}}
 				>
-					<h3 className="modal-title">Main Menu</h3>
-					<section className="control-panel" onClick={this.closeMenu}>
-						{status && (
-							<div className="panel-section">
-								{/* Leave Game */}
-								{currentRoom && (
-									<a
-										className="ws-btn ws-warning"
-										onClick={this.leaveGame}
-									>
-										Leave
-									</a>
-								)}
-
-								{/* Start Game */}
-								{status !== "playing" && (
-									<a
-										className="ws-btn ws-green"
-										onClick={this.startGame}
-									>
-										Start Game
-									</a>
-								)}
-
-								{/* End Game / Open Room */}
-								{status !== "open" && (
-									<a
-										className="ws-btn ws-danger"
-										onClick={this.endGame}
-									>
-										End Game
-									</a>
-								)}
-
-								{/* <a className="ws-btn ws-danger" onClick={this.handleEmit} data-socket-event="openRoom" >End Game</a> } */}
-								{/* <a className="ws-btn ws-warning" onClick={this.handleSocket} data-socket-event="leaveGame" >Leave</a> } */}
-							</div>
-						)}
-
-						{status && (
-							<div className="panel-section aligned-left">
-								<p className="panel-text">
-									Room: {this.state.currentRoom}
-								</p>
-								<p className="panel-text">
-									Name: {this.state.currentName}
-								</p>
-
-								{status === "playing" && (
-									<p className="panel-text">
-										Cards Won: {this.state.winnings.length}
-									</p>
-								)}
-							</div>
-						)}
-					</section>
+					<MainMenu
+						status={status}
+						currentRoom={currentRoom}
+						currentName={currentName}
+						winnings={winnings}
+						closeMenu={this.closeMenu}
+						leaveGame={this.leaveGame}
+						startGame={this.startGame}
+						endGame={this.endGame}
+						getInfo={this.getInfo}
+					/>
 				</Modal>
 				{/* END ===================================== */}
 			</div>
@@ -593,3 +560,5 @@ style({
 	fontFamily: "inherit",
 	zIndex: 999999
 });
+
+
