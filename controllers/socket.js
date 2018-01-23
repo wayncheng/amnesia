@@ -19,7 +19,7 @@ io.on("connection", socket => {
 
 // Create Game ----------------------------
 		socket.on("createGame", (roomID, playerName, cb) => {
-			console.log(`🚀  Create Game >>>> ${roomID} / ${playerName}`)
+			console.log(`🚀  Create --> ${roomID} / ${playerName}`)
 
 			// CHECK IF ROOM ALREADY EXISTS
 			let room = roomData[roomID];
@@ -66,7 +66,7 @@ io.on("connection", socket => {
 
 // Join Game ------------------------------
 		socket.on("join", (roomID, playerName, cb) => {
-			console.log(`🙋  Join Game >>>> [${roomID}] / (${playerName})`);
+			console.log(`🙋  Join --> [${roomID}] / (${playerName})`);
 
 			let roomNotFound = !roomData[roomID];
 
@@ -138,7 +138,7 @@ io.on("connection", socket => {
 
 // Leave Game -----------------------------
 			socket.on("leaveGame", (roomID, playerName, cb) => {
-				console.log(`👋  Leave Game >>>> [${roomID}] / (${playerName})`);
+				console.log(`👋  Leave --> [${roomID}] / (${playerName})`);
 				let { players } = roomData[roomID];
 				const iof = players.indexOf(playerName);
 
@@ -176,7 +176,7 @@ io.on("connection", socket => {
 
 // Start Game / Lock Room -----------------
 			socket.on("startGame", roomID => {
-				console.log(`🚀  Start Game >>>> [${roomID}]`);
+				console.log(`🚀  Start --> [${roomID}]`);
 
 				// Lock room by updating status
 				roomData[roomID].status = "playing";
@@ -190,16 +190,17 @@ io.on("connection", socket => {
 
 				io.to(roomID).emit("newState", {
 					status: "playing",
-					deck: tools.getNewDeck(),
+					deck,
 					cards: [],
 					wilds: [],
 					winnings: [],
+					turn: -1
 				});
 			});
 
-// Open Room ------------------------------
+// Stop Game / Open Room ------------------
 			socket.on("openRoom", roomID => {
-				console.log(`⚡️  Open Room >>>> [${roomID}]`);
+				console.log(`⚡️  Open --> [${roomID}]`);
 
 				roomData[roomID].status = "open";
 				// e.g. roomData['yo'].status;
@@ -212,9 +213,15 @@ io.on("connection", socket => {
 				});
 			});
 
+// Finish Game ----------------------------
+			socket.on('finishGame', roomID => {
+				console.log(`⚡️  Finish --> [${roomID}]`);
+
+				io.to(roomID).emit('msg', 'No cards left. Check your wins!')
+			})
 // Draw Card ------------------------------
 			socket.on("drawCard", (roomID,playerName,isWild) => {
-				console.log(`⚡️  Draw Card >>>> [${roomID}]`);
+				console.log(`⚡️  Draw --> [${roomID}]`);
 
 				roomData[roomID].turn++;
 
@@ -232,7 +239,10 @@ io.on("connection", socket => {
 				// Learn Player Sequence ..............
 				if (order.length < players.length){
 					console.log('order:',order)
-					roomData[roomID].order.push(playerName)
+					// Add player to order array only if unique
+					if (!order.includes(playerName)){
+						roomData[roomID].order.push(playerName)
+					}
 				}
 				// Notify Next Player ..................
 				else if (order.length === players.length) {
@@ -249,7 +259,7 @@ io.on("connection", socket => {
 
 // Send Card ------------------------------
 			socket.on("sendCard", (roomID, playerID, cardID, cb) => {
-				console.log(`⚡️  Send Card >>>> (${cardID} to ${playerID} in ${roomID})`);
+				console.log(`⚡️  Send --> (${cardID} to ${playerID} in ${roomID})`);
 
 				// Send to room
 				io.to(roomID).emit("newCard", {
@@ -265,14 +275,14 @@ io.on("connection", socket => {
 
 // When Player Joins a Room ---------------
 			socket.on("joined", (room, player) => {
-				console.log(`🔔  Player Joined >>>> [${room}] / (${player})`);
+				console.log(`🔔  Player Joined --> [${room}] / (${player})`);
 				let msg = `${player} has joined ${room}`;
 				io.to(room).emit("msg", msg);
 			});
 
 // New Player -----------------------------
 			socket.on("newPlayer", (room, player) => {
-				console.log(`⚡️  newPlayer >>>> (${player})`);
+				console.log(`⚡️  newPlayer --> (${player})`);
 
 				// Notify Room
 				// io.to(room).emit("msg", `${player} has joined ${room}`);
@@ -289,7 +299,7 @@ io.on("connection", socket => {
 
 // Update State ---------------------------
 			socket.on("updateState", (room, newState) => {
-				console.log(`⚡️  updateState >>>> [${room}]`);
+				console.log(`⚡️  updateState --> [${room}]`);
 				io.to(room).emit("newState", newState);
 			});
 

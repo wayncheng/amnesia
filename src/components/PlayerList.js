@@ -3,7 +3,7 @@ import React from "react";
 const PlayerList = props => {
 	return (
 		<section className="roll-call container">
-			<h4 className="section-title">Who's Here</h4>
+			<h4 className="section-title">Who's in <span className="badge">{props.currentRoom}</span></h4>
 			<ul className="roll-call-list">
 				{props.players.map((player, index) => {
 					return (
