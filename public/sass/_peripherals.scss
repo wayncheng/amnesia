@@ -1,12 +1,18 @@
 
+%peripheral-shadow {
+	box-shadow: $shadow-2;
+	transition: box-shadow .2s;
+	// &:hover {
+	// 	box-shadow: $shadow-3;
+	// }
+}
+
 /*===== Levels =====*/
 .level {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-		flex-direction: row;
-		justify-content: flex-start;
 	width: 100%;
 	position: fixed;
 	height: $d;
@@ -25,6 +31,7 @@
 }
 
 
+
 /*===== Burger Menu =====*/
 .burger-menu {
 	// $pad: 0.7em;
@@ -38,9 +45,8 @@
 	line-height: $x;
 	cursor: pointer;
 	text-align: center;
-	box-shadow: $shadow-2;
-	transition: box-shadow .2s;
 
+	@extend %peripheral-shadow;
 	&:hover {
 		box-shadow: $shadow-3;
 	}
@@ -61,13 +67,12 @@
 	text-align: center;
 	border-radius: $d/2;
 	padding: 0;
-	// position: fixed;
-	// bottom: $abs-cushion;
-	// left: $abs-cushion;
-
 	background-color: $winnings;
 	color: #fff;
+	@extend %peripheral-shadow;
 }
+
+
 /*===== Wild Area =====*/
 .wild-suit-area {
 	// height: $d;
@@ -77,16 +82,23 @@
 	justify-content: center;
 	align-items: center;
 	border-radius: 1rem;
-		font-size: 3rem;
-		height: 1em;
+		font-size: 2rem;
+		height: 3rem;
 		width: initial;
-		min-width: 2em;
-		border-radius: 0;
+		min-width: 6rem;
+		background-color: #fff;
+		@extend %peripheral-shadow;
+
 	.wild-suit {
 		flex: 1;
 		font-size: inherit;
 		height: 1em;
-		width: 1em;
-		margin: 0 10px;
+		width: initial;
+		text-align: center;
+		// padding: 0 10px;
+	}
+
+	:first-child {
+		border-right: 1px solid $border-color;
 	}
 }

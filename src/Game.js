@@ -375,7 +375,8 @@ class Game extends React.Component {
 			currentName,
 			players,
 			cards,
-			winnings
+			winnings,
+			wilds,
 		} = this.state;
 
 		return (
@@ -388,75 +389,69 @@ class Game extends React.Component {
 					</Swipe> */}
 					
 
-			{/* Spotlight ======================== */}
-				<div className="focal-point">
-					{!currentRoom && (
-						<GameForm
-							portState={this.portState}
-							joinGame={this.joinGame}
-							createGame={this.createGame}
-						/>
-					)}
-					{cards.length !== 0 && (
-						<ActivePile
-							cards={this.state.cards}
-							onClick={this.handleCard}
-							portState={this.portState}
-						/>
-					)}
-					{status === "playing" && (
-						<Drag>
-							<a
-								id="flip"
-								className="ws-btn action"
-								onClick={this.handleTurn}
-								>
-								{" "}
-								Flip{" "}
-							</a>
-						</Drag>
-					)}
+			{/* Subheadline ======================== */}
+				{status === 'open' && (
+					<h4 className="subheadline">Once the whole gang's here, Press "Start"</h4> )}
 
+			{/* Focal Point / Spotlight ======================== */}
+				<div className="focal-point">
+					{/* Landing State */}
+					{!currentRoom && (
+						<GameForm portState={this.portState} joinGame={this.joinGame} createGame={this.createGame} /> )}
+
+					
+					{/* Waiting Lobby State */}
 					{status === "open" && (
 						<PlayerList
-							players={this.state.players}
-							currentName={currentName}
+						players={this.state.players}
+						currentName={currentName}
 						>
 							<a
 								className="ws-btn ws-green"
 								onClick={this.startGame}
-							>
+								>
 								{" "}
 								Start Game{" "}
 							</a>
 						</PlayerList>
-					)}
+				)}
+
+
+					
+					
+					{/* Active Game State */}
+					{cards.length !== 0 && (
+						<ActivePile cards={this.state.cards} onClick={this.handleCard} portState={this.portState} /> )}
+					{status === "playing" && (
+						<Drag> 
+							<a id="flip" className="ws-btn action" onClick={this.handleTurn} > {" "} Flip{" "} </a> 
+							</Drag> )}
 				</div>
 
 
-			{/* Bottom Section =============================== */}
+			{/* Bottom Section Level =============================== */}
 				<section className="level">
-					
+					{/* Burger Menu Button */}
 					<MenuToggle onClick={this.toggleMenu} />
+					
+					{/* Globally Active Wilds (if applicable) */}
+					{(status === "playing" && wilds.length === 2) && (
+						<WildSuits wilds={this.state.wilds} />
+					)}
+					
+					{/* Temporary =========== */}
+					{/* {suitsArray.map( (suit,index) => { <div className={"suit-area"} key={'suitarea-'+index} > <div className={"acon suit "+suit}/> </div> })} */}
+
+					{/* Winnings */}
 					{status === "playing" && (
 						<Winnings winnings={this.state.winnings} />
 					)}
-					{status === "playing" && (
-						<WildSuits wilds={this.state.wilds} />
-					)}
-
-					{/* Temporary =========== */}
-					{/* {suitsArray.map( (suit,index) => {
-						return (
-							<div className={"suit-area"} key={'suitarea-'+index} >
-								<div className={"acon suit "+suit}/>
-							</div>
-						)
-					})} */}
 				</section>
 
 			{/* Not Visible ================================== */}
-				<ToastContainer autoClose={1500} />
+				<div className="ghost">
+					<ToastContainer autoClose={1500} hideProgressBar={true} closeButton={false} />
+				</div>
 				<Helmet title={"Amnesia" + (currentRoom && ` (${currentRoom})`)} />
 
 			{/* Modals =================================== */}
