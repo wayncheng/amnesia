@@ -13,28 +13,12 @@ class MainMenu extends Component {
 
 		return(
 			<div className="modal-container menu-modal" onClick={closeMenu}>
+			
 				<header className="modal-header">
-					<h3 className="modal-title">Amnesia Menu</h3>
+					<h3 className="modal-title brand">Amnesia</h3>
 				</header>
+
 				<section className="control-panel modal-section">
-					{status && (
-						<div className="panel-section">
-
-							{/* Leave Game */}
-							{currentRoom && (
-								<a className="ws-btn ws-warning" onClick={leaveGame} >Leave</a> )}
-
-							{/* Start Game */}
-							{status !== "playing" && (
-								<a className="ws-btn ws-green" onClick={startGame} >Start</a> )}
-
-							{/* End Game / Open Room */}
-							{status !== "open" && (
-								<a className="ws-btn ws-danger" onClick={endGame} >End</a> )}
-
-						</div>
-					)}
-
 					{status && (
 						<div className="panel-section aligned-left">
 							<p className="panel-text">
@@ -51,11 +35,31 @@ class MainMenu extends Component {
 							)}
 						</div>
 					)}
-					
-					<footer className="modal-footer">
-						<a href="#!" onClick={getInfo} >Info</a>
-					</footer>
+					{status && (
+						<div className="panel-section">
+
+							{/* Leave Game */}
+							{currentRoom && (
+								<a className="ws-btn ws-warning" onClick={leaveGame} >Leave</a> )}
+
+							{/* Start Game */}
+							{status !== "playing" && (
+								<a className="ws-btn ws-green" onClick={startGame} >Start</a> )}
+
+							{/* End Game / Open Room */}
+							{status !== "open" && (
+								<a className="ws-btn ws-danger" onClick={endGame} >End</a> )}
+
+						</div>
+					)}				
 				</section>
+
+				<footer className="modal-footer">
+					<p>Built by Wayne Cheng</p>
+					<a href="https://github.com/wayncheng/amnesia" alt="View Source Code">GitHub</a>
+					<a href="#!" onClick={getInfo} >Info</a>
+				</footer>
+
 			</div>
 		)
 	}

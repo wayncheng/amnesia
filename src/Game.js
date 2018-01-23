@@ -27,6 +27,8 @@ const suitsArray = [
 	"green",
 	"blue",
 ];
+
+
 class Game extends React.Component {
 	constructor(props) {
 		super(props);
@@ -82,7 +84,7 @@ class Game extends React.Component {
 			console.log("cardID", cardID);
 
 			if (playerID === this.state.currentName) {
-				toast("Card Received");
+				toast.info("Card Received. Added to Wins.");
 				console.log("cardID", cardID);
 
 				// Add to winnings pile
@@ -97,12 +99,15 @@ class Game extends React.Component {
 			}
 		});
 
-		// Refresh Warning
-		// window.addEventListener('beforeunload', (e) => {
-		// 	var dialogText = 'NOOOOOOOO';
-		// 	e.returnValue = dialogText;
-		// 	return dialogText;
-		// })
+		// Refresh Warning (only in production)
+		if (process.env.NODE_ENV === 'production'){
+			window.addEventListener('beforeunload', (e) => {
+				var dialogText = 'NOOOOOOOO';
+				e.returnValue = dialogText;
+				return dialogText;
+			})
+		}
+
 
 		// Disable mobile scroll
 		// document.ontouchmove = function(e){ e.preventDefault(); }
@@ -193,20 +198,34 @@ class Game extends React.Component {
 			}
 		});
 	};
-// handleEmit ================================================
-	handleEmit = e => {
-		e.preventDefault();
-		// console.log(`👉  handleEmit --->`);
-		const event = e.target.getAttribute("data-socket-event");
-		const { currentRoom, currentName } = this.state;
-		// console.log(`   > ${event}`);
+// finishGame =================================================
+	finishGame = () => {
+		console.log(`👉 finishGame =>`);
 
-		if (currentRoom && currentName) {
-			API[event](this.state.currentRoom, currentName);
-		} else {
-			console.log("no current room or name");
-		}
+		// const { currentRoom, currentName } = this.state;
+		// API.finishGame(currentRoom, currentName, response => {
+		// 	console.log("👈 finishGame", response);
+		// 	if (response.status === "ok") {
+		// 		this.setState(response.newStates);
+		// 	} else {
+		// 		toast.error(response.message);
+		// 	}
+		// });
 	};
+// handleEmit ================================================
+	// handleEmit = e => {
+	// 	e.preventDefault();
+	// 	// console.log(`👉  handleEmit --->`);
+	// 	const event = e.target.getAttribute("data-socket-event");
+	// 	const { currentRoom, currentName } = this.state;
+	// 	// console.log(`   > ${event}`);
+
+	// 	if (currentRoom && currentName) {
+	// 		API[event](this.state.currentRoom, currentName);
+	// 	} else {
+	// 		console.log("no current room or name");
+	// 	}
+	// };
 // leaveGame ==============================================
 	leaveGame = e => {
 		e.preventDefault();
@@ -236,49 +255,48 @@ class Game extends React.Component {
 		// Turns increment steadily
 		let currentTurn = this.state.turn;
 		let turn = currentTurn + 1;
-		let card = this.state.deck[turn]; // Next Card
-		let { subject, suit, type, id } = card;
-		console.log("card", card);
-		let isWild = false;
+		
+		// If turn is still within range
+		if (turn < 76){
+			let card = this.state.deck[turn]; // Next Card
+			let { subject, suit, type, id } = card;
+			console.log("card", card);
+			let isWild = false;
 
-		if (type === "wild") {
-			subject = "Wild Card";
+			if (type === "wild") {
+				subject = "Wild Card";
+				this.setState({
+					wilds: suit
+				});
+				this.updateWilds(suit);
+
+				// Set isWild to true, which will be used for smart turn assistance feature
+				isWild = true;
+			} 
+
+			// Add to player's card deck
+			let { cards } = this.state;
+			cards.push(card);
+
 			this.setState({
-				wilds: suit
+				cards,
+				subject,
+				suit,
+				type,
+				turn
 			});
-			this.updateWilds(suit);
 
-			// Set isWild to true, which will be used for smart turn assistance feature
-			isWild = true;
-		} 
+			// Update rest of group
+			let {currentRoom, currentName} = this.state;
+			API.drawCard(currentRoom,currentName,isWild);
+		}
+		// If there are no more cards...
+		else {
+			API.finishGame(this.state.currentRoom)
+		}
 
-		// Add to player's card deck
-		let { cards } = this.state;
-		cards.push(card);
-
-		this.setState({
-			cards,
-			subject,
-			suit,
-			type,
-			turn
-		});
-
-		// Update rest of group
-		let {currentRoom, currentName} = this.state;
-		API.drawCard(currentRoom,currentName,isWild);
 	};
 
-
-// Main Menu =====================================================
-	
-	toggleMenu = e => { this.setState({ menuOpen: true }) };
-
-	closeMenu = e => {
-		const el = document.getElementById("app");
-		el.classList.remove("blur-for-modal");
-		this.setState({ menuOpen: false });
-	};
 
 // handleCard ================================================
 	handleCard = e => {
@@ -316,6 +334,15 @@ class Game extends React.Component {
 		}
 	};
 
+// Main Menu =================================================
+	
+	toggleMenu = e => { this.setState({ menuOpen: true }) };
+
+	closeMenu = e => {
+		const el = document.getElementById("app");
+		el.classList.remove("blur-for-modal");
+		this.setState({ menuOpen: false });
+	};
 
 // PlayerList Modal ==========================================
 	afterOpenModal = () => {
@@ -392,53 +419,52 @@ class Game extends React.Component {
 		return (
 			<div id="game-root" className="socket ">
 
-
-			{/* Testing ========================= */}
+			{/* Testing 
+			=================================*/}
 				{/* <Swipe>
 						SWIPE
 					</Swipe> */}
 					
-			{/* Focal Point / Spotlight ======================== */}
-				<div className="focal-point card-background">
-					{/* Landing State */}
-					{!currentRoom && (
-						<GameForm portState={this.portState} joinGame={this.joinGame} createGame={this.createGame} /> )}
-					
-					{/* Waiting Lobby State */}
+			{/* Focal Point / Spotlight 
+			=================================*/}
+			
+				{/* Landing *******************/}
+						{!currentRoom && (
+							<div className="focal-point card-background landing-state">
+								<GameForm portState={this.portState} joinGame={this.joinGame} createGame={this.createGame} /> 
+							</div>
+						)}
+
+				{/* Waiting Room *************/}
 					{status === "open" && (
-						<PlayerList
-						players={this.state.players}
-						currentName={currentName}
-						>
-							<a
-								className="ws-btn ws-green"
-								onClick={this.startGame}
-								>
-								{" "}
-								Start Game{" "}
-							</a>
-						</PlayerList>
+						<div className="focal-point waiting-state">
+							
+							<PlayerList
+								players={this.state.players}
+								currentName={currentName}
+								currentRoom={currentRoom}
+							>
+								<a className="ws-btn ws-green" onClick={this.startGame} >Start</a>
+							</PlayerList>
+
+							<h4 className="subheadline">Once everyone's here,<br/>Press "Start"</h4> 
+
+						</div>
 					)}
-		
-					{/* Active Game State */}
-					{cards.length !== 0 && (
-						<ActivePile cards={this.state.cards} onClick={this.handleCard} portState={this.portState} /> )}
+
+				{/* Active Game ***************/}
 					{status === "playing" && (
-						// <Drag> 
-						// 	<a id="flip" className="ws-btn action" onClick={this.handleTurn} >Flip</a> 
-						// </Drag>
-						// <div className="card-background">
+						<div className="focal-point card-background game-state">
+							{cards.length !== 0 && (
+								<ActivePile cards={this.state.cards} onClick={this.handleCard} portState={this.portState} /> 
+							)}
 							<a id="flip" className="ws-btn action" onClick={this.handleTurn} >Flip</a> 
-						// </div> 
+						</div>
 					)}
-				</div>
 
 
-			{/* Subheadline ======================== */}
-				{status === 'open' && (
-					<h4 className="subheadline">Once the whole gang's here, Press "Start"</h4> )}
-
-			{/* Bottom Section Level =============================== */}
+			{/* Bottom Section Level 
+			=================================*/}
 				<section className="level">
 					{/* Burger Menu Button */}
 					<MenuToggle onClick={this.toggleMenu} />
@@ -457,13 +483,15 @@ class Game extends React.Component {
 					)}
 				</section>
 
-			{/* Not Visible ================================== */}
+			{/* Not Visible 
+			=================================*/}
 				<div className="ghost">
 					<ToastContainer autoClose={1500} hideProgressBar={true} closeButton={false} />
 				</div>
 				<Helmet title={"Amnesia" + (currentRoom && ` (${currentRoom})`)} />
 
-			{/* Player Modals =================================== */}
+			{/* Player Modals
+			=================================*/}
 				<Modal
 					isOpen={this.state.isOpen}
 					onAfterOpen={this.afterOpenModal}
@@ -509,7 +537,8 @@ class Game extends React.Component {
 					</div>
 				</Modal>
 
-			{/* Main Menu ================================ */}
+			{/* Main Menu 
+			=================================*/}
 				<Modal
 					isOpen={this.state.menuOpen}
 					onAfterOpen={this.afterOpenModal}
@@ -539,7 +568,7 @@ class Game extends React.Component {
 						getInfo={this.getInfo}
 					/>
 				</Modal>
-				{/* END ===================================== */}
+			{/*////////////////////////////////// END */}
 			</div>
 		);
 	}

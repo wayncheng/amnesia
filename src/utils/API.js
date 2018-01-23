@@ -124,6 +124,25 @@ const API = {
 				}				
 			});
 		},
+	// Finish Game =====================================
+		finishGame: (roomID,cb) => {
+			socket.emit("finishGame", roomID, res => {
+				console.log("res", res);
+				
+				if (res.status === 'ok'){
+
+					// Set the new status state
+					let newStates = { 
+						status: 'open',
+					}
+					return cb(newStates)
+				}
+				else {
+					console.log('error finishing game');
+					return cb(res);
+				}				
+			});
+		},
 ////////////////////////////////////////////////////
 
 

@@ -1,6 +1,6 @@
 @import "variables";
 @import "hero-patterns";
-@import "forms","cards","modals","roll-call","buttons","peripherals";
+@import "forms","cards","modals","roll-call","buttons","peripherals","animation";
 @import 'suits';
 
 html {
@@ -72,52 +72,37 @@ body {
 			// top: 0;
 			// transform: translate(-50%,-50%);
 		}
-	}
-
-
-/*===== Typography =====*/
-	.subheadline {
-		text-align: center;
-		font-size: 1.6rem;
-		font-weight: 400;
-		color: $secondary;
-	}
-
-
-
-/*===== Swipe =====*/
-	// .drag-handle,
-	.swipe-area {
-		$x: 2rem;
-		// min-height: $x;
-		// min-width: $x;
-		padding: 5px 10px;
-		cursor: pointer;
-		margin: 8px;
-		// border: 2px solid $blue-state;
-		background-color: #fff;
-		border-radius: 5px;
-		text-align: center;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
 		
+		&.landing-state {
+			margin: auto;
+		}
+		&.waiting-state {
+			margin: auto;
+		}
 	}
 
-/*===== Draggable =====*/
-	.draggable {
-		cursor: pointer;
-		&.dragging {
-			transition: transform 0s;
-		}
-		transition: transform 1s;
-	}
-	// .dragged {
-	// 	transition: transform 1s;
-	// }
-	// .dragging {
-	// }
-	// .drag-end {
-	// 	transition: transform 1s;
-	// }
+// Name Styling
+
+.brand {
+	line-height: 2;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 1.5em;
+}
+
+.subheadline {
+	text-align: center;
+	font-size: 1.4rem;
+	font-weight: 400;
+	color: $secondary;
+	line-height: 1.4;
+}
+
+.badge {
+	background-color: $default-state;
+	color: #fff;
+	padding: 2px 6px;
+	border-radius: 6px;
+	margin-left: 2px;
+}
