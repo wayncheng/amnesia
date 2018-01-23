@@ -6,10 +6,10 @@
 	const allTopics = require('./topics');
 
 	const tools = {
-		//==================================================
-		// Shuffle Array of Numbers to Create Card Sequence 
-		// (Fisher-Yates Shuffle Algorithm)
-		//==================================================
+	//==================================================
+	// Shuffle Array of Numbers to Create Card Sequence 
+	// (Fisher-Yates Shuffle Algorithm)
+	//==================================================
 		shuffleArray: function(array) {
 			let m = array.length;
 			
@@ -26,16 +26,16 @@
 			// Send back the shuffled array
 			return array;
 		},
-		//==================================================
-		// Get Random Suit
-		//==================================================
+	//==================================================
+	// Get Random Suit
+	//==================================================
 		getRandomSuit: function(){
 			var suit = suits[Math.floor(Math.random()*suits.length)];
 			return suit;
 		},
-		//==================================================
-		// Build Array of Numbers
-		//==================================================
+	//==================================================
+	// Build Array of Numbers
+	//==================================================
 		buildArray: function(n){
 			// Alternate ES6 method 
 			// >>>> Array.from(new Array(N),(val,index)=>index);
@@ -48,9 +48,9 @@
 
 			return shuffled;
 		},
-		//==================================================
-		// Get New, Shuffled Deck
-		//==================================================
+	//==================================================
+	// Get New, Shuffled Deck
+	//==================================================
 		getNewDeck: function(size = 69){
 			//==================================================
 			// Get N Random indeces for Regular Topics..........
@@ -70,10 +70,16 @@
 			let regulars = indeces.map( (ea,index) => allTopics[ea] )
 
 			// Pick 7 Random Unique Wild Combinations...........
-			let wilds = tools.getWilds();
+			// let wilds = allWilds;
+			// let shuffledWilds = tools.shuffleArray(wilds); // Shuffle all possible wild combinations (28)
+			// let selectedWilds = shuffledWilds.splice(0,7); // Extract the first 7 from shuffled
+
+			// TEMPORARY FIX FOR INCOMPLETE DECK PROBLEM ----------
+			let selectedWilds = [["red", "yellow"], ["red", "brown"], ["orange", "blue"], ["yellow", "green"], ["yellow", "brown"], ["blue", "brown"], ["brown", "pink"]]
+
 
 			// Join Regular and Wild Cards......................
-			let combined = regulars.concat(wilds);
+			let combined = regulars.concat(selectedWilds);
 
 			// Process Cards (add suits, ids)...................
 			let processed = combined.map( (ea,index) => {
@@ -98,14 +104,14 @@
 			});
 
 			// Shuffle Cards ...................................
-			const shuffled = tools.shuffleArray(processed);
+			let shuffled = tools.shuffleArray(processed);
 			
 			// Return Processed/Shuffled Cards .................
 			return shuffled;
 		},
-		//==================================================
-		// Get 7 Wild Combinations
-		//==================================================
+	//==================================================
+	// Get 7 Wild Combinations
+	//==================================================
 		getWilds: function(){
 			let wilds = allWilds;
 
@@ -117,6 +123,8 @@
 
 			// Return the selected 7
 			return selectedWilds;
+
+
 		}
 
 	};

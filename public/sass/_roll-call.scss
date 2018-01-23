@@ -1,0 +1,41 @@
+
+/*===== Roll Call =====*/
+.roll-call {
+	$indent: 8px;
+	font-size: 1.5rem;
+	font-weight: 600;
+	padding: 1em;
+	border-radius: 1em;
+	background-color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	min-width: 300px;
+
+	box-shadow: $shadow-2;
+
+	.section-title {
+		font-size: 0.6em;
+		text-transform: uppercase;
+		line-height: 3;
+		font-weight: 700;
+		letter-spacing: 1px;
+		border-bottom: 2px solid $border-color;
+		color: $secondary;
+		padding-left: $indent;
+	}
+	.roll-call-list {
+		padding: 0;
+		// margin-top: 0.75rem;
+		margin: .75rem 0;
+	}
+	li,
+	.player-in-lobby {
+		// font-size: 1em;
+		// margin: 8px 0;
+		display: list-item;
+		padding-left: $indent;
+		line-height: 2;
+	}
+}

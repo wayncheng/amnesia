@@ -1,0 +1,129 @@
+
+/*===== Menu Modal =====*/
+// .dark-modal {
+	.modal-title {
+		color: #fff;
+		text-align: center;
+		font-size: 2rem;
+	}
+// }
+.control-panel {
+	padding: 1em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-width: 240px;
+	max-width: 400px;
+	width: initial;
+	// margin: auto;
+
+	.ws-btn {
+		font-size: 1.2rem;
+		margin: 10px 0;
+	}
+}
+.panel-section {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	flex-wrap: wrap;
+	width: 100%;
+	margin-bottom: 1rem;
+	.panel-title {
+		margin-bottom: 5px;
+	}
+	.panel-text {
+		color: #fff;
+		font-size: 1.4rem;
+		line-height: 1.5;
+		// text-align: center;
+		font-weight: 500;
+		.text-label {
+			font-weight: 300;
+			color: rgba(#fff,0.7);
+			font-size: 1.1rem;
+			margin-right: 6px;
+		}
+	}
+
+	&.aligned-left {
+		width: initial;
+		text-align: left;
+	}
+}
+.action-control {
+	cursor: pointer;
+}
+
+/*===== Modal =====*/
+.ws-modal2 {
+	background-color: transparent;
+	margin: auto;
+	// width: initial;
+	// height: initial;
+	// max-width: 240px;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.ws-modal-overlay.ws-modal-overlay_after-open {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(#000, 0.85);
+	.ws-modal2 {
+		&:focus {
+			outline: none;
+		}
+	}
+}
+
+.modal-container {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+
+
+	&.limited-container {
+		height: initial;
+		width: initial;
+	}
+}
+
+
+.player-list {
+	// width: 400px;
+	// height: 600px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
+	h3 {
+		color: #fff;
+		margin-bottom: 12px;
+	}
+	li {
+		font-size: 1.5rem;
+		padding: 0.8em 1em;
+		margin: 0.5em 0;
+		border-radius: 10px;
+		min-width: 160px;
+		line-height: 1;
+
+		// background-color: rgba(#000,0.25);
+		// color: #fff;
+		background-color: #fff;
+		color: rgba(#000, 0.8);
+		font-weight: 600;
+		cursor: pointer;
+	}
+}

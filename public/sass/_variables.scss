@@ -2,7 +2,9 @@
 // Card Colors
 $suit-red: #FA4A2F;
 $suit-orange: #FF8B3D;
-$suit-yellow: #FAEF23;
+$suit-yellow: #F4D03F;
+	// $suit-yellow: #F7CA18; // slightly darker
+	// $suit-yellow: #FAEF23; // light bright
 $suit-green: #08CC56;
 $suit-blue: #3599DB;
 $suit-purple: #9B59B6;
@@ -37,4 +39,23 @@ $border-color: rgba(#000,0.24);
 
 $abs-cushion: 10px;
 
+
+
+// Card Dimensions
+
+$w: 90vw;
+$max-w: 300px;
+$edge: 300px;
+$d: 60px;
+
+
+// Shadows
+
 $shadow: 0em 0.5em 2em 2em rgba(97,122,128,.08);
+
+$shadow-color: rgba(36,50,66,0.2);
+$shadow-1: 0 1px 3px 0  $shadow-color; 
+$shadow-2: 0 3px 5px 0  $shadow-color; 
+$shadow-3: 0 5px 7px 0  $shadow-color; 
+$shadow-4: 0 7px 9px 0  $shadow-color; 
+$shadow-5: 0 9px 11px 0 $shadow-color; 

@@ -1,0 +1,80 @@
+
+/*===== Forms =====*/
+.game-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
+	padding: 2em;
+	flex: 1;
+}
+.form-info {
+	font-size: 1rem;
+	.form-headline {
+		font-size: 1.5em;
+		color: $secondary;
+		text-align: center;
+		line-height: 2;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		font-weight: 600;
+	}
+	.form-subheadline {
+		color: $secondary;
+	}
+}
+.input-group {
+	margin: 0.5em 0;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	justify-content: stretch;
+	align-items: center;
+	& > input {
+		flex: 1;
+	}
+}
+.form-group {
+	display: flex;
+	flex-direction: row;
+	justify-content: stretch;
+	align-items: center;
+	margin: 0.5em 0;
+	button {
+		flex: 1;
+	}
+}
+input {
+	font-size: inherit;
+	border: 2px solid $border-color;
+	border-radius: 5px;
+	padding: 0.7em 1em;
+	box-shadow: none;
+	-webkit-appearance: none;
+
+	&:focus {
+		outline: none;
+		border-color: $blue-state;
+	}
+
+	&::placeholder {
+		color: $faint;
+		font-weight: 500;
+	}
+}
+label {
+	position: absolute;
+	left: 0.5em;
+	top: 0.5em;
+	color: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+}
+button {
+	border: 2px solid transparent;
+
+	&:focus {
+		outline: none;
+		// border-color: $blue-state;
+		background-color: $blue-state;
+	}
+}

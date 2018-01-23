@@ -30,12 +30,12 @@ class Card extends Component {
 				{type === "regular" 
 					? (
 						<div className={"suit-area"} >
-							<div className={"suit "+suit}/>
+							<div className={"acon suit "+suit}/>
 						</div>
 					) : (
 						<div className="suit-area wild-area">
-							<div className={`suit ${suit[0]}`} />
-							<div className={`suit ${suit[1]}`} />
+							<div className={`acon suit ${suit[0]}`} />
+							<div className={`acon suit ${suit[1]}`} />
 						</div>
 					)
 				}

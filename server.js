@@ -19,14 +19,10 @@
 	app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 	// Sets access control headers
-	// logs each url that is requested, then passes it on.
 	app.use((req, res, next) => {
-		// console.log("url : " + req.url);
+		// console.log("url : " + req.url); // logs each url that is requested, then passes it on.
 		res.header("Access-Control-Allow-Origin", "*");
-		res.header(
-			"Access-Control-Allow-Headers",
-			"Origin, X-Requested-With, Content-Type, Accept"
-		);
+		res.header( "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept" );
 		next();
 	});
 
@@ -45,40 +41,32 @@
 	app.use(express.static(path.join(__dirname, "public")));
 
 // ROUTES =========================================
-	// API -----
-	// const apiRoutes = require("./controllers/api-controller");
-	// app.use("/api", apiRoutes);
-
-	// Socket.IO -----
-	// const socketController = require("./controllers/socket-controller");
-	// app.use("/io", socketController);
-
-	// Default React route
-	// Basic HTML gets (Handled by ReactRouter)
+	
+	// Default React route --------------------
 	app.get("*", (req, res, next) => {
 		res.sendFile(path.join(__dirname, "./public/index.html"));
 	});
 
-// ERRORS =========================================
-	app.use(function(req, res) {
-		res.type("text/html");
-		res.status(404);
-		res.send("404");
+	// Error 500 -----------------------
+	app.use( (err,req,res,next) => {
+		console.error(err.stack);
+		res.status(500).send(err.stack);
 	});
 
-	app.use(function(err, req, res, next) {
-		console.error(err.stack);
-		res.status(500);
-		res.send("500");
-	});
+
 
 // START SERVER ===================================
+
 	const server = app.listen(PORT, () =>
 		console.log("----------------------- @ " + PORT)
 	);
+
+
 // SOCKET.IO ======================================
+
 	const socketShit = require('./controllers/socket');
 	socketShit(server);
+
 //==================================================
-module.exports = server; // Export for testing
+module.exports = server;
 })();

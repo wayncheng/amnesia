@@ -1,0 +1,79 @@
+@import 'icons';
+
+// General Suit Styling
+.suit {
+	flex: 1;
+	font-weight: 500;
+	background-color: transparent;
+	text-align: center;
+	font-size: inherit;
+	$edge: 1em;
+	height: $edge;
+	line-height: $edge;
+	max-width: $edge;
+	transform: rotateZ(180deg);
+	margin: 8px;	
+}
+.wild { background-color: $suit-wild; }
+
+// Each Suit (8 total) ......................
+
+.red {
+	color: $suit-red;
+	@extend .icon-red;
+	// &::before { content: "\e910"; }
+}
+
+// Orange Hashtag
+.orange { 
+	color: $suit-orange;
+	@extend .icon-orange;
+}
+
+// Yellow Square
+.yellow { 
+	// background-color: $suit-yellow; 
+	// border-radius: 1rem;
+	// border-radius: 8px;
+	color: $suit-yellow; 
+	@extend .icon-yellow;
+}
+
+// Green Dot
+.green {
+	// background-color: $suit-green;
+	// border-radius: 50%;
+	color: $suit-green;
+	@extend .icon-green;
+}
+
+// Blue
+.blue {
+	color: $suit-blue;
+	// &::before { content: '=' }
+	// font-size: 8rem;
+	@extend .icon-blue;
+}
+
+// Purple
+.purple {
+	color: $suit-purple;
+	// &::before { content: '+' }
+	// font-size: 10rem;
+	@extend .icon-purple;
+}
+
+// Pink
+.pink {
+	color: $suit-pink;
+	// &::before { content: '@' }
+	// font-size: 6rem;
+	@extend .icon-pink;
+}
+
+// Brown
+.brown {
+	color: $suit-brown;
+	// &::before { content: '$' }
+	@extend .icon-brown;
+}
