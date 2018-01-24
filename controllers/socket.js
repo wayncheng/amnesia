@@ -217,7 +217,11 @@ io.on("connection", socket => {
 			socket.on('finishGame', roomID => {
 				console.log(`⚡️  Finish --> [${roomID}]`);
 
-				io.to(roomID).emit('msg', 'No cards left. Check your wins!')
+				io.to(roomID).emit('msg', 
+				{
+					type: 'info',	
+					text:'No cards left. Check your wins!'
+				})
 			})
 // Draw Card ------------------------------
 			socket.on("drawCard", (roomID,playerName,isWild) => {
