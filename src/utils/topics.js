@@ -138,6 +138,14 @@
 		"WWE Wrestler",
 		"French City",
 		"Sundae Topping",
-		"Winter Sport"
+		"Winter Sport",
+		"Theme Park",
+		"Type of Tree",
+		"City in California",
+		"Ice Cream Flavor",
+		"Type of Cake",
+		"Cereal Brand",
+		"Famous Celebrity",
+		"Basketball Team",
 	];
 })();

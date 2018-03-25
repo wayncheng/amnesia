@@ -1,7 +1,7 @@
 'use strict';
 (function() { 
 	const suits = [ "red", "orange", "yellow", "green", "blue", "purple", "brown", "pink" ]
-	const subjects = require('./subjects.json');
+	// const subjects = require('./subjects.json');
 	const allWilds = require('./wilds');
 	const allTopics = require('./topics');
 
